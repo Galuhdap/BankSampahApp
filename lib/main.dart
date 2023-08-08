@@ -1,7 +1,6 @@
-import 'package:banksampah_application/Pages/Nasabah/Home.dart';
+import 'package:banksampah_application/Pages/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'Components/PointCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home()
+      home: BarNavigation()
     );
   }
 }

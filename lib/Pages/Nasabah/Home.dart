@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: const EdgeInsets.only(top: 30),
+          padding: const EdgeInsets.only(top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -271,93 +271,249 @@ class _HomeState extends State<Home> {
                   )
                 ]),
               ),
-              SizedBox(
-                height: 400,
-                width: size.width * 0.9,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                 children: [Padding(
-                padding: const EdgeInsets.only(left: 35, top: 20),
-                child: Text(
-                  'Berita Terkini',
-                  style: TextStyle(
-                    color: Color(0xFF333333),
-                    fontSize: 14,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 165,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 3),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    pauseAutoPlayOnTouch: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: 0.9,
-                  ),
-                  items: beritaTerkini.map((title) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage(title),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 35, top: 20, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Riwayat Aktivitas',
-                      style: TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 14,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Container(
-                      width: 49,
-                      height: 18,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFFFC107),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                      ),
-                      child: Center(
+              Center(
+                child: SizedBox(
+                  height: 400,
+                  width: 500,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35, top: 20),
                         child: Text(
-                          'See all',
+                          'Berita Terkini',
                           style: TextStyle(
                             color: Color(0xFF333333),
-                            fontSize: 11,
+                            fontSize: 14,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            height: 165,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            pauseAutoPlayOnTouch: true,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.9,
+                          ),
+                          items: beritaTerkini.map((title) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: AssetImage(title),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 35, top: 20, right: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Riwayat Aktivitas',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Container(
+                              width: 49,
+                              height: 18,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFFFC107),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'See all',
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 11,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Container(
+                            width: size.width * 0.9,
+                            height: 344,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFDCEAE7),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x28000000),
+                                  blurRadius: 1,
+                                  offset: Offset(0, 0),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: SizedBox(
+                              height: 344,
+                              width: 345,
+                              child: ListView(
+                                scrollDirection: Axis.vertical,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Column(
+                                      children: [
+                                        cardRiwayat(),
+                                        cardRiwayat(),
+                                        cardRiwayat(),
+                                        cardRiwayat(),
+                                        cardRiwayat(),
+                                        cardRiwayat(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class cardRiwayat extends StatelessWidget {
+  const cardRiwayat({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: 7),
+      child: Stack(
+        children: [
+          Container(
+            width: 345,
+            height: 58,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(10),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x19000000),
+                  blurRadius: 17,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(right: 15),
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15),
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFE20000),
+                        shape: OvalBorder(),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center,
+                    crossAxisAlignment:
+                        CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '-5.0000000',
+                        style: TextStyle(
+                          color: Color(0xFFE20000),
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight:
+                              FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 50,
+            top: 18,
+            child: Column(
+              mainAxisAlignment:
+                  MainAxisAlignment.center,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Penarikan Saldo',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 10,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  '23 Juni 2023 - 14:30',
+                  style: TextStyle(
+                    color: Color(0xFF7F7F7F),
+                    fontSize: 7,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
