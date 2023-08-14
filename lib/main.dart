@@ -1,6 +1,8 @@
 import 'package:banksampah_application/Pages/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import 'Pages/Penimbang/Navigation_bar.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BarNavigation()
+      home: BarNavigationPenimbang()
     );
   }
 }

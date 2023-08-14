@@ -1,12 +1,12 @@
-import 'package:banksampah_application/Pages/Nasabah/Home.dart';
-import 'package:banksampah_application/Pages/Nasabah/Profile.dart';
-import 'package:banksampah_application/Pages/Nasabah/Statistic.dart';
+import 'package:banksampah_application/Pages/Penimbang/Beranda.dart';
+import 'package:banksampah_application/Pages/Penimbang/Profile.dart';
+import 'package:banksampah_application/Pages/Penimbang/Statistic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-class BarNavigation extends StatelessWidget {
-  const BarNavigation({super.key});
+class BarNavigationPenimbang extends StatelessWidget {
+  const BarNavigationPenimbang({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class BarNavigation extends StatelessWidget {
 
     List<Widget> _buildScreens() {
       return [
-        Home(),
-        Statistic(),
-        Profile(),
+        BerandaPenimbang(),
+        StatisticPenimbang(),
+        ProfilePenimbang()
       ];
     }
 

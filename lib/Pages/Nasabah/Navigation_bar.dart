@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-class BarNavigation extends StatelessWidget {
-  const BarNavigation({super.key});
+class BarNavigationNasabah extends StatelessWidget {
+  const BarNavigationNasabah({super.key});
 
   @override
   Widget build(BuildContext context) {
