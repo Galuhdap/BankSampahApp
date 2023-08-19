@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../../Components/TextField.dart';
+
 class ProfilePenimbang extends StatefulWidget {
   const ProfilePenimbang({super.key});
 
@@ -102,14 +104,16 @@ class _ProfilePenimbangState extends State<ProfilePenimbang> {
                     ),
                   ),
                 ),
-                Container(
-                  width: size.width * 0.9,
-                  height: 60,
-                  color: Colors.black,
-                )
+                fieldText(size, 'Nama', 'galuh', false),
+                fieldText(size, 'Kode Pengepul', 'KP-1102231', false),
+                fieldText(size, 'No Telp', '+628332212', false),
+                fieldText(size, 'Alamat', 'Nginden Selatan , Surabaya', false),
+                
               ],
             ),
           ),
         ));
   }
+
+ 
 }
