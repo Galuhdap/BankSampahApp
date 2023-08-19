@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Pages/Penimbang/Edit_Profile.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
+import 'Pages/Penimbang/Setor_Sampah.dart';
 import 'Pages/Penimbang/Setting_Profile.dart';
 
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: BarNavigationPenimbang()
-      home: SettingProfile(),
+      home: SetorSampah(),
     );
   }
 }
