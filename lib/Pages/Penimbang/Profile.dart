@@ -108,12 +108,21 @@ class _ProfilePenimbangState extends State<ProfilePenimbang> {
                 fieldText(size, 'Kode Pengepul', 'KP-1102231', false),
                 fieldText(size, 'No Telp', '+628332212', false),
                 fieldText(size, 'Alamat', 'Nginden Selatan , Surabaya', false),
-                
+                 Padding(
+                   padding: const EdgeInsets.only(left: 20, right: 20),
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      textField2(size, 'RT', '05', false),
+                      textField2(size, 'RW', '11', false),
+                    ],
+                   ),
+                 ),
+                 
               ],
             ),
           ),
         ));
   }
-
  
 }

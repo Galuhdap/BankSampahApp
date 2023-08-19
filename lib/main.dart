@@ -1,6 +1,7 @@
 import 'package:banksampah_application/Pages/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import 'Pages/Penimbang/Edit_Profile.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
 
 
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BarNavigationPenimbang()
+      // home: BarNavigationPenimbang()
+      home: EditProfile(),
     );
   }
 }

@@ -25,3 +25,31 @@ AppBar appbar() {
       ],
     );
   }
+
+    Padding appbar2() {
+    return Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: (){},
+                  child: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(left: 10)),
+                Text(
+                  'Setting Profile',
+                  style: TextStyle(
+                    color: Color(0xFF333333),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+  }
