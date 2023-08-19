@@ -23,7 +23,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar2(),
+            appbar2('Setting Profile'),
             Center(
               child: Column(
                 children: [

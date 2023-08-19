@@ -26,7 +26,7 @@ AppBar appbar() {
     );
   }
 
-    Padding appbar2() {
+    Padding appbar2(ttl) {
     return Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Row(
@@ -41,7 +41,7 @@ AppBar appbar() {
                 ),
                 Padding(padding: EdgeInsets.only(left: 10)),
                 Text(
-                  'Setting Profile',
+                  ttl,
                   style: TextStyle(
                     color: Color(0xFF333333),
                     fontSize: 16,
