@@ -25,7 +25,7 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size,'Hi, Yukya','Kode Penimbang : KP-120200022','30,6 Kg','1,6 Kg','23.000',),
+              PoinCard(size,'Hi, Yukya','Kode Penimbang : KP-120200022','30,6 Kg','1,6 Kg','23.000',Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(

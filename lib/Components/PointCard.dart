@@ -1,7 +1,7 @@
   import 'package:flutter/material.dart';
 import '../Data/ColorsData.dart';
 
-Center PoinCard(Size size, nama , kode , kg1, kg2, rp) {
+Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
     return Center(
               child: Stack(
                 children: [
@@ -49,11 +49,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp) {
                       Positioned(
                         left: 320,
                         top: 95,
-                        child: Image.asset(
-                          'assets/img/refresh.png',
-                          width: 21,
-                          height: 21,
-                        ),
+                        child: p
                       ),
                       Positioned(
                           left: 265,

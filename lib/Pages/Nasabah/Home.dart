@@ -29,7 +29,11 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Galuh DAP','Kode Nasabah : KN-12010002','12,6 Kg','1,6 Kg','23.000',),
+              PoinCard(size, 'Hi, Galuh DAP','Kode Nasabah : KN-12010002','12,6 Kg','1,6 Kg','23.000',Image.asset(
+                          'assets/img/refresh.png',
+                          width: 21,
+                          height: 21,
+                        ),),
               Center(
                 child: SizedBox(
                   height: 400,

@@ -45,7 +45,7 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+                  padding: const EdgeInsets.only(top: 10, bottom: 7),
                   child: Container(
                     width: 250,
                     height: 250,
