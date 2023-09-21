@@ -1,4 +1,4 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../Data/ColorsData.dart';
 
 Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
