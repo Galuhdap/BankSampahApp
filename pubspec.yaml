@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc: ^8.1.2
+  intl: ^0.18.1
+  currency_text_input_formatter: ^2.1.10
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   d_chart: ^2.3.0

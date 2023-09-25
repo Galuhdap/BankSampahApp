@@ -7,7 +7,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                 children: [
                 Container(
                   width: size.width * 0.9,
-                  height: 196,
+                  height: 200,
                   decoration: BoxDecoration(
                     color: color1,
                     borderRadius: BorderRadius.circular(10),
@@ -23,11 +23,11 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                   child: Stack(
                     children: [
                       Positioned(
-                        left: 225,
-                        top: 52,
+                        left: size.width * 0.55,
+                        top: size.height * 0.06,
                         child: Container(
-                          width: 220,
-                          height: 220,
+                          width: size.width * 0.5,
+                          height: size.height * 0.23,
                           decoration: ShapeDecoration(
                             color: Color(0xB22A9235),
                             shape: OvalBorder(),
@@ -35,28 +35,28 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                         ),
                       ),
                       Positioned(
-                        left: 254,
-                        top: 81,
+                        left: size.width * 0.62,
+                        top: size.height * 0.09,
                         child: Container(
-                          width: 162,
-                          height: 162,
+                          width: size.width * 0.4,
+                          height: size.height * 0.2,
                           decoration: ShapeDecoration(
                             color: Color(0xFF2A9235),
                             shape: OvalBorder(),
                           ),
                         ),
                       ),
+                      // Positioned(
+                      //   left: 320,
+                      //   top: 95,
+                      //   child: p
+                      // ),
                       Positioned(
-                        left: 320,
-                        top: 95,
-                        child: p
-                      ),
-                      Positioned(
-                          left: 265,
-                          top: 25,
+                          left: size.width * 0.66,
+                          top: size.height * 0.02,
                           child: Container(
-                            width: 80,
-                            height: 17,
+                            width:  size.width * 0.2,
+                            height: size.height * 0.025,
                             decoration: ShapeDecoration(
                               color: Color(0xFFFFC107),
                               shape: RoundedRectangleBorder(
@@ -129,9 +129,9 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 18, top: 155),
+                  padding: const EdgeInsets.only(left: 20, top: 155),
                   child: Container(
-                    width: 336,
+                    width: size.width * 0.8,
                     height: 75,
                     decoration: ShapeDecoration(
                       color: Color(0xFFDCEAE7),
@@ -140,7 +140,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Row(
                         children: [
                           Row(
@@ -152,7 +152,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 15, left: 25),
+                                    const EdgeInsets.only(top: 15, left: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
@@ -181,7 +181,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 20, right: 20),
+                                const EdgeInsets.only(left: 13, right: 10),
                             child: Container(
                               width: 1,
                               height: 60,
@@ -206,7 +206,7 @@ Center PoinCard(Size size, nama , kode , kg1, kg2, rp, p) {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 15, left: 18),
+                                    const EdgeInsets.only(top: 15, left: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [

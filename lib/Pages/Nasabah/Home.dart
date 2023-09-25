@@ -148,10 +148,10 @@ class _HomeState extends State<Home> {
                                     padding: const EdgeInsets.only(top: 15),
                                     child: Column(
                                       children: [
-                                        cardRiwayat(Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
+                                        cardRiwayat(size, Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
+                                        cardRiwayat(size, Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
+                                        cardRiwayat(size ,Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
+                                        cardRiwayat(size , Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
 
                                       ],
                                     ),

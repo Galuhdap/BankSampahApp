@@ -34,6 +34,58 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
     }
   ];
 
+  final sampas = [
+    {
+      'sampah': 'Kertas',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '200',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Kertas',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '200',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Kertas',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '200',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Plastik',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '50',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Botol',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '25',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Besi',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '70',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    },
+    {
+      'sampah': 'Aluminium',
+      'tgl': '20 Juni 2023 04.00',
+      'berat': '15',
+      'clr' : Color(0xFFB4C1BE),
+      'clr2' : Color(0xFF4CAF50),
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -106,7 +158,7 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 140, right: 120),
+                padding: const EdgeInsets.only(left: 140, right: 100),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -154,7 +206,7 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 140, right: 132, top: 5),
+                padding: const EdgeInsets.only(left: 140, right: 110, top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -271,64 +323,87 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
                         )
                       ],
                     ),
-                    child: SizedBox(
-                      height: 344,
-                      width: 345,
-                      child: ListView(
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Column(
-                              children: [
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                                cardRiwayat(
-                                  Color(0xFFB4C1BE),
-                                  'Setor Sampah Kertas',
-                                  '23 Juni 2023 - 14:30',
-                                  '+3Kg',
-                                  Color(0xFF4CAF50),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: Container(
+              width: size.width * 0.9,
+              height: size.height * 0.82,
+              child: ListView.builder(
+                // physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.only(top: 1),
+                itemCount: sampas.length,
+                itemBuilder: (BuildContext context, index) {
+                  return cardRiwayat(
+                      size,
+                      sampas[index]['clr'],
+                      sampas[index]['sampah'],
+                      sampas[index]['tgl'],
+                      sampas[index]['berat'].toString(),
+                      sampas[index]['clr2'],
+                      );
+                },
+              ),
+            ),
+          )
+                    
+                    // SizedBox(
+                    //   height: 344,
+                    //   width: 345,
+                    //   child: ListView(
+                    //     scrollDirection: Axis.vertical,
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.only(top: 15),
+                    //         child: Column(
+                    //           children: [
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //             cardRiwayat(
+                    //               Color(0xFFB4C1BE),
+                    //               'Setor Sampah Kertas',
+                    //               '23 Juni 2023 - 14:30',
+                    //               '+3Kg',
+                    //               Color(0xFF4CAF50),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                 ),
               ),

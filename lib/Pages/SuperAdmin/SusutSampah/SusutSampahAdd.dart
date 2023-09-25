@@ -1,15 +1,15 @@
 import 'package:banksampah_application/Components/AppBar.dart';
 import 'package:flutter/material.dart';
-import '../../Components/TextField.dart';
+import '../../../Components/TextField.dart';
 
-class SetorSampah extends StatefulWidget {
-  const SetorSampah({super.key});
+class SusutSampahAddScreen extends StatefulWidget {
+  const SusutSampahAddScreen({super.key});
 
   @override
-  State<SetorSampah> createState() => _SetorSampahState();
+  State<SusutSampahAddScreen> createState() => _SusutSampahAddScreenState();
 }
 
-class _SetorSampahState extends State<SetorSampah> {
+class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -20,7 +20,7 @@ class _SetorSampahState extends State<SetorSampah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size , 'Setor Sampah'),
+            appbar3(context, size , 'Susut Sampah'),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -48,12 +48,11 @@ class _SetorSampahState extends State<SetorSampah> {
                         child: Column(
                           children: [
                             fieldText(
-                                size, 'Kode Nasabah', 'kode nasabah', true),
-                            fieldText(
                                 size, 'Jenis Sampah', 'Jenis Sampa', true),
                             fieldText(
                                 size, 'Jenis Barang', 'Jenis Barang', true),
                             fieldText(size, 'Berat (KG)', 'Berat (KG)', true),
+                            fieldText(size, 'Berat Susut Sampah (KG)', 'Berat (KG)', true),
                             fieldText(
                                 size, 'Tanggal Setor', 'Tanggal Setor', true),
                             fieldText(size, 'Catatan Tambahan',
@@ -62,7 +61,7 @@ class _SetorSampahState extends State<SetorSampah> {
                         ),
                       ),
                     ),
-                    buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50)),
+                    buttom(size, 'CATAT SUSUT SAMPAH', Color(0xFF4CAF50)),
                     buttom(size, 'BATAL', Color(0xFFDD3737))
                   ],
                 ),

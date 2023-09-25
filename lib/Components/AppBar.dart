@@ -53,3 +53,43 @@ AppBar appbar() {
             ),
           );
   }
+
+    Padding appbar3(BuildContext context, Size size, ttl) {
+    return Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: size.width * 0.1,
+                    height: size.height * 0.045,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF4CAF50),
+                      shape: OvalBorder(),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(left: 10)),
+                Text(
+                  ttl,
+                  style: TextStyle(
+                    color: Color(0xFF333333),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+  }

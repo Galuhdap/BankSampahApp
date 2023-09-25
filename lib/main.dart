@@ -1,14 +1,14 @@
-import 'package:banksampah_application/Pages/navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-import 'Pages/Penimbang/Beranda.dart';
-import 'Pages/Penimbang/Edit_Profile.dart';
+
+import 'Pages/Nasabah/Navigation_bar.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
-import 'Pages/Penimbang/Setor_Sampah.dart';
-import 'Pages/Penimbang/Setting_Profile.dart';
+import 'Pages/SuperAdmin/Navigation_Bar.dart';
 
 
-void main() {
+void main() async{
+  await initializeDateFormatting("ar_SA", null);
   runApp(const MyApp());
 }
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: BarNavigationPenimbang()
-      home: SetorSampah(),
+      home: BarNavigationSuperAdmin()
     );
   }
 }

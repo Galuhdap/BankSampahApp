@@ -1,3 +1,4 @@
+import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import 'List_Setor_Sampah.dart';
 
 class BerandaPenimbang extends StatefulWidget {
   const BerandaPenimbang({super.key});
@@ -25,7 +27,7 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size,'Hi, Yukya','Kode Penimbang : KP-120200022','30,6 Kg','1,6 Kg','23.000',Container()),
+            PoinCard(size,'Hi, Yukya','Kode Penimbang : KP-120200022','30,6 Kg','1,6 Kg','23.000',Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(
@@ -44,8 +46,30 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
                   children: [
                     menuKategori(
                       [
-                      subMenu('assets/img/bin.png' , 'SETOR SAMPAH'),
-                      subMenu('assets/img/recycle.png' , 'LIHAT SETORAN' ),
+                      subMenu(size , 'assets/img/bin.png' , 'SETOR SAMPAH' , (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return SetorSampah();
+                            },
+                          ),
+                        ).then((value) {
+                          setState(() {});
+                        });
+                      }),
+                      subMenu(size ,'assets/img/recycle.png' , 'LIHAT SETORAN', (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return ListSetorSampahScreen();
+                            },
+                          ),
+                        ).then((value) {
+                          setState(() {});
+                        });
+                      } ),
                     ],
                     ),
                   ],

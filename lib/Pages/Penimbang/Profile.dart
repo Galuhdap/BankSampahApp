@@ -15,7 +15,8 @@ class ProfilePenimbang extends StatefulWidget {
 class _ProfilePenimbangState extends State<ProfilePenimbang> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size; //ini kode untuk responsiv 
+    //kemudian di panggil ke dalam ukuran 
     return Scaffold(
         appBar: appbar(),
         body: SingleChildScrollView(
@@ -23,9 +24,10 @@ class _ProfilePenimbangState extends State<ProfilePenimbang> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(left: 40, top: 20, bottom: 10),
                   child: Container(
-                    width: 178,
+                    width: size.width * 0.54, //(INI CARA RESPONSIVE 
+                    // yang di ubah hanya angka di balangkany rentan dari 0.1 - 0.9)
                     height: 178,
                     child: Stack(
                       children: [

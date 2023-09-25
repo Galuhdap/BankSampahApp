@@ -1,15 +1,15 @@
 import 'package:banksampah_application/Components/AppBar.dart';
 import 'package:flutter/material.dart';
-import '../../Components/TextField.dart';
+import '../../../Components/TextField.dart';
 
-class SetorSampah extends StatefulWidget {
-  const SetorSampah({super.key});
+class PenjualanSampahPihakEksternalScreen extends StatefulWidget {
+  const PenjualanSampahPihakEksternalScreen({super.key});
 
   @override
-  State<SetorSampah> createState() => _SetorSampahState();
+  State<PenjualanSampahPihakEksternalScreen> createState() => _PenjualanSampahPihakEksternalScreenState();
 }
 
-class _SetorSampahState extends State<SetorSampah> {
+class _PenjualanSampahPihakEksternalScreenState extends State<PenjualanSampahPihakEksternalScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -20,7 +20,7 @@ class _SetorSampahState extends State<SetorSampah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size , 'Setor Sampah'),
+            appbar3(context, size , 'Penjualan Sampah Pihak Eksternal'),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -28,7 +28,7 @@ class _SetorSampahState extends State<SetorSampah> {
                   children: [
                     Container(
                       width: size.width * 0.85,
-                      height:600,
+                      height:680,
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -48,22 +48,23 @@ class _SetorSampahState extends State<SetorSampah> {
                         child: Column(
                           children: [
                             fieldText(
-                                size, 'Kode Nasabah', 'kode nasabah', true),
-                            fieldText(
                                 size, 'Jenis Sampah', 'Jenis Sampa', true),
                             fieldText(
                                 size, 'Jenis Barang', 'Jenis Barang', true),
                             fieldText(size, 'Berat (KG)', 'Berat (KG)', true),
+                            fieldText(size, 'Harga', 'Harga', true),
                             fieldText(
-                                size, 'Tanggal Setor', 'Tanggal Setor', true),
+                                size, 'Tanggal Penjualan', 'Tanggal Penjualan', true),
+                            fieldText(
+                                size, 'Nama Pembeli Sampah', 'Nama Pembeli Sampah', true),
                             fieldText(size, 'Catatan Tambahan',
                                 'Catatan Tambahan', true),
                           ],
                         ),
                       ),
                     ),
-                    buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50)),
-                    buttom(size, 'BATAL', Color(0xFFDD3737))
+                    buttom(size, 'JUAL SEKARANG', Color(0xFF4CAF50)),
+                    
                   ],
                 ),
               ),

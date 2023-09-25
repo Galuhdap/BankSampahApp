@@ -19,7 +19,7 @@ Padding fieldText(Size size, ttl, lbl, e) {
           ),
         ),
         Container(
-          width: size.width * 0.9,
+          width: size.width * 0.75,
           height: 50,
           child: TextField(
             enabled: e,
@@ -56,7 +56,7 @@ Padding fieldText(Size size, ttl, lbl, e) {
 
 Padding textField2(Size size, ttl, lbl, e) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 19),
+    padding: const EdgeInsets.only(left: 28, bottom: 19, right: 28),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -73,7 +73,7 @@ Padding textField2(Size size, ttl, lbl, e) {
           ),
         ),
         Container(
-          width: size.width * 0.4,
+          width: size.width * 0.3,
           height: 50,
           child: TextField(
             enabled: e,
