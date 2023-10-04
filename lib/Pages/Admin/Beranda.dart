@@ -1,6 +1,7 @@
 import 'package:banksampah_application/Pages/Admin/Kas/Kas.dart';
 import 'package:banksampah_application/Pages/Admin/ListNasabah.dart';
 import 'package:banksampah_application/Pages/Admin/ListPengepul.dart';
+import 'package:banksampah_application/Pages/Login/login.dart';
 import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/Kas/Kas.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
@@ -24,11 +26,15 @@ class BerandaAdmin extends StatefulWidget {
 }
 
 class _BerandaAdminState extends State<BerandaAdmin> {
-  final reads = GetStorage();
+  Future<void> removeToken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
+  print('Token dihapus.');
+}
+
 
   @override
   Widget build(BuildContext context) {
-      print(reads.read('kodeReg'));
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appbar(),
@@ -135,12 +141,14 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                           });
                         }),
                         subMenu(size, 'assets/img/money-w.png',
-                            'PENARIKAN SALDO', () {
+                            'PENARIKAN SALDO', ()async {
+                              await removeToken();
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return SusutSampahScreen();
+                                return LoginScreen();
                               },
                             ),
                           ).then((value) {

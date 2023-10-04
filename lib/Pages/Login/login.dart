@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Admin/Navigation_Bar.dart';
 import '../Nasabah/Navigation_bar.dart';
@@ -24,67 +26,24 @@ class _LoginScreenState extends State<LoginScreen> {
   //String selectedRole = 'Admin';
   TextEditingController cUser = TextEditingController();
   TextEditingController cPass = TextEditingController();
+  
 
-  String Ip = '10.0.2.2:4009';
-   final box = GetStorage();
+  String Ip = '154.56.60.253:4009';
+  final _baseUrl = '154.56.60.253:4009';
+  final box = GetStorage();
+  static final Dio _dio = Dio();
 
   Future login(String nip, String password) async {
-    print("ini Dari Void Login: " + nip + " " + password);
-    final url = Uri.http(Ip, '/auth/login');
-    final data = {'kode_reg': nip, 'password': password};
-    final json = jsonEncode(data);
-    print('INI JSON: $json');
-    final response = await http
-        .post(url, body: json, headers: {'Content-Type': 'application/json'});
-
-    var token = jsonDecode(response.body);
-    print('ini TOken : $token');
-    // var decodeToken = JwtDecoder.decode(token['payload'] ?? '');
-
-    // // box.write('Token', token);
-    // // box.write('kodeReg', decodeToken['kode_reg']);
-
-    // var role = decodeToken['role'];
-    // print(role);
-
-    // if (role == "admin") {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (builde) {
-    //         return BarNavigationAdmin();
-    //       },
-    //     ),
-    //   ).then((value) {
-    //     setState(() {});
-    //   });
-    // } else if (role == "nasabah") {
-    //   Navigator.pushReplacement<void, void>(
-    //     context,
-    //     MaterialPageRoute<void>(
-    //       builder: (BuildContext context) => BarNavigationNasabah(),
-    //     ),
-    //   );
-    // } else if (role == "penimbang") {
-    //   Navigator.pushReplacement<void, void>(
-    //     context,
-    //     MaterialPageRoute<void>(
-    //       builder: (BuildContext context) => BarNavigationPenimbang(),
-    //     ),
-    //   );
-    // } else if (role == "superadmin") {
-    //   Navigator.pushReplacement<void, void>(
-    //     context,
-    //     MaterialPageRoute<void>(
-    //       builder: (BuildContext context) => BarNavigationSuperAdmin(),
-    //     ),
-    //   );
-    // }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final datas = {'kode_reg': nip, 'password': password};;
+    final response = await _dio.post('http://' + _baseUrl +'/auth/login', data: datas);
+    await prefs.setString('token', response.data['payload']);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Form(
         key: formKey,
         child: Column(
@@ -94,10 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 249.36,
               width: 433.0,
               // Atur tinggi gambar
-              child: Image.asset(
-                "assets/img/h1.png",
-                fit: BoxFit.cover,
-              ),
+              // child: Image.asset(
+              //   "assets/img/bg.png",
+              //   fit: BoxFit.cover,
+              // ),
             ),
             const SizedBox(height: 22),
 
