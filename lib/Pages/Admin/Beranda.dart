@@ -8,6 +8,7 @@ import 'package:banksampah_application/Pages/SuperAdmin/SusutSampah/SusutSampah.
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
@@ -23,8 +24,11 @@ class BerandaAdmin extends StatefulWidget {
 }
 
 class _BerandaAdminState extends State<BerandaAdmin> {
+  final reads = GetStorage();
+
   @override
   Widget build(BuildContext context) {
+      print(reads.read('kodeReg'));
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appbar(),

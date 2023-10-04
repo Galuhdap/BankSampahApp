@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -24,54 +25,61 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController cUser = TextEditingController();
   TextEditingController cPass = TextEditingController();
 
-  String Ip = '154.56.60.253:4009';
+  String Ip = '10.0.2.2:4009';
+   final box = GetStorage();
 
   Future login(String nip, String password) async {
     print("ini Dari Void Login: " + nip + " " + password);
     final url = Uri.http(Ip, '/auth/login');
     final data = {'kode_reg': nip, 'password': password};
     final json = jsonEncode(data);
+    print('INI JSON: $json');
     final response = await http
         .post(url, body: json, headers: {'Content-Type': 'application/json'});
 
     var token = jsonDecode(response.body);
-    var decodeToken = JwtDecoder.decode(token['payload'] ?? '');
-    print(decodeToken);
-    var role = decodeToken['role'];
+    print('ini TOken : $token');
+    // var decodeToken = JwtDecoder.decode(token['payload'] ?? '');
 
-    if (role == "admin") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (builde) {
-            return BarNavigationAdmin();
-          },
-        ),
-      ).then((value) {
-        setState(() {});
-      });
-    } else if (role == "nasabah") {
-      Navigator.pushReplacement<void, void>(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationNasabah(),
-        ),
-      );
-    } else if (role == "penimbang") {
-      Navigator.pushReplacement<void, void>(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationPenimbang(),
-        ),
-      );
-    } else if (role == "superadmin") {
-      Navigator.pushReplacement<void, void>(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationSuperAdmin(),
-        ),
-      );
-    }
+    // // box.write('Token', token);
+    // // box.write('kodeReg', decodeToken['kode_reg']);
+
+    // var role = decodeToken['role'];
+    // print(role);
+
+    // if (role == "admin") {
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (builde) {
+    //         return BarNavigationAdmin();
+    //       },
+    //     ),
+    //   ).then((value) {
+    //     setState(() {});
+    //   });
+    // } else if (role == "nasabah") {
+    //   Navigator.pushReplacement<void, void>(
+    //     context,
+    //     MaterialPageRoute<void>(
+    //       builder: (BuildContext context) => BarNavigationNasabah(),
+    //     ),
+    //   );
+    // } else if (role == "penimbang") {
+    //   Navigator.pushReplacement<void, void>(
+    //     context,
+    //     MaterialPageRoute<void>(
+    //       builder: (BuildContext context) => BarNavigationPenimbang(),
+    //     ),
+    //   );
+    // } else if (role == "superadmin") {
+    //   Navigator.pushReplacement<void, void>(
+    //     context,
+    //     MaterialPageRoute<void>(
+    //       builder: (BuildContext context) => BarNavigationSuperAdmin(),
+    //     ),
+    //   );
+    // }
   }
 
   @override
