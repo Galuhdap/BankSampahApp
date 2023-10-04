@@ -1,7 +1,9 @@
+import 'package:banksampah_application/Pages/Login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 
+import 'Pages/Admin/Navigation_Bar.dart';
 import 'Pages/Nasabah/Navigation_bar.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
 import 'Pages/SuperAdmin/Navigation_Bar.dart';
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: BarNavigationPenimbang()
-      home: BarNavigationSuperAdmin()
+      home: BarNavigationAdmin()
     );
   }
 }

@@ -56,7 +56,7 @@ AppBar appbar() {
 
     Padding appbar3(BuildContext context, Size size, ttl) {
     return Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25, top: 50),
             child: Row(
               children: [
                 InkWell(
