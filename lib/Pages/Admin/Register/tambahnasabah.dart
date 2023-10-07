@@ -13,7 +13,7 @@ class TambahNasabah extends StatefulWidget {
 }
 
 class _TambahNasabahState extends State<TambahNasabah> {
-  UserController userController = UserController();
+  UserControllerAdmin userController = UserControllerAdmin();
 
   TextEditingController kodeNasabahController = TextEditingController();
   TextEditingController namaNasabahController = TextEditingController();

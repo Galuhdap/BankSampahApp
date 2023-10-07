@@ -15,7 +15,7 @@ class ListNasabahScreen extends StatefulWidget {
 }
 
 class _ListNasabahScreenState extends State<ListNasabahScreen> {
-  UserController userController = UserController();
+  UserControllerAdmin userController = UserControllerAdmin();
 
   final datas = [
     {

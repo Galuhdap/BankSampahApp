@@ -1,6 +1,7 @@
 import 'package:banksampah_application/Pages/Admin/Kas/Kas.dart';
 import 'package:banksampah_application/Pages/Admin/ListNasabah.dart';
 import 'package:banksampah_application/Pages/Admin/ListPengepul.dart';
+import 'package:banksampah_application/Pages/Admin/Models/AdminModel.dart';
 import 'package:banksampah_application/Pages/Login/login.dart';
 import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
@@ -17,6 +18,7 @@ import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import 'Register/register.dart';
 import 'SusutSampah/SusutSampah.dart';
+import 'controller/userController.dart';
 
 class BerandaAdmin extends StatefulWidget {
   const BerandaAdmin({super.key});
@@ -29,6 +31,8 @@ class _BerandaAdminState extends State<BerandaAdmin> {
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    await prefs.remove('role');
+    await prefs.remove('kodeReg');
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -52,8 +56,31 @@ class _BerandaAdminState extends State<BerandaAdmin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Admin', 'Kode Admin : KP-120200022',
-                  '30,6 Kg', '1,6 Kg', '23.000', Container()),
+              FutureBuilder<Admin?>(
+                future: UserControllerAdmin().getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    final admin = snapshot.data!;
+                    final kodeAdmin = admin.row[0].kodeAdmin;
+                    final namaAdmin = admin.row[0].namaBs;
+                    final totalsampah = admin.row[0].detailSampahBs[0].berat;
+                    final sampah_hariinni =
+                        admin.row[0].detailSampahBs[0].beratSekarang;
+                    final saldohariini =
+                        admin.row[0].detailSampahBs[0].saldoSekarang;
+                    return PoinCard(
+                        size,
+                        'Hi, $namaAdmin',
+                        'Kode Penimbang : ${kodeAdmin}',
+                        '$totalsampah Kg',
+                        '$sampah_hariinni Kg',
+                        '$saldohariini',
+                        Container());
+                  }
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(

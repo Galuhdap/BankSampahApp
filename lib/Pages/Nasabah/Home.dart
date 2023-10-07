@@ -1,3 +1,4 @@
+import 'package:banksampah_application/Pages/Nasabah/Controllers/user_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +7,7 @@ import '../../Components/AppBar.dart';
 import '../../Components/CardRiwayat.dart';
 import '../../Components/PointCard.dart';
 import '../Login/login.dart';
+import 'Models/NasabahModel.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,10 +17,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  UserControllerNasabah userControllerNasabah = UserControllerNasabah();
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-    print('Token dihapus.');
+        await prefs.remove('role');
+    await prefs.remove('kodeReg');
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -28,27 +32,15 @@ class _HomeState extends State<Home> {
       (_) => false,
     );
   }
-  String? kodeReg;
-
-  Future getNasabah() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-     String? kodeReg = await prefs.getString('kodeReg');
-     return kodeReg;
-  }
 
   @override
   void initState() {
     // TODO: implement initState
-    getNasabah();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(kodeReg);
-
-
-
     var size = MediaQuery.of(context).size;
 
     var beritaTerkini = [
@@ -65,18 +57,34 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(
-                size,
-                'Hi, Galuh DAP',
-                'Kode Nasabah : KN-12010002',
-                '12,6 Kg',
-                '1,6 Kg',
-                '23.000',
-                Image.asset(
-                  'assets/img/refresh.png',
-                  width: 21,
-                  height: 21,
-                ),
+              FutureBuilder<NasabahModel?>(
+                future: UserControllerNasabah().getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    final nasabah = snapshot.data!;
+                    final namaNasabah = nasabah.row[0].namaNasabah;
+                    final kodeNasabah = nasabah.row[0].kodeNasabah;
+                    final totalSampah = nasabah.row[0].detailSampahNasabahs[0].berat;
+                    final sampahharini = nasabah.row[0].detailSampahNasabahs[0].beratSekarang;
+                    final saldoHariini = nasabah.row[0].detailSampahNasabahs[0].saldoSekarang;
+                   
+                    return PoinCard(
+                      size,
+                      'Hi, $namaNasabah',
+                      'Kode Nasabah : $kodeNasabah',
+                      '$totalSampah Kg',
+                      '$sampahharini Kg',
+                      '$saldoHariini',
+                      Image.asset(
+                        'assets/img/refresh.png',
+                        width: 21,
+                        height: 21,
+                      ),
+                    );
+                  }
+                },
               ),
               Center(
                 child: SizedBox(
@@ -101,7 +109,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(top: 10),
                         child: CarouselSlider(
                           options: CarouselOptions(
-                            height: 165,
+                            height: size.height * 0.2,
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
@@ -140,8 +148,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             Container(
-                              width: 49,
-                              height: 18,
+                              width: size.width * 0.15,
+                              height: size.height * 0.02,
                               decoration: ShapeDecoration(
                                 color: Color(0xFFFFC107),
                                 shape: RoundedRectangleBorder(
@@ -186,11 +194,10 @@ class _HomeState extends State<Home> {
                               height: 344,
                               width: 345,
                               child: ListView(
+                                padding: EdgeInsets.only(top: 1),
                                 scrollDirection: Axis.vertical,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Column(
+                                   Column(
                                       children: [
                                         cardRiwayat(
                                           size,
@@ -226,7 +233,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  
                                 ],
                               ),
                             ),

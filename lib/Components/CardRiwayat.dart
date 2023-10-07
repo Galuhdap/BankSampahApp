@@ -6,7 +6,7 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
     child: Stack(
       children: [
         Container(
-          width: size.width * 0.9,
+          width: size.width * 0.87,
           height: 58,
           decoration: ShapeDecoration(
             color: Colors.white,
@@ -43,7 +43,7 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '+${number}',
+                      '${number}',
                       style: TextStyle(
                         color: clr2,
                         fontSize: 14,

@@ -1,4 +1,5 @@
 import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
+import 'package:banksampah_application/Pages/Penimbang/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -9,6 +10,7 @@ import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import '../Login/login.dart';
 import 'List_Setor_Sampah.dart';
+import 'Models/PenimbangModel.dart';
 
 class BerandaPenimbang extends StatefulWidget {
   const BerandaPenimbang({super.key});
@@ -18,10 +20,14 @@ class BerandaPenimbang extends StatefulWidget {
 }
 
 class _BerandaPenimbangState extends State<BerandaPenimbang> {
+  UserController userController = UserController();
+
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-    print('Token dihapus.');
+    await prefs.remove('role');
+    await prefs.remove('kodeReg');
+
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -32,9 +38,26 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
     );
   }
 
+  Penimbang? _test; // Change the type to Penimbang?
+
+  Future<void> getData() async {
+    Penimbang? penimbang = await userController.getUser();
+    setState(() {
+      _test = penimbang;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: appbar(() {
         removeToken();
@@ -45,8 +68,29 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Yukya', 'Kode Penimbang : KP-120200022',
-                  '30,6 Kg', '1,6 Kg', '23.000', Container()),
+              FutureBuilder<Penimbang?>(
+                future: userController.getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    final penimbang = snapshot.data!;
+                    final kodePenimbang = penimbang.row[0].kodePenimbang ;
+                    final namaPenimbang = penimbang.row[0].namaPenimbang;
+                    final totalsampah = penimbang.sampah[0].berat;
+                    final sampah_hariinni = penimbang.sampah[0].beratSekarang;
+                    final saldohariini = penimbang.sampah[0].saldoSekarang;
+                    return PoinCard(
+                        size,
+                        'Hi, $namaPenimbang',
+                        'Kode Penimbang : ${kodePenimbang}',
+                        '$totalsampah Kg',
+                        '$sampah_hariinni Kg',
+                        '$saldohariini',
+                        Container());
+                  }
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(

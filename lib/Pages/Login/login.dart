@@ -46,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var decodeToken = JwtDecoder.decode(response.data['payload']);
 
-    print(decodeToken);
     var role = decodeToken['role'];
     var kodeReg= decodeToken['kodeReg'];
+    
     await prefs.setString('token', response.data['payload']);
     await prefs.setString('role', role);
     await prefs.setString('kodeReg', kodeReg);

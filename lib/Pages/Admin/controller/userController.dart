@@ -1,13 +1,49 @@
 import 'dart:convert';
 import 'package:banksampah_application/Pages/Admin/Models/nasabah_model.dart';
 import 'package:banksampah_application/Pages/Admin/Models/penimbang_model.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Models/AdminModel.dart';
 import '../Models/detailsampahnasabah.dart';
 
-class UserController {
-  String Ip = '154.56.60.253:4009';
+class UserControllerAdmin {
+   final _baseUrl = '154.56.60.253:4009';
+   final Ip = '154.56.60.253:4009';
+
+  
+  Future getKodeReg() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? kodeReg = await prefs.getString('kodeReg');
+
+    return kodeReg;
+  }
+
+  Future<Admin?> getUser() async {
+
+    String? kode_reg = await getKodeReg();
+
+    final datas = {
+      'kode_user': kode_reg,
+    };
+     try {
+    final response = await Dio().get('http://' + _baseUrl + '/adminbyid', data: datas);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = response.data["payload"];
+      return Admin.fromJson(jsonData);
+    } else {
+      // Handle error here, e.g., throw an exception or return null
+      return null;
+    }
+  } catch (e) {
+    // Handle exceptions here
+    return null;
+  }
+
+  }
 
   Future<List<NasabahModel>> getNasabah() async {
     final url = Uri.http(Ip, '/nasabah');

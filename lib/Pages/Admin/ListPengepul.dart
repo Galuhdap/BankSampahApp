@@ -14,7 +14,7 @@ class ListPenimbangScreen extends StatefulWidget {
 
 class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
 
-  UserController userController = UserController();
+  UserControllerAdmin userController = UserControllerAdmin();
 
 
   final datas = [

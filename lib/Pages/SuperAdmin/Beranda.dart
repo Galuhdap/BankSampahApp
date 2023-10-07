@@ -1,6 +1,8 @@
+import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/Kas/Kas.dart';
+import 'package:banksampah_application/Pages/SuperAdmin/Models/SuperAdminModels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -10,6 +12,7 @@ import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import '../Login/login.dart';
+import 'Controllers/user_controller.dart';
 import 'SusutSampah/SusutSampah.dart';
 
 class BerandaSuperAdmin extends StatefulWidget {
@@ -23,7 +26,9 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-    print('Token dihapus.');
+        await prefs.remove('role');
+    await prefs.remove('kodeReg');
+
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -47,8 +52,31 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Induk', 'Kode SuperAdmin : KP-120200022',
-                  '30,6 Kg', '1,6 Kg', '23.000', Container()),
+              FutureBuilder<SuperAdmin?>(
+                future: UsersSuperAdminController().getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    final superAdmin = snapshot.data!;
+                    final kodeSuperAdmin = superAdmin.row[0].kodeSuperAdmin ;
+                    final namaSuperAdmin = superAdmin.row[0].namaSuperAdmin;
+                    final totalsampah = superAdmin.row[0].detailSampahSuperAdmins[0].berat;
+                    // final sampah_hariinni = superAdmin.row[0].detailSampahSuperAdmins[0].;
+                    // final saldohariini = superAdmin.sampah[0].saldoSekarang;
+                    return PoinCard(
+                        size,
+                        'Hi, $namaSuperAdmin',
+                        'Kode Super Admin : ${kodeSuperAdmin}',
+                        '$totalsampah Kg',
+                        '1000 Kg',
+                        '2000',
+                        Container());
+                  }
+                },
+              ),
+              // PoinCard(size, 'Hi, Induk', 'Kode SuperAdmin : KP-120200022',
+              //     '30,6 Kg', '1,6 Kg', '23.000', Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(
