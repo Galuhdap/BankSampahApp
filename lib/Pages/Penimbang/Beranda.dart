@@ -2,10 +2,12 @@ import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../Login/login.dart';
 import 'List_Setor_Sampah.dart';
 
 class BerandaPenimbang extends StatefulWidget {
@@ -16,18 +18,35 @@ class BerandaPenimbang extends StatefulWidget {
 }
 
 class _BerandaPenimbangState extends State<BerandaPenimbang> {
+  Future<void> removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    print('Token dihapus.');
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return LoginScreen();
+        },
+      ),
+      (_) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(() {
+        removeToken();
+      }),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            PoinCard(size,'Hi, Yukya','Kode Penimbang : KP-120200022','30,6 Kg','1,6 Kg','23.000',Container()),
+              PoinCard(size, 'Hi, Yukya', 'Kode Penimbang : KP-120200022',
+                  '30,6 Kg', '1,6 Kg', '23.000', Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(
@@ -46,31 +65,32 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
                   children: [
                     menuKategori(
                       [
-                      subMenu(size , 'assets/img/bin.png' , 'SETOR SAMPAH' , (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builde) {
-                              return SetorSampah();
-                            },
-                          ),
-                        ).then((value) {
-                          setState(() {});
-                        });
-                      }),
-                      subMenu(size ,'assets/img/recycle.png' , 'LIHAT SETORAN', (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builde) {
-                              return ListSetorSampahScreen();
-                            },
-                          ),
-                        ).then((value) {
-                          setState(() {});
-                        });
-                      } ),
-                    ],
+                        subMenu(size, 'assets/img/bin.png', 'SETOR SAMPAH', () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return SetorSampah();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                        subMenu(size, 'assets/img/recycle.png', 'LIHAT SETORAN',
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return ListSetorSampahScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                      ],
                     ),
                   ],
                 ),

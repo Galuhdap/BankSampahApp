@@ -90,7 +90,7 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appbar(),
+        appBar: appbar((){}),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

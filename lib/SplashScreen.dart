@@ -1,4 +1,5 @@
 import 'package:banksampah_application/Pages/Login/login.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -27,19 +28,22 @@ class _SplashScreenState extends State<SplashScreen> {
     return token;
   }
 
+  Future<String?> getRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? role = await prefs.getString('role');
+    return role;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
     Future.delayed(Duration(seconds: 2), () async {
       String? token = await getToken();
+      String? role = await getRole();
 
       if (token != null) {
-        var decodeToken = JwtDecoder.decode(token.toString());
-
-        var role = decodeToken['role'];
         if (role == "admin") {
           print('Navigasi ke halaman admin');
           Navigator.pushReplacement(
@@ -88,9 +92,52 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("INI SPLASH SCREEN"),
+        body: Container(
+      width: 428,
+      height: 926,
+      decoration: BoxDecoration(color: Color.fromARGB(255, 107, 219, 132)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset('assets/img/img1.png'),
+          Column(
+            children: [
+              Container(
+                width: 130,
+                height: 130,
+                decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 73, 196, 100),
+                  shape: OvalBorder(),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/img/sampah.png',
+                      width: 80,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: Text(
+                  'RUMAH SAMPAH DIGITAL',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0.05,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Image.asset('assets/img/img2.png'),
+        ],
       ),
-    );
+    ));
   }
 }

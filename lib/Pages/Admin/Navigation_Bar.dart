@@ -1,10 +1,5 @@
 import 'package:banksampah_application/Pages/Admin/Profile.dart';
 import 'package:banksampah_application/Pages/Admin/Statistik.dart';
-import 'package:banksampah_application/Pages/Penimbang/Beranda.dart';
-import 'package:banksampah_application/Pages/Penimbang/Profile.dart';
-import 'package:banksampah_application/Pages/Penimbang/Statistic.dart';
-import 'package:banksampah_application/Pages/SuperAdmin/Profile.dart';
-import 'package:banksampah_application/Pages/SuperAdmin/Statistik.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';

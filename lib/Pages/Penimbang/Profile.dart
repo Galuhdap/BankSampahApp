@@ -18,7 +18,7 @@ class _ProfilePenimbangState extends State<ProfilePenimbang> {
     var size = MediaQuery.of(context).size; //ini kode untuk responsiv 
     //kemudian di panggil ke dalam ukuran 
     return Scaffold(
-        appBar: appbar(),
+        appBar: appbar((){}),
         body: SingleChildScrollView(
           child: Center(
             child: Column(

@@ -4,10 +4,12 @@ import 'package:banksampah_application/Pages/SuperAdmin/Kas/Kas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../Login/login.dart';
 import 'SusutSampah/SusutSampah.dart';
 
 class BerandaSuperAdmin extends StatefulWidget {
@@ -18,18 +20,34 @@ class BerandaSuperAdmin extends StatefulWidget {
 }
 
 class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
+  Future<void> removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    print('Token dihapus.');
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return LoginScreen();
+        },
+      ),
+      (_) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(() {
+        removeToken();
+      }),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Induk', 'Kode Penimbang : KP-120200022',
+              PoinCard(size, 'Hi, Induk', 'Kode SuperAdmin : KP-120200022',
                   '30,6 Kg', '1,6 Kg', '23.000', Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),

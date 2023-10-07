@@ -29,7 +29,7 @@ class BarNavigationNasabah extends StatelessWidget {
           icon: Icon(
             Icons.home_rounded,
           ),
-          title: ("Beranda"),
+          title: ("Home"),
           textStyle: TextStyle(
             color: Color(0xFF333333),
             fontSize: 10,

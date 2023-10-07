@@ -27,24 +27,32 @@ class BerandaAdmin extends StatefulWidget {
 
 class _BerandaAdminState extends State<BerandaAdmin> {
   Future<void> removeToken() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('token');
-  print('Token dihapus.');
-}
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return LoginScreen();
+        },
+      ),
+      (_) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(() {
+        removeToken();
+      }),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Induk', 'Kode Penimbang : KP-120200022',
+              PoinCard(size, 'Hi, Admin', 'Kode Admin : KP-120200022',
                   '30,6 Kg', '1,6 Kg', '23.000', Container()),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
@@ -64,8 +72,7 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                   children: [
                     menuKategori(
                       [
-                        subMenu(
-                            size, 'assets/img/listnas.png', 'LIST NASABAH',
+                        subMenu(size, 'assets/img/listnas.png', 'LIST NASABAH',
                             () {
                           Navigator.push(
                             context,
@@ -78,26 +85,28 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        subMenu(size, 'assets/img/regnas.png',
-                            'TAMBAH PENGGUNA', () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return TambahPengguna();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
-                        },
+                        subMenu(
+                          size,
+                          'assets/img/regnas.png',
+                          'TAMBAH PENGGUNA',
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builde) {
+                                  return TambahPengguna();
+                                },
+                              ),
+                            ).then((value) {
+                              setState(() {});
+                            });
+                          },
                         ),
                       ],
                     ),
                     menuKategori(
                       [
-                        subMenu(
-                            size, 'assets/img/listpe.png', 'LIST PENGEPUL',
+                        subMenu(size, 'assets/img/listpe.png', 'LIST PENGEPUL',
                             () {
                           Navigator.push(
                             context,
@@ -108,8 +117,7 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             ),
                           ).then((value) {
                             setState(() {});
-                          }
-                          );
+                          });
                         }),
                         subMenu(size, 'assets/img/money.png', 'KAS', () {
                           Navigator.push(
@@ -140,11 +148,12 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        subMenu(size, 'assets/img/money-w.png',
-                            'PENARIKAN SALDO', ()async {
-                              await removeToken();
+                        subMenu(
+                            size, 'assets/img/money-w.png', 'PENARIKAN SALDO',
+                            () async {
+                          await removeToken();
 
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {

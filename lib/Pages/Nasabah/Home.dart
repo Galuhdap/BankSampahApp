@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/CardRiwayat.dart';
 import '../../Components/PointCard.dart';
+import '../Login/login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,16 +14,50 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> { 
+class _HomeState extends State<Home> {
+  Future<void> removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    print('Token dihapus.');
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return LoginScreen();
+        },
+      ),
+      (_) => false,
+    );
+  }
+  String? kodeReg;
+
+  Future getNasabah() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     String? kodeReg = await prefs.getString('kodeReg');
+     return kodeReg;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getNasabah();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(kodeReg);
+
+
+
     var size = MediaQuery.of(context).size;
 
     var beritaTerkini = [
       "assets/img/banner1.png",
     ];
     return Scaffold(
-      appBar: appbar(),
+      appBar: appbar(() {
+        removeToken();
+      }),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -29,11 +65,19 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PoinCard(size, 'Hi, Galuh DAP','Kode Nasabah : KN-12010002','12,6 Kg','1,6 Kg','23.000',Image.asset(
-                          'assets/img/refresh.png',
-                          width: 21,
-                          height: 21,
-                        ),),
+              PoinCard(
+                size,
+                'Hi, Galuh DAP',
+                'Kode Nasabah : KN-12010002',
+                '12,6 Kg',
+                '1,6 Kg',
+                '23.000',
+                Image.asset(
+                  'assets/img/refresh.png',
+                  width: 21,
+                  height: 21,
+                ),
+              ),
               Center(
                 child: SizedBox(
                   height: 400,
@@ -148,11 +192,38 @@ class _HomeState extends State<Home> {
                                     padding: const EdgeInsets.only(top: 15),
                                     child: Column(
                                       children: [
-                                        cardRiwayat(size, Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(size, Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(size ,Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-                                        cardRiwayat(size , Color(0xFFE20000),'Penarikan Saldo','23 Juni 2023 - 14:30', '-5.0000000', Color(0xFFE20000),),
-
+                                        cardRiwayat(
+                                          size,
+                                          Color(0xFFE20000),
+                                          'Penarikan Saldo',
+                                          '23 Juni 2023 - 14:30',
+                                          '-5.0000000',
+                                          Color(0xFFE20000),
+                                        ),
+                                        cardRiwayat(
+                                          size,
+                                          Color(0xFFE20000),
+                                          'Penarikan Saldo',
+                                          '23 Juni 2023 - 14:30',
+                                          '-5.0000000',
+                                          Color(0xFFE20000),
+                                        ),
+                                        cardRiwayat(
+                                          size,
+                                          Color(0xFFE20000),
+                                          'Penarikan Saldo',
+                                          '23 Juni 2023 - 14:30',
+                                          '-5.0000000',
+                                          Color(0xFFE20000),
+                                        ),
+                                        cardRiwayat(
+                                          size,
+                                          Color(0xFFE20000),
+                                          'Penarikan Saldo',
+                                          '23 Juni 2023 - 14:30',
+                                          '-5.0000000',
+                                          Color(0xFFE20000),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -173,4 +244,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:banksampah_application/Pages/Login/controller/loginController.dart';
+import 'package:banksampah_application/Pages/Service/AuthService.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -26,22 +28,68 @@ class _LoginScreenState extends State<LoginScreen> {
   //String selectedRole = 'Admin';
   TextEditingController cUser = TextEditingController();
   TextEditingController cPass = TextEditingController();
-  
 
-  String Ip = '154.56.60.253:4009';
+  Future<String?> getRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? role = await prefs.getString('role');
+    return role;
+  }
+
   final _baseUrl = '154.56.60.253:4009';
-  final box = GetStorage();
-  static final Dio _dio = Dio();
 
+  static final Dio _dio = Dio();
   Future login(String nip, String password) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final datas = {'kode_reg': nip, 'password': password};;
-    final response = await _dio.post('http://' + _baseUrl +'/auth/login', data: datas);
+    final datas = {'kode_reg': nip, 'password': password};
+    final response =
+        await _dio.post('http://' + _baseUrl + '/auth/login', data: datas);
+
+    var decodeToken = JwtDecoder.decode(response.data['payload']);
+
+    print(decodeToken);
+    var role = decodeToken['role'];
+    var kodeReg= decodeToken['kodeReg'];
     await prefs.setString('token', response.data['payload']);
+    await prefs.setString('role', role);
+    await prefs.setString('kodeReg', kodeReg);
+
+    if (role == "admin") {
+      print('Navigasi ke halaman admin');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (builde) {
+            return BarNavigationAdmin();
+          },
+        ),
+      );
+    } else if (role == "nasabah") {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => BarNavigationNasabah(),
+        ),
+      );
+    } else if (role == "penimbang") {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => BarNavigationPenimbang(),
+        ),
+      );
+    } else if (role == "superadmin") {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => BarNavigationSuperAdmin(),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -49,17 +97,29 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 249.36,
-              width: 433.0,
-              // Atur tinggi gambar
-              // child: Image.asset(
-              //   "assets/img/bg.png",
-              //   fit: BoxFit.cover,
-              // ),
+            Stack(
+              children: [
+                Image.asset("assets/img/img4.png"),
+                Positioned(
+                  left: size.width * 0.2,
+                  top: size.height * 0.1,
+                  child: Column(
+                    children: [
+                      Text(
+                        'TURN YOUR TRASH\nINTO MONEY',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 22),
-
+            SizedBox(height: size.height * 0.05),
             const Text(
               "MASUK",
               style: TextStyle(
@@ -67,80 +127,104 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 30),
-            Container(
-              width: 319.0, // Atur lebar container
-              height: 58.0,
-              decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 12,
+            SizedBox(height: size.height * 0.04),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Container(
+                width: size.width * 0.88,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
                   controller: cUser,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Username',
-                  ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Username Masing Kosong';
+                      return 'Kode User Tidak Boleh Kosong';
                     }
                     return null;
                   },
+                  decoration: InputDecoration(
+                    hintText: 'Kode User',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(3),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDCEAE7),
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(3),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDCEAE7),
+                        width: 2.0,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    isDense: true,
+                  ),
+                  style: TextStyle(fontSize: 13.0, color: Colors.black),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            Container(
-              width: 319.0, // Atur lebar container
-              height: 58.0,
-              decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 12,
+            SizedBox(height: size.height * 0.025),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Container(
+                width: size.width * 0.88,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
-                  obscureText: true,
+                   obscureText: true,
                   controller: cPass,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                  ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Password Masing Kosong';
+                      return 'Password Tidak Boleh Kosong';
                     }
                     return null;
                   },
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(3),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDCEAE7),
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(3),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDCEAE7),
+                        width: 2.0,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    isDense: true,
+                  ),
+                  style: TextStyle(fontSize: 13.0, color: Colors.black),
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: size.height * 0.05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 319.0, // Atur lebar container
-                  height: 58.0,
+                  width: size.width * 0.88, // Atur lebar container
+                  height: size.height * 0.07,
                   child: MaterialButton(
                     color: Color(0xFF4CAF50),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
-                      // auth.login(cUser.text, cPass.text);
-                      // String tUser = cUser.text;
-                      // String tPass = cPass.text;
                       if (formKey.currentState!.validate()) {
-                        login(cUser.text, cPass.text);
+                        login(
+                          cUser.text,
+                          cPass.text,
+                        );
                       }
                     },
                     child: Padding(
@@ -154,16 +238,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            // Container(
-            //   height: 124.5,
-            //   width: 185.0,
-            //   alignment: Alignment(5, -0.3),
-            //   child: Image.asset(
-            //     "assets/pana.png",
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(left: 180, top: 20),
+              child: Image.asset(
+                "assets/img/pana.png",
+                width: 180,
+              ),
+            )
           ],
         ),
       ),
