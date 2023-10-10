@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
                     final kodeNasabah = nasabah.row[0].kodeNasabah;
                     final totalSampah = nasabah.row[0].detailSampahNasabahs[0].berat;
                     final sampahharini = nasabah.row[0].detailSampahNasabahs[0].beratSekarang;
-                    final saldoHariini = nasabah.row[0].detailSampahNasabahs[0].saldoSekarang;
+                    final saldoHariini = nasabah.row[0].detailSampahNasabahs[0].saldo;
                    
                     return PoinCard(
                       size,

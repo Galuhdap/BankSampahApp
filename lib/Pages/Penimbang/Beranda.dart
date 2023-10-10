@@ -24,9 +24,7 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
 
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-    await prefs.remove('role');
-    await prefs.remove('kodeReg');
+    await prefs.clear();
 
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(

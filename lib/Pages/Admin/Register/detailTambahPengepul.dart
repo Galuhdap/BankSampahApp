@@ -4,25 +4,24 @@ import 'package:flutter/material.dart';
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 
-class DetailNasabahScreen extends StatefulWidget {
-final  String?  nama_nasabah, rt, rw, no_telp, alamat, pin, password;
-  DetailNasabahScreen({
+class DetailPenimbangScreen extends StatefulWidget {
+final  String?  nama_pengepul, rt, rw, no_telp, alamat, password;
+  DetailPenimbangScreen({
     super.key,
-    required this.nama_nasabah,
+    required this.nama_pengepul,
     required this.rt,
     required this.rw,
     required this.no_telp,
     required this.alamat,
-    required this.pin,
     required this.password,
 
   });
 
   @override
-  State<DetailNasabahScreen> createState() => _DetailNasabahScreenState();
+  State<DetailPenimbangScreen> createState() => _DetailPenimbangScreenState();
 }
 
-class _DetailNasabahScreenState extends State<DetailNasabahScreen> {
+class _DetailPenimbangScreenState extends State<DetailPenimbangScreen> {
   TextEditingController kodeNasabahController = TextEditingController();
   TextEditingController namaNasabahController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
@@ -35,12 +34,11 @@ class _DetailNasabahScreenState extends State<DetailNasabahScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    namaNasabahController.text = widget.nama_nasabah.toString();
+    namaNasabahController.text = widget.nama_pengepul.toString();
     alamatController.text = widget.alamat.toString();
     rwController.text = widget.rw.toString();
     rtController.text = widget.rt.toString();
     noTelpController.text = widget.no_telp.toString();
-    pinController.text = widget.pin.toString();
     passwordController.text = widget.password.toString();
     super.initState();
   }
@@ -100,7 +98,7 @@ class _DetailNasabahScreenState extends State<DetailNasabahScreen> {
                             ),
                             fieldText1(
                                 size, 'No telepon', true, noTelpController),
-                            fieldText1(size, 'PIN', true, pinController),
+
                             fieldText1(
                                 size, 'Password', true, passwordController),
                           ],

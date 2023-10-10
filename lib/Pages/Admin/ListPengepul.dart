@@ -13,54 +13,16 @@ class ListPenimbangScreen extends StatefulWidget {
 }
 
 class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
-
   UserControllerAdmin userController = UserControllerAdmin();
+  Future<List<dynamic>>? _futureData;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    _futureData = UserControllerAdmin().getPenimbang();
+    super.initState();
+  }
 
-  final datas = [
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -68,8 +30,8 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
       body: Column(
         children: [
           appbar3(context, size, 'List Penimbang'),
-          FutureBuilder<List>(
-            future: userController.getPenimbang(),
+          FutureBuilder<List<dynamic>>(
+            future: _futureData,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
@@ -81,28 +43,29 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                     ),
                   );
                 }
+                final nasabah = snapshot.data!;
                 return Padding(
-            padding: const EdgeInsets.only(top: 20, left: 35, right: 35),
-            
-            child: Container(
-              width: size.width * 0.9,
-              height: size.height * 0.82,
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.only(top: 10),
-                itemCount: datas.length,
-                itemBuilder: (BuildContext context, index) {
-                  return listSetorSampah(
-                      size,
-                      datas[index]['nama'],
-                      datas[index]['kode'],
-                      datas[index]['tgl'],
-                      datas[index]['sampah'],
-                      datas[index]['berat']);
-                },
-              ),
-            ),
-          );
+                  padding: const EdgeInsets.only(top: 20, left: 35, right: 35),
+                  child: Container(
+                    width: size.width * 0.9,
+                    height: size.height * 0.80,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(top: 10),
+                      itemCount: nasabah.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return listPenimbang(
+                            size,
+                            snapshot.data![index]["nama_penimbang"],
+                            snapshot.data![index]["kode_penimbang"],
+                            snapshot.data![index]["alamat"],
+                            snapshot.data![index]["rw"],
+                            snapshot.data![index]["rt"],
+                            snapshot.data![index]["no_telp"]);
+                      },
+                    ),
+                  ),
+                );
               } else {
                 print(snapshot.error);
                 return Center(
@@ -113,13 +76,12 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
               }
             },
           ),
-          
         ],
       ),
     );
   }
 
-  Padding listSetorSampah(Size size, ttl, kode, tgl, sampah, berat) {
+  Padding listPenimbang(Size size, ttl, kode, alamat, rw, rt, notelp) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Container(
@@ -171,7 +133,7 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                 height: size.height * 0.015,
               ),
               Text(
-                tgl,
+                "${alamat} RW ${rw} RT ${rt}",
                 style: TextStyle(
                   color: Color(0xFF7F7F7F),
                   fontSize: 10,
@@ -187,22 +149,12 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Sampah ${sampah}',
+                    '${notelp}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 13,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
-                  ),
-                  Text(
-                    'Berat : ${berat} Kg',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
                       height: 0,
                     ),
                   ),

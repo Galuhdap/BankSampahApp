@@ -16,51 +16,15 @@ class ListNasabahScreen extends StatefulWidget {
 
 class _ListNasabahScreenState extends State<ListNasabahScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
+  Future<List<dynamic>>? _futureData;
 
-  final datas = [
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    _futureData = UserControllerAdmin().getNasabah();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -68,8 +32,8 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
       body: Column(
         children: [
           appbar3(context, size, 'List Nasabah'),
-          FutureBuilder<List<NasabahModel>>(
-            future: userController.getNasabah(),
+          FutureBuilder<List<dynamic>>(
+            future: _futureData,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
@@ -81,6 +45,7 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                     ),
                   );
                 }
+                final nasabah = snapshot.data!;
                 return Padding(
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: Container(
@@ -89,23 +54,17 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 10),
-                      itemCount: snapshot.data!.length,
+                      itemCount: nasabah.length,
                       itemBuilder: (BuildContext context, index) {
-                        final nasabah = snapshot.data![index];
-                        final List<DetailSampahNasabahsModel> detailSampahs =
-                            nasabah.DetailSampahNasabahs;
-                        print(detailSampahs);
-
-                        return listSetorSampah(
+                        return listNasabahSampah(
                           size,
-                          snapshot.data![index].nama_nasabah.toString(),
-                          snapshot.data![index].kode_nasabah.toString(),
-                          snapshot.data![index].DetailSampahNasabahs.toString(),
-                          'sdsa',
-                          // snapshot.data![index].nama_nasabah,
-                          // snapshot.data![index].nama_nasabah.toString(),
-
-                          'dsasadsd',
+                          snapshot.data![index]["nama_nasabah"],
+                          snapshot.data![index]["kode_nasabah"],
+                          snapshot.data![index]["alamat"],
+                          snapshot.data![index]["rw"],
+                          snapshot.data![index]["rt"],
+                          snapshot.data![index]["DetailSampahNasabahs"][0]["saldo"],
+                         snapshot.data![index]["DetailSampahNasabahs"][0]["berat"],
                         );
                       },
                     ),
@@ -121,33 +80,12 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
               }
             },
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 20, left: 35, right: 35),
-          //   child: Container(
-          //     width: size.width * 0.9,
-          //     height: size.height * 0.82,
-          //     child: ListView.builder(
-          //       physics: BouncingScrollPhysics(),
-          //       padding: EdgeInsets.only(top: 10),
-          //       itemCount: datas.length,
-          //       itemBuilder: (BuildContext context, index) {
-          //         return listSetorSampah(
-          //             size,
-          //             datas[index]['nama'],
-          //             datas[index]['kode'],
-          //             datas[index]['tgl'],
-          //             datas[index]['sampah'],
-          //             datas[index]['berat']);
-          //       },
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
   }
 
-  Padding listSetorSampah(Size size, ttl, kode, tgl, sampah, berat) {
+  Padding listNasabahSampah(Size size, ttl, kode, alamat, rw, rt, sampah, berat) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Container(
@@ -186,7 +124,7 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                 height: size.height * 0.005,
               ),
               Text(
-                'Kode Pengepul : ${kode}',
+                'Kode Nasabah : ${kode}',
                 style: TextStyle(
                   color: Color(0xFF3D3D3D),
                   fontSize: 11,
@@ -199,7 +137,7 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                 height: size.height * 0.015,
               ),
               Text(
-                tgl,
+                "${alamat} RW ${rw} RT ${rt}",
                 style: TextStyle(
                   color: Color(0xFF7F7F7F),
                   fontSize: 10,
@@ -215,7 +153,7 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Sampah ${sampah}',
+                    '${sampah}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 13,

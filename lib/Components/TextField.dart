@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Padding fieldText(Size size, ttl, lbl, e) {
+Padding fieldText(Size size, ttl, lbl, e ,ctrl) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 19),
     child: Column(
@@ -20,11 +20,10 @@ Padding fieldText(Size size, ttl, lbl, e) {
         ),
         Container(
           width: size.width * 0.75,
-          height: 50,
           child: TextField(
+            controller: ctrl,
             enabled: e,
             decoration: InputDecoration(
-              labelText: lbl,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: BorderSide(
@@ -45,7 +44,7 @@ Padding fieldText(Size size, ttl, lbl, e) {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.green,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         )
@@ -74,7 +73,6 @@ Padding fieldText1(Size size, ttl,  e, txtController) {
         ),
         Container(
           width: size.width * 0.75,
-          height: 50,
           child: TextField(
             controller: txtController,
             enabled: e,
@@ -99,7 +97,7 @@ Padding fieldText1(Size size, ttl,  e, txtController) {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.green,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         )
@@ -110,7 +108,7 @@ Padding fieldText1(Size size, ttl,  e, txtController) {
 
 Padding fieldText2(Size size, ttl, e, txtController) {
   return Padding(
-    padding: const EdgeInsets.only(left: 38, bottom: 19),
+    padding: const EdgeInsets.only(left: 25, bottom: 19),
     //padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +152,7 @@ Padding fieldText2(Size size, ttl, e, txtController) {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.green,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         )
@@ -208,7 +206,7 @@ Padding textField2(Size size, ttl, lbl, e) {
             ),
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.green,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         )

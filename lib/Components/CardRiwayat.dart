@@ -6,7 +6,7 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
     child: Stack(
       children: [
         Container(
-          width: size.width * 0.87,
+          width: size.width * 0.8,
           height: 58,
           decoration: ShapeDecoration(
             color: Colors.white,

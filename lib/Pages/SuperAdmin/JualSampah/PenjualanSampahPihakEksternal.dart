@@ -48,17 +48,17 @@ class _PenjualanSampahPihakEksternalScreenState extends State<PenjualanSampahPih
                         child: Column(
                           children: [
                             fieldText(
-                                size, 'Jenis Sampah', 'Jenis Sampa', true),
+                                size, 'Jenis Sampah', 'Jenis Sampa', true,''),
                             fieldText(
-                                size, 'Jenis Barang', 'Jenis Barang', true),
-                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true),
-                            fieldText(size, 'Harga', 'Harga', true),
+                                size, 'Jenis Barang', 'Jenis Barang', true,''),
+                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true,''),
+                            fieldText(size, 'Harga', 'Harga', true,''),
                             fieldText(
-                                size, 'Tanggal Penjualan', 'Tanggal Penjualan', true),
+                                size, 'Tanggal Penjualan', 'Tanggal Penjualan', true,''),
                             fieldText(
-                                size, 'Nama Pembeli Sampah', 'Nama Pembeli Sampah', true),
+                                size, 'Nama Pembeli Sampah', 'Nama Pembeli Sampah', true,''),
                             fieldText(size, 'Catatan Tambahan',
-                                'Catatan Tambahan', true),
+                                'Catatan Tambahan', true,''),
                           ],
                         ),
                       ),

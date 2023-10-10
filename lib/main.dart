@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/Admin/Navigation_Bar.dart';
 import 'Pages/Nasabah/Navigation_bar.dart';
+import 'Pages/Nasabah/SuccesScreen.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
 import 'Pages/SuperAdmin/Navigation_Bar.dart';
 import 'SplashScreen.dart';

@@ -42,8 +42,7 @@ class _TambahNasabahState extends State<TambahNasabah> {
                 child: Column(
                   children: [
                     Container(
-                      width: 384,
-                      height: 695,
+                      width: size.width * 0.9,
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(

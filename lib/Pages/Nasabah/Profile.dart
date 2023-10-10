@@ -12,6 +12,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+      var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: Container(
