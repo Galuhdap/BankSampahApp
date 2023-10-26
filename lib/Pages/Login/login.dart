@@ -11,9 +11,13 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Admin/Beranda.dart';
 import '../Admin/Navigation_Bar.dart';
+import '../Nasabah/Home.dart';
 import '../Nasabah/Navigation_bar.dart';
+import '../Penimbang/Beranda.dart';
 import '../Penimbang/Navigation_bar.dart';
+import '../SuperAdmin/Beranda.dart';
 import '../SuperAdmin/Navigation_Bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,6 +44,13 @@ class _LoginScreenState extends State<LoginScreen> {
   static final Dio _dio = Dio();
   Future login(String nip, String password) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     final datas = {'kode_reg': nip, 'password': password};
     final response =
         await _dio.post('http://' + _baseUrl + '/auth/login', data: datas);
@@ -47,19 +58,18 @@ class _LoginScreenState extends State<LoginScreen> {
     var decodeToken = JwtDecoder.decode(response.data['payload']);
 
     var role = decodeToken['role'];
-    var kodeReg= decodeToken['kodeReg'];
-    
+    var kodeReg = decodeToken['kodeReg'];
+
     await prefs.setString('token', response.data['payload']);
     await prefs.setString('role', role);
     await prefs.setString('kodeReg', kodeReg);
 
     if (role == "admin") {
-      print('Navigasi ke halaman admin');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (builde) {
-            return BarNavigationAdmin();
+            return BerandaAdmin();
           },
         ),
       );
@@ -67,24 +77,25 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationNasabah(),
+          builder: (BuildContext context) => HomeNasabahScreen(),
         ),
       );
     } else if (role == "penimbang") {
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationPenimbang(),
+          builder: (BuildContext context) => BerandaPenimbang(),
         ),
       );
     } else if (role == "superadmin") {
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => BarNavigationSuperAdmin(),
+          builder: (BuildContext context) => BerandaSuperAdmin(),
         ),
       );
     }
+    // Navigator.pop(context);
   }
 
   @override
@@ -176,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
-                   obscureText: true,
+                  obscureText: true,
                   controller: cPass,
                   validator: (value) {
                     if (value!.isEmpty) {

@@ -16,6 +16,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import 'ListPenarikanSaldo.dart';
+import 'ListPenarikanSaldoBS.dart';
+import 'ListPenjualanSampah.dart';
 import 'Register/register.dart';
 import 'SusutSampah/SusutSampah.dart';
 import 'controller/userController.dart';
@@ -55,30 +58,28 @@ class _BerandaAdminState extends State<BerandaAdmin> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FutureBuilder<Admin?>(
-                future: UserControllerAdmin().getUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    final admin = snapshot.data!;
-                    final kodeAdmin = admin.row[0].kodeAdmin;
-                    final namaAdmin = admin.row[0].namaBs;
-                    final totalsampah = admin.row[0].detailSampahBs[0].berat;
-                    final sampah_hariinni =
-                        admin.row[0].detailSampahBs[0].beratSekarang;
-                    final saldohariini =
-                        admin.row[0].detailSampahBs[0].saldoSekarang;
-                    return PoinCard(
-                        size,
-                        'Hi, $namaAdmin',
-                        'Kode Penimbang : ${kodeAdmin}',
-                        '$totalsampah Kg',
-                        '$sampah_hariinni Kg',
-                        '$saldohariini',
-                        Container());
-                  }
-                },
-              ),
+                  future: UserControllerAdmin().getUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      print(snapshot.data);
+                      var admin = snapshot.data!;
+                      var kodeAdmin = admin.row[0].kodeAdmin;
+                      var namaAdmin = admin.row[0].namaBs;
+                      var totalsampah = admin.row[0].detailSampahBs![0].berat;
+                      var sampah_hariinni =
+                          admin.row[0].detailSampahBs![0].beratSekarang;
+                      var saldohariini =
+                          admin.row[0].detailSampahBs![0].saldoSekarang;
+                      return PoinCard2(
+                          size,
+                          'Hi, $namaAdmin',
+                          'Kode Penimbang : ${kodeAdmin}',
+                          '$totalsampah Kg',
+                          '$saldohariini');
+                    }
+                  }),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(
@@ -113,7 +114,7 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                         subMenu(
                           size,
                           'assets/img/regnas.png',
-                          'TAMBAH PENGGUNA',
+                          'TAMBAH\nPENGGUNA',
                           () {
                             Navigator.push(
                               context,
@@ -144,12 +145,12 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        subMenu(size, 'assets/img/money.png', 'KAS', () {
+                        subMenu(size, 'assets/img/money.png', 'List PENARIKAN\nSALDO BS', () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return KasAdminScreen();
+                                return ListPenarikanSaldoBSScreen();
                               },
                             ),
                           ).then((value) {
@@ -160,13 +161,14 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                     ),
                     menuKategori(
                       [
-                        subMenu(size, 'assets/img/gram.png', 'SUSUT SAMPAH',
+                        subMenu(
+                            size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
                             () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return SusutSampahScreen();
+                                return ListPenjualanSampahScreen();
                               },
                             ),
                           ).then((value) {
@@ -174,15 +176,15 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                           });
                         }),
                         subMenu(
-                            size, 'assets/img/money-w.png', 'PENARIKAN SALDO',
+                            size, 'assets/img/money-w.png', 'VALIDASI PENARIKAN SALDO',
                             () async {
-                          await removeToken();
+                         
 
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return LoginScreen();
+                                return ListPenarikanSaldoScreen();
                               },
                             ),
                           ).then((value) {

@@ -11,24 +11,27 @@ import '../Models/SetorSampahModel.dart';
 
 class SampahPenimbangController {
   final _baseUrl = '154.56.60.253:4009';
-
-  Future getSampah() async {
-    try {
-      final response =
-          await Dio().get('http://' + _baseUrl + '/product/sampah');
-
-      return response.data["payload"][0];
-    } catch (e) {
-      print(e);
-    }
-  }
-
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? _data = await prefs.getString(data);
 
     return _data;
   }
+  Future getSampah() async {
+     String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+    try {
+      
+      final datas = {"kode_super_induk": kodeSuperAdmin};
+      final response =
+          await Dio().get('http://' + _baseUrl + '/product/sampah', data: datas);
+
+      return response.data["payload"];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
 
   Future setorSampah(
       {required String kodeSampah,
@@ -38,10 +41,11 @@ class SampahPenimbangController {
       required String kodeNasabah}) async {
     try {
 
-
       String? kodePenimbang = await getDataLocal('kodePenimbang');
       String? kodeAdmin = await getDataLocal('kodeAdmin');
-      print(kodeAdmin);
+      String? kodeSuperAdmin= await getDataLocal('kodeSuperAdmin');
+
+
       final datas = {
         "kode_sampah": kodeSampah,
         "kode_barang": kodeBarang,
@@ -49,7 +53,8 @@ class SampahPenimbangController {
         "catatan": catatan,
         "kode_nasabah": kodeNasabah,
         "kode_penimbang": kodePenimbang,
-        "kode_admin": kodeAdmin
+        "kode_admin": kodeAdmin,
+        "kode_super_admin": kodeSuperAdmin,
       };
       final _datas = await Dio().post('http://' + _baseUrl + '/setor/sampah', data: datas);
 

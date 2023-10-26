@@ -15,7 +15,7 @@ class ListPenimbangScreen extends StatefulWidget {
 class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
-
+  String query = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -27,9 +27,46 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           appbar3(context, size, 'List Penimbang'),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Container(
+              width: size.width * 0.8,
+              height: 40,
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
+                enabled: true,
+                decoration: InputDecoration(
+                  suffixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFA8A8A8),
+                      width: 2.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFA8A8A8),
+                      width: 2.0,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.black),
+              ),
+            ),
+          ),
           FutureBuilder<List<dynamic>>(
             future: _futureData,
             builder: (context, snapshot) {
@@ -43,25 +80,30 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                     ),
                   );
                 }
-                final nasabah = snapshot.data!;
+                final List<dynamic> filteredData = snapshot.data!
+                    .where((item) => item["nama_penimbang"]
+                        .toLowerCase()
+                        .contains(query.toLowerCase()))
+                    .toList();
                 return Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 35, right: 35),
+                  padding: const EdgeInsets.only(top: 10, left: 35, right: 35),
                   child: Container(
                     width: size.width * 0.9,
-                    height: size.height * 0.80,
+                    height: size.height * 0.7,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(top: 10),
-                      itemCount: nasabah.length,
+                      padding: EdgeInsets.only(top: 0),
+                      itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
                         return listPenimbang(
                             size,
-                            snapshot.data![index]["nama_penimbang"],
-                            snapshot.data![index]["kode_penimbang"],
-                            snapshot.data![index]["alamat"],
-                            snapshot.data![index]["rw"],
-                            snapshot.data![index]["rt"],
-                            snapshot.data![index]["no_telp"]);
+                            filteredData[index]["nama_penimbang"],
+                            filteredData[index]["kode_penimbang"],
+                            filteredData[index]["alamat"],
+                            filteredData[index]["rw"],
+                            filteredData[index]["rt"],
+                            filteredData[index]["no_telp"],
+                            filteredData[index]["kode_user"]);
                       },
                     ),
                   ),
@@ -81,7 +123,7 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
     );
   }
 
-  Padding listPenimbang(Size size, ttl, kode, alamat, rw, rt, notelp) {
+  Padding listPenimbang(Size size, ttl, kode, alamat, rw, rt, notelp, reg) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Container(
@@ -155,6 +197,16 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                       fontSize: 13,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
+                  Text(
+                    'Kode REG : ${reg}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
                       height: 0,
                     ),
                   ),

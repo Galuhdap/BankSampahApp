@@ -5,23 +5,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/CardRiwayat.dart';
+import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import '../Login/login.dart';
 import 'Models/NasabahModel.dart';
+import 'Statistic.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeNasabahScreen extends StatefulWidget {
+  const HomeNasabahScreen({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeNasabahScreen> createState() => _HomeNasabahScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
   UserControllerNasabah userControllerNasabah = UserControllerNasabah();
+  Future<List<dynamic>>? _futureData;
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-        await prefs.remove('role');
+    await prefs.remove('role');
     await prefs.remove('kodeReg');
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
@@ -36,6 +39,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
+    _futureData = UserControllerNasabah().riwayatSetorSampah();
     super.initState();
   }
 
@@ -66,10 +70,13 @@ class _HomeState extends State<Home> {
                     final nasabah = snapshot.data!;
                     final namaNasabah = nasabah.row[0].namaNasabah;
                     final kodeNasabah = nasabah.row[0].kodeNasabah;
-                    final totalSampah = nasabah.row[0].detailSampahNasabahs[0].berat;
-                    final sampahharini = nasabah.row[0].detailSampahNasabahs[0].beratSekarang;
-                    final saldoHariini = nasabah.row[0].detailSampahNasabahs[0].saldo;
-                   
+                    final totalSampah =
+                        nasabah.row[0].detailSampahNasabahs![0].berat;
+                    final sampahharini =
+                        nasabah.row[0].detailSampahNasabahs![0].beratSekarang;
+                    final saldoHariini =
+                        nasabah.row[0].detailSampahNasabahs![0].saldo;
+
                     return PoinCard(
                       size,
                       'Hi, $namaNasabah',
@@ -133,113 +140,63 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 35, top: 20, right: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Riwayat Aktivitas',
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20 , right: 20),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return Statistic();
+                              },
                             ),
-                            Container(
-                              width: size.width * 0.15,
-                              height: size.height * 0.02,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFC107),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'See all',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 11,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                          },
                           child: Container(
                             width: size.width * 0.9,
-                            height: 344,
+                            height: 86,
                             decoration: ShapeDecoration(
-                              color: Color(0xFFDCEAE7),
+                              color: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               shadows: [
                                 BoxShadow(
-                                  color: Color(0x28000000),
-                                  blurRadius: 1,
-                                  offset: Offset(0, 0),
-                                  spreadRadius: 0,
+                                  color: Color.fromARGB(40, 0, 0, 0),
+                                  blurRadius: 19,
+                                  offset: Offset(3, 0),
+                                  spreadRadius: -8,
                                 )
                               ],
                             ),
-                            child: SizedBox(
-                              height: 344,
-                              width: 345,
-                              child: ListView(
-                                padding: EdgeInsets.only(top: 1),
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                   Column(
-                                      children: [
-                                        cardRiwayat(
-                                          size,
-                                          Color(0xFFE20000),
-                                          'Penarikan Saldo',
-                                          '23 Juni 2023 - 14:30',
-                                          '-5.0000000',
-                                          Color(0xFFE20000),
-                                        ),
-                                        cardRiwayat(
-                                          size,
-                                          Color(0xFFE20000),
-                                          'Penarikan Saldo',
-                                          '23 Juni 2023 - 14:30',
-                                          '-5.0000000',
-                                          Color(0xFFE20000),
-                                        ),
-                                        cardRiwayat(
-                                          size,
-                                          Color(0xFFE20000),
-                                          'Penarikan Saldo',
-                                          '23 Juni 2023 - 14:30',
-                                          '-5.0000000',
-                                          Color(0xFFE20000),
-                                        ),
-                                        cardRiwayat(
-                                          size,
-                                          Color(0xFFE20000),
-                                          'Penarikan Saldo',
-                                          '23 Juni 2023 - 14:30',
-                                          '-5.0000000',
-                                          Color(0xFFE20000),
-                                        ),
-                                      ],
-                                    ),
-                                  
-                                ],
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/money-w.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                SizedBox(
+                                  width: size.width * 0.05,
+                                ),
+                                Text(
+                                  'Pencairan Dana',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF333333),
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

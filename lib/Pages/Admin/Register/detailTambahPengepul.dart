@@ -81,7 +81,7 @@ class _DetailPenimbangScreenState extends State<DetailPenimbangScreen> {
                           children: [
                             // fieldText1(
                             //     size, 'Kode Nasabah', true),
-                            fieldText1(size, 'Nama Nasabah', true,
+                            fieldText1(size, 'Nama Penimbang', true,
                                 namaNasabahController),
                             fieldText1(size, 'Alamat', true, alamatController),
                             Row(

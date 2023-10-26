@@ -18,28 +18,6 @@ class Statistic extends StatefulWidget {
 }
 
 class _StatisticState extends State<Statistic> {
-  final datas = [
-    {
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'sampah': 'Plastik',
-      'berat': 50,
-    },
-    {
-      'sampah': 'Botol',
-      'berat': 25,
-    },
-    {
-      'sampah': 'Besi',
-      'berat': 70,
-    },
-    {
-      'sampah': 'Aluminium',
-      'berat': 15,
-    }
-  ];
   final datas1 = [
     {
       'hasil': 'Penarikan',
@@ -51,15 +29,24 @@ class _StatisticState extends State<Statistic> {
     },
   ];
 
+  Future<List<dynamic>>? _futureData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _futureData = UserControllerNasabah().riwayatSetorSampah();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appbar(() {}),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              appbar3(context, size, ''),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 7),
@@ -213,8 +200,8 @@ class _StatisticState extends State<Statistic> {
                               return Center(child: Container());
                             } else {
                               final nasabah = snapshot.data!;
-                              final totalSaldo = nasabah
-                                  .row[0].detailSampahNasabahs[0].saldo;
+                              final totalSaldo =
+                                  nasabah.row[0].detailSampahNasabahs![0].saldo;
 
                               return subMenu1(size, 'assets/img/wallets.png',
                                   totalSaldo.toString(), 'Saldo Terkumpul', () {
@@ -243,7 +230,7 @@ class _StatisticState extends State<Statistic> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Riwayat Aktivitas',
+                      'Aktivitas Setor Sampah ',
                       style: TextStyle(
                         color: Color(0xFF333333),
                         fontSize: 14,
@@ -251,32 +238,12 @@ class _StatisticState extends State<Statistic> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    // Container(
-                    //   width: 49,
-                    //   height: 18,
-                    //   decoration: ShapeDecoration(
-                    //     color: Color(0xFFFFC107),
-                    //     shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(5)),
-                    //   ),
-                    //   child: Center(
-                    //     child: Text(
-                    //       'See all',
-                    //       style: TextStyle(
-                    //         color: Color(0xFF333333),
-                    //         fontSize: 11,
-                    //         fontFamily: 'Poppins',
-                    //         fontWeight: FontWeight.w500,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Container(
                     width: size.width * 0.9,
                     height: 344,
@@ -294,54 +261,52 @@ class _StatisticState extends State<Statistic> {
                         )
                       ],
                     ),
-                    child: SizedBox(
-                      height: size.height * 0.4,
-                      width: size.width * 0.7,
-                      child: ListView(
-                        padding: EdgeInsets.only(top: 0),
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Column(
-                              children: [
-                                cardRiwayat(
-                                  size,
-                                  Color(0xFFE20000),
-                                  'Penarikan Saldo',
-                                  '23 Juni 2023 - 14:30',
-                                  '-5.0000000',
-                                  Color(0xFFE20000),
-                                ),
-                                cardRiwayat(
-                                  size,
-                                  Color(0xFFE20000),
-                                  'Penarikan Saldo',
-                                  '23 Juni 2023 - 14:30',
-                                  '-5.0000000',
-                                  Color(0xFFE20000),
-                                ),
-                                cardRiwayat(
-                                  size,
-                                  Color(0xFFE20000),
-                                  'Penarikan Saldo',
-                                  '23 Juni 2023 - 14:30',
-                                  '-5.0000000',
-                                  Color(0xFFE20000),
-                                ),
-                                cardRiwayat(
-                                  size,
-                                  Color(0xFFE20000),
-                                  'Penarikan Saldo',
-                                  '23 Juni 2023 - 14:30',
-                                  '-5.0000000',
-                                  Color(0xFFE20000),
-                                ),
-                              ],
+                    child: FutureBuilder<List<dynamic>>(
+                      future: _futureData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.length == 0) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  top: size.height * 0.2,
+                                  bottom: size.height * 0.21),
+                              child: Center(
+                                child: Text("DATA KOSONG"),
+                              ),
+                            );
+                          }
+                          final nasabah = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: Container(
+                              width: size.width * 0.9,
+                              height: size.height * 0.8,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                padding: EdgeInsets.only(top: 10),
+                                itemCount: nasabah.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return cardRiwayat(
+                                    size,
+                                    Color(0xFFE20000),
+                                    'Setor Sampah',
+                                    snapshot.data![index]["berat"].toString(),
+                                    snapshot.data![index]["total"].toString(),
+                                    Color(0xFFE20000),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          );
+                        } else {
+                          print(snapshot.error);
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),

@@ -1,35 +1,35 @@
 import 'DetailSampahNasabah.dart';
 
-class Row {
-    String kodeNasabah;
-    String namaNasabah;
-    String rt;
-    String rw;
-    String noTelp;
-    String alamat;
-    String pin;
-    String kodeUser;
-    String kodeAdmin;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<DetailSampahNasabah> detailSampahNasabahs;
+class NasbahRowModel {
+    String? kodeNasabah;
+    String? namaNasabah;
+    String? rt;
+    String? rw;
+    String? noTelp;
+    String? alamat;
+    String? pin;
+    String? kodeUser;
+    String? kodeAdmin;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    List<DetailSampahNasabah>? detailSampahNasabahs;
 
-    Row({
-        required this.kodeNasabah,
-        required this.namaNasabah,
-        required this.rt,
-        required this.rw,
-        required this.noTelp,
-        required this.alamat,
-        required this.pin,
-        required this.kodeUser,
-        required this.kodeAdmin,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.detailSampahNasabahs,
+    NasbahRowModel({
+        this.kodeNasabah,
+        this.namaNasabah,
+        this.rt,
+        this.rw,
+        this.noTelp,
+        this.alamat,
+        this.pin,
+        this.kodeUser,
+        this.kodeAdmin,
+        this.createdAt,
+        this.updatedAt,
+        this.detailSampahNasabahs,
     });
 
-    factory Row.fromJson(Map<String, dynamic> json) => Row(
+    factory NasbahRowModel.fromJson(Map<String, dynamic> json) => NasbahRowModel(
         kodeNasabah: json["kode_nasabah"],
         namaNasabah: json["nama_nasabah"],
         rt: json["rt"],
@@ -54,8 +54,8 @@ class Row {
         "pin": pin,
         "kode_user": kodeUser,
         "kode_admin": kodeAdmin,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "DetailSampahNasabahs": List<dynamic>.from(detailSampahNasabahs.map((x) => x.toJson())),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "DetailSampahNasabahs": List<dynamic>.from(detailSampahNasabahs!.map((x) => x.toJson())),
     };
 }

@@ -7,14 +7,14 @@ NasabahModel nasabahFromJson(String str) => NasabahModel.fromJson(json.decode(st
 String nasabahToJson(NasabahModel data) => json.encode(data.toJson());
 
 class NasabahModel {
-    List<Row> row;
+    List<NasbahRowModel> row;
 
     NasabahModel({
         required this.row,
     });
 
     factory NasabahModel.fromJson(Map<String, dynamic> json) => NasabahModel(
-        row: List<Row>.from(json["row"].map((x) => Row.fromJson(x))),
+        row: List<NasbahRowModel>.from(json["row"].map((x) => NasbahRowModel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {

@@ -1,26 +1,28 @@
 import 'DetailSampahBs.dart';
 
 class UserAdminModel {
-    String kodeAdmin;
-    String namaBs;
-    String noTelp;
-    String rt;
-    String rw;
-    String kodeUser;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<DetailSampahBs> detailSampahBs;
+    String? kodeAdmin;
+    String? namaBs;
+    String? noTelp;
+    String? rt;
+    String? rw;
+    String? kodeUser;
+    String? kode_super_admin;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    List<DetailSampahBs>? detailSampahBs;
 
     UserAdminModel({
-        required this.kodeAdmin,
-        required this.namaBs,
-        required this.noTelp,
-        required this.rt,
-        required this.rw,
-        required this.kodeUser,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.detailSampahBs,
+       this.kodeAdmin,
+       this.namaBs,
+       this.noTelp,
+       this.rt,
+       this.rw,
+       this.kodeUser,
+       this.kode_super_admin,
+       this.createdAt,
+       this.updatedAt,
+       this.detailSampahBs,
     });
 
     factory UserAdminModel.fromJson(Map<String, dynamic> json) => UserAdminModel(
@@ -30,6 +32,7 @@ class UserAdminModel {
         rt: json["rt"],
         rw: json["rw"],
         kodeUser: json["kode_user"],
+        kode_super_admin: json["kode_super_admin"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         detailSampahBs: List<DetailSampahBs>.from(json["DetailSampahBs"].map((x) => DetailSampahBs.fromJson(x))),
@@ -42,8 +45,9 @@ class UserAdminModel {
         "rt": rt,
         "rw": rw,
         "kode_user": kodeUser,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "DetailSampahBs": List<dynamic>.from(detailSampahBs.map((x) => x.toJson())),
+        "kode_super_admin": kode_super_admin,
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "DetailSampahBs": List<dynamic>.from(detailSampahBs!.map((x) => x.toJson())),
     };
 }

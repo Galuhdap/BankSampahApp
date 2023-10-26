@@ -67,28 +67,35 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FutureBuilder<Penimbang?>(
-                future: userController.getUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    final penimbang = snapshot.data!;
-                    final kodePenimbang = penimbang.row[0].kodePenimbang ;
-                    final namaPenimbang = penimbang.row[0].namaPenimbang;
-                    final totalsampah = penimbang.sampah[0].berat;
-                    final sampah_hariinni = penimbang.sampah[0].beratSekarang;
-                    final saldohariini = penimbang.sampah[0].saldoSekarang;
-                    return PoinCard(
-                        size,
-                        'Hi, $namaPenimbang',
-                        'Kode Penimbang : ${kodePenimbang}',
-                        '$totalsampah Kg',
-                        '$sampah_hariinni Kg',
-                        '$saldohariini',
-                        Container());
-                  }
-                },
-              ),
+                  future: userController.getUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        final penimbang = snapshot.data!;
+                        final kodePenimbang = penimbang.row[0].kodePenimbang;
+                        final namaPenimbang = penimbang.row[0].namaPenimbang;
+                        final totalsampah = penimbang.sampah[0].berat;
+                        final sampah_hariinni =
+                            penimbang.sampah[0].beratSekarang;
+                        final saldohariini = penimbang.sampah[0].saldoSekarang;
+                        return PoinCard(
+                            size,
+                            'Hi, $namaPenimbang',
+                            'Kode Penimbang : ${kodePenimbang}',
+                            '$totalsampah Kg',
+                            '$sampah_hariinni Kg',
+                            '$saldohariini',
+                            Container());
+                      }
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      ),
+                    );
+                  }),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 20),
                 child: Text(

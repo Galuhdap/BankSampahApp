@@ -1,24 +1,24 @@
 import 'DetailSampahSuperAdminModel.dart';
 
 class UsersSuperAdmin {
-    String kodeSuperAdmin;
-    String namaSuperAdmin;
-    String noTelp;
-    String alamat;
-    String kodeUser;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<DetailSampahSuperAdmin> detailSampahSuperAdmins;
+    String? kodeSuperAdmin;
+    String? namaSuperAdmin;
+    String? noTelp;
+    String? alamat;
+    String? kodeUser;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    List<DetailSampahSuperAdmin>? detailSampahSuperAdmins;
 
     UsersSuperAdmin({
-        required this.kodeSuperAdmin,
-        required this.namaSuperAdmin,
-        required this.noTelp,
-        required this.alamat,
-        required this.kodeUser,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.detailSampahSuperAdmins,
+       this.kodeSuperAdmin,
+       this.namaSuperAdmin,
+       this.noTelp,
+       this.alamat,
+       this.kodeUser,
+       this.createdAt,
+       this.updatedAt,
+       this.detailSampahSuperAdmins,
     });
 
     factory UsersSuperAdmin.fromJson(Map<String, dynamic> json) => UsersSuperAdmin(
@@ -38,8 +38,8 @@ class UsersSuperAdmin {
         "no_telp": noTelp,
         "alamat": alamat,
         "kode_user": kodeUser,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "DetailSampahSuperAdmins": List<dynamic>.from(detailSampahSuperAdmins.map((x) => x.toJson())),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "DetailSampahSuperAdmins": List<dynamic>.from(detailSampahSuperAdmins!.map((x) => x.toJson())),
     };
 }

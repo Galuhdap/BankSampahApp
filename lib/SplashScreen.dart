@@ -7,9 +7,13 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Pages/Admin/Beranda.dart';
 import 'Pages/Admin/Navigation_Bar.dart';
+import 'Pages/Nasabah/Home.dart';
 import 'Pages/Nasabah/Navigation_bar.dart';
+import 'Pages/Penimbang/Beranda.dart';
 import 'Pages/Penimbang/Navigation_bar.dart';
+import 'Pages/SuperAdmin/Beranda.dart';
 import 'Pages/SuperAdmin/Navigation_Bar.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -45,12 +49,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
       if (token != null) {
         if (role == "admin") {
-          print('Navigasi ke halaman admin');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (builde) {
-                return BarNavigationAdmin();
+                return BerandaAdmin();
               },
             ),
           );
@@ -58,21 +61,21 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement<void, void>(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => BarNavigationNasabah(),
+              builder: (BuildContext context) => HomeNasabahScreen(),
             ),
           );
         } else if (role == "penimbang") {
           Navigator.pushReplacement<void, void>(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => BarNavigationPenimbang(),
+              builder: (BuildContext context) => BerandaPenimbang(),
             ),
           );
         } else if (role == "superadmin") {
-          Navigator.pushReplacement<void, void>(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => BarNavigationSuperAdmin(),
+              builder: (BuildContext context) => BerandaSuperAdmin(),
             ),
           );
         }

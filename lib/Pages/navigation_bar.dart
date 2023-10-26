@@ -16,7 +16,7 @@ class BarNavigation extends StatelessWidget {
 
     List<Widget> _buildScreens() {
       return [
-        Home(),
+        HomeNasabahScreen(),
         Statistic(),
         Profile(),
       ];

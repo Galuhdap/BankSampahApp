@@ -3,6 +3,7 @@ import 'package:banksampah_application/Pages/Admin/Register/tambahnasabah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/Setting.dart';
@@ -15,13 +16,29 @@ class TambahPengguna extends StatefulWidget {
 }
 
 class _TambahPenggunaState extends State<TambahPengguna> {
+    var _rw;
+
+  Future datas() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var rw = await prefs.getString('rw');
+    setState(() {
+      _rw = rw;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    datas();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 25),
+        padding: const EdgeInsets.only(top: 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,18 +52,22 @@ class _TambahPenggunaState extends State<TambahPengguna> {
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return TambahNasabah();
+                                return TambahNasabah(
+                                  rw: _rw,
+                                );
                               },
                             ),
                           ).then((value) {
                             setState(() {});
                           });}),
-                    pilihanReg('assets/img/tapeng.png', 'Tambah Pengepul',(){
+                    pilihanReg('assets/img/tapeng.png', 'Tambah Penimbang',(){
                       Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return TambahPengepul();
+                                return TambahPengepul(
+                                   rw: _rw,
+                                );
                               },
                             ),
                           ).then((value) {

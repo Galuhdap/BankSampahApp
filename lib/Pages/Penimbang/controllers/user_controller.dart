@@ -25,9 +25,11 @@ class UserController {
 
       var data = response.data["payload"]["row"][0];
       var kode_penimbang = data["kode_penimbang"];
+      var kode_super_admin = data["kode_super_admin"];
       var kode_admin = data["kode_admin"];
       await prefs.setString('kodePenimbang', kode_penimbang);
       await prefs.setString('kodeAdmin', kode_admin);
+      await prefs.setString('kodeSuperAdmin', kode_super_admin);
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = response.data["payload"];

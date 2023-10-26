@@ -6,7 +6,8 @@ import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 
 class TambahPengepul extends StatefulWidget {
-  const TambahPengepul({Key? key}) : super(key: key);
+  final String rw;
+  const TambahPengepul({Key? key, required this.rw});
 
   @override
   State<TambahPengepul> createState() => _TambahPengepulState();
@@ -20,6 +21,13 @@ class _TambahPengepulState extends State<TambahPengepul> {
   TextEditingController noTelpController = TextEditingController();
   TextEditingController pinController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    rwController.text = widget.rw;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -30,7 +38,7 @@ class _TambahPengepulState extends State<TambahPengepul> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Pengepul'),
+            appbar3(context, size, 'Register Penimbang'),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -57,14 +65,14 @@ class _TambahPengepulState extends State<TambahPengepul> {
                         padding: const EdgeInsets.only(top: 53),
                         child: Column(
                           children: [
-                            fieldText1(size, 'Nama Pengepul', true,
+                            fieldText1(size, 'Nama Penimbang', true,
                                 namaPengepulController),
                             fieldText1(size, 'Alamat', true, alamatController),
                             Row(
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', true, rwController),
+                                      size, 'RW', false, rwController),
                                 ),
                                 Expanded(
                                   child: fieldText2(
@@ -81,7 +89,7 @@ class _TambahPengepulState extends State<TambahPengepul> {
                       ),
                     ),
                     continer('REGISTER', Color(0xFF4CAF50), () async {
-                      UserControllerAdmin().registerPenimbang(
+                     await UserControllerAdmin().registerPenimbang(
                           nama_penimbang: namaPengepulController.text,
                           rw: rwController.text,
                           rt: rtController.text,

@@ -6,7 +6,10 @@ import 'package:intl/intl.dart';
 import '../../Data/curentFormat.dart';
 
 class SuccesScreen extends StatefulWidget {
-  const SuccesScreen({super.key});
+  final String kode_invoice;
+  final int jumlah_penarikan;
+  final int biaya_admin;
+  const SuccesScreen({super.key, required this.kode_invoice , required this.jumlah_penarikan , required this.biaya_admin});
 
   @override
   State<SuccesScreen> createState() => _SuccesScreenState();
@@ -57,7 +60,7 @@ class _SuccesScreenState extends State<SuccesScreen> {
               height: size.height * 0.001,
             ),
             Text(
-              'PYM-1101001',
+              widget.kode_invoice,
               style: TextStyle(
                 color: Color(0xFF333333),
                 fontSize: 36,
@@ -105,7 +108,7 @@ class _SuccesScreenState extends State<SuccesScreen> {
                     ),
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(20000, 0),
+                    CurrencyFormat.convertToIdr(widget.jumlah_penarikan, 0),
                     style: TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 24,
@@ -151,7 +154,7 @@ class _SuccesScreenState extends State<SuccesScreen> {
                     ),
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(9999, 0),
+                    CurrencyFormat.convertToIdr(widget.biaya_admin, 0),
                     style: TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 24,
@@ -229,7 +232,11 @@ class _SuccesScreenState extends State<SuccesScreen> {
                 onTap: () async {
                   // var total = widget.penjualanModel!.pembayaran_awal! + widget.penjualanModel!.total!;
                   // TransaksiController().konfirmasiPembayaran(widget.penjualanModel!.kode_invoice, total);
-                  //   Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                   
+                    
                 },
                 child: Container(
                   width: 327,

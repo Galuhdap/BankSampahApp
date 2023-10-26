@@ -1,12 +1,14 @@
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'detailTambahNasabah.dart';
 
 class TambahNasabah extends StatefulWidget {
-  const TambahNasabah({Key? key}) : super(key: key);
+  final String rw;
+  const TambahNasabah({Key? key, required this.rw});
 
   @override
   State<TambahNasabah> createState() => _TambahNasabahState();
@@ -24,9 +26,20 @@ class _TambahNasabahState extends State<TambahNasabah> {
   TextEditingController pinController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    rwController.text = widget.rw;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    // print(_rw);
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -70,7 +83,7 @@ class _TambahNasabahState extends State<TambahNasabah> {
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', true, rwController),
+                                      size, 'RW', false, rwController),
                                 ),
                                 Expanded(
                                   child: fieldText2(
@@ -101,14 +114,13 @@ class _TambahNasabahState extends State<TambahNasabah> {
                         MaterialPageRoute(
                           builder: (builde) {
                             return DetailNasabahScreen(
-                              nama_nasabah: namaNasabahController.text,
-                              rw: rwController.text,
-                              rt: rtController.text,
-                              no_telp: noTelpController.text,
-                              alamat: alamatController.text,
-                              pin: pinController.text,
-                              password:passwordController.text
-                            );
+                                nama_nasabah: namaNasabahController.text,
+                                rw: rwController.text,
+                                rt: rtController.text,
+                                no_telp: noTelpController.text,
+                                alamat: alamatController.text,
+                                pin: pinController.text,
+                                password: passwordController.text);
                           },
                         ),
                       ).then((value) {

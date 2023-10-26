@@ -1,26 +1,26 @@
 class UsersModel {
-    String kodePenimbang;
-    String namaPenimbang;
-    String rt;
-    String rw;
-    String noTelp;
-    String alamat;
-    String kodeAdmin;
-    String kodeUser;
-    DateTime createdAt;
-    DateTime updatedAt;
+    String? kodePenimbang;
+    String? namaPenimbang;
+    String? rt;
+    String? rw;
+    String? noTelp;
+    String? alamat;
+    String? kodeAdmin;
+    String? kodeUser;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     UsersModel({
-        required this.kodePenimbang,
-        required this.namaPenimbang,
-        required this.rt,
-        required this.rw,
-        required this.noTelp,
-        required this.alamat,
-        required this.kodeAdmin,
-        required this.kodeUser,
-        required this.createdAt,
-        required this.updatedAt,
+        this.kodePenimbang,
+        this.namaPenimbang,
+        this.rt,
+        this.rw,
+        this.noTelp,
+        this.alamat,
+        this.kodeAdmin,
+        this.kodeUser,
+        this.createdAt,
+        this.updatedAt,
     });
 
     factory UsersModel.fromJson(Map<String, dynamic> json) => UsersModel(
@@ -45,7 +45,7 @@ class UsersModel {
         "alamat": alamat,
         "kode_admin": kodeAdmin,
         "kode_user": kodeUser,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
     };
 }

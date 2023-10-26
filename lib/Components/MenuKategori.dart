@@ -83,23 +83,9 @@ InkWell subMenu1(Size size, img, txt1, txt, ontp) {
       ),
       child: Row(
         children: [
-        
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Container(
-              width: 52,
-              height: 53,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 1),
-                child: Image.asset(img, width: 5, height: 5,),
-              ),
-            ),
+            child: Image.asset(img, width: 40,height: 40,),
           ),
           Padding(
             padding: const EdgeInsets.only(

@@ -18,50 +18,6 @@ class ListSetorSampahScreen extends StatefulWidget {
 }
 
 class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
-  final datas = [
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-    {
-      'nama': 'Aldi Permana',
-      'kode': 'KP-0012',
-      'tgl': '23 juni 2023',
-      'sampah': 'Kertas',
-      'berat': 200,
-    },
-  ];
   final _baseUrl = '154.56.60.253:4009';
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -92,6 +48,8 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
     return responseData;
   }
 
+  String query = "";
+
   List<RowSampahModel>? _datas;
   Future<List<dynamic>>? _futureData;
   Future getDatas() async {
@@ -115,44 +73,85 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
     print(_datas);
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Padding(padding: EdgeInsets.only(top: 0)),
           appbar3(context, size, 'List Setor Sampah'),
-          FutureBuilder<List<dynamic>> (
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Container(
+              width: size.width * 0.8,
+              height: 40,
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
+                enabled: true,
+                decoration: InputDecoration(
+                  suffixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFA8A8A8),
+                      width: 2.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFA8A8A8),
+                      width: 2.0,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.black),
+              ),
+            ),
+          ),
+          FutureBuilder<List<dynamic>>(
             future: _futureData,
             builder: (context, snapshot) {
-
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
                   return Padding(
-                    padding:  EdgeInsets.only(top: size.height * 0.25, bottom: size.height * 0.255),
+                    padding: EdgeInsets.only(
+                        top: size.height * 0.4, bottom: size.height * 0.255),
                     child: Center(
                       child: Text("DATA KOSONG"),
                     ),
                   );
                 }
-                 final sampah = snapshot.data! ;
+                final List<dynamic> filteredData = snapshot.data!
+                    .where((item) => item["kode_nasabah"]
+                        .toLowerCase()
+                        .contains(query.toLowerCase()))
+                    .toList();
                 return Padding(
                   padding: const EdgeInsets.only(top: 20, left: 35, right: 35),
                   child: Container(
                     width: size.width * 0.9,
-                    height: size.height * 0.79,
+                    height: size.height * 0.75,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 5),
-                      itemCount: sampah.length,
+                      itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
-                        
                         return listSetorSampah(
-                            size,
-                            snapshot.data![index]["kode_nasabah"],
-                            snapshot.data![index]["kode_penimbang"],
-                            DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                .format(DateTime.parse(snapshot.data![index]["createdAt"])),
-                            snapshot.data![index]["kode_sampah"],
-                             snapshot.data![index]["berat"],
-                            );
+                          size,
+                          filteredData[index]["kode_nasabah"],
+                          filteredData[index]["kode_penimbang"],
+                          DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
+                              DateTime.parse(
+                                  filteredData[index]["createdAt"])),
+                          filteredData[index]["kode_sampah"],
+                          filteredData[index]["berat"],
+                        );
                       },
                     ),
                   ),

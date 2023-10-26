@@ -1,4 +1,5 @@
 import 'package:banksampah_application/Components/AppBar.dart';
+import 'package:banksampah_application/Pages/Penimbang/Beranda.dart';
 import 'package:banksampah_application/Pages/Penimbang/controllers/sampah_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,6 @@ class _SetorSampahState extends State<SetorSampah> {
                   children: [
                     Container(
                       width: size.width * 0.85,
-                      height: 600,
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -100,13 +100,14 @@ class _SetorSampahState extends State<SetorSampah> {
                                           dropdownValue = newValue;
                                         });
                                       },
-                                      items: [
-                                        DropdownMenuItem<String>(
-                                          value: _data?['kode_sampah'] ?? '',
-                                          child: Text(
-                                              _data?['jenis_sampah'] ?? ''),
-                                        ),
-                                      ],
+                                      items: _data
+                                          ?.map<DropdownMenuItem<String>>(
+                                              (data) {
+                                        return DropdownMenuItem<String>(
+                                          value: data["kode_sampah"],
+                                          child: Text(data["jenis_sampah"]),
+                                        );
+                                      }).toList(),
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -130,7 +131,7 @@ class _SetorSampahState extends State<SetorSampah> {
                                       ),
                                       style: TextStyle(
                                         fontSize: 16.0,
-                                        color: Colors.green,
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ),
                                   ),
@@ -163,14 +164,27 @@ class _SetorSampahState extends State<SetorSampah> {
                                           dropdownValueBarang = newValue;
                                         });
                                       },
-                                      items: _data?["JenisBarangs"]
-                                          .map<DropdownMenuItem<String>>(
-                                              (data) {
-                                        return DropdownMenuItem<String>(
-                                          value: data["kode_barang"],
-                                          child: Text(data["jenis_barang"]),
-                                        );
-                                      }).toList(),
+                                      items: _data?.expand<
+                                              DropdownMenuItem<String>>(
+                                            (data) {
+                                              var jenisBarangs =
+                                                  data['JenisBarangs']
+                                                      as List<dynamic>;
+                                              return jenisBarangs.map<
+                                                  DropdownMenuItem<String>>(
+                                                (item) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: item["kode_barang"],
+                                                    child: Text(
+                                                        item["jenis_barang"]),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          )?.toList() ??
+                                          [],
+                                      
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -194,7 +208,7 @@ class _SetorSampahState extends State<SetorSampah> {
                                       ),
                                       style: TextStyle(
                                         fontSize: 16.0,
-                                        color: Colors.green,
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ),
                                   ),
@@ -203,8 +217,8 @@ class _SetorSampahState extends State<SetorSampah> {
                             ),
                             fieldText(
                                 size, 'Berat (KG)', '', true, beratController),
-                            fieldText(
-                                size, 'Tanggal Setor', '', true, tglController),
+                            // fieldText(
+                            //     size, 'Tanggal Setor', '', true, tglController),
                             fieldText(size, 'Catatan Tambahan', '', true,
                                 catatanController),
                           ],
@@ -226,8 +240,17 @@ class _SetorSampahState extends State<SetorSampah> {
                           berat: int.parse(beratController.text),
                           catatan: catatanController.text,
                           kodeNasabah: kodeNasabahController.text);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return BerandaPenimbang();
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     }),
-                    buttom(size, 'BATAL', Color(0xFFDD3737), () {})
                   ],
                 ),
               ),
