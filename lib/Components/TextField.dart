@@ -53,7 +53,7 @@ Padding fieldText(Size size, ttl, lbl, e ,ctrl) {
   );
 }
 
-Padding fieldText1(Size size, ttl,  e, txtController) {
+Padding fieldText1(Size size, ttl,  e, txtController, key) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 19),
     child: Column(
@@ -74,6 +74,7 @@ Padding fieldText1(Size size, ttl,  e, txtController) {
         Container(
           width: size.width * 0.75,
           child: TextField(
+            keyboardType: key,
             controller: txtController,
             enabled: e,
             decoration: InputDecoration(
@@ -106,7 +107,7 @@ Padding fieldText1(Size size, ttl,  e, txtController) {
   );
 }
 
-Padding fieldText2(Size size, ttl, e, txtController) {
+Padding fieldText2(Size size, ttl, e, txtController, key) {
   return Padding(
     padding: const EdgeInsets.only(left: 25, bottom: 19),
     //padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
@@ -130,6 +131,7 @@ Padding fieldText2(Size size, ttl, e, txtController) {
           height: 50,
           child: TextField(
             controller: txtController,
+            keyboardType: key,
             enabled: e,
             decoration: InputDecoration(
               border: UnderlineInputBorder(

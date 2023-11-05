@@ -1,24 +1,21 @@
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
-import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
+
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
-import 'package:banksampah_application/Pages/SuperAdmin/Kas/Kas.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/Models/SuperAdminModels.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../../Data/curentFormat.dart';
 import '../Login/login.dart';
 import 'Controllers/user_controller.dart';
+import 'Laporan/LaporanSemuaScreen.dart';
 import 'ListAdmin.dart';
 import 'ListNasabah.dart';
 import 'ListPenimbang.dart';
 import 'PenarikanDana/PenarikanDanaAdmin.dart';
 import 'SusutSampah/SusutSampah.dart';
-import 'TabBar/Tabbarscreen.dart';
 import 'Tambah/RegisterAdmin.dart';
 import 'Tambah/SampahAdmin.dart';
 
@@ -46,6 +43,8 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
     );
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -59,27 +58,25 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder<SuperAdmin?>(
+              FutureBuilder<List<dynamic>>(
                 future: UsersSuperAdminController().getUser(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else {
                     final superAdmin = snapshot.data!;
-                    final kodeSuperAdmin = superAdmin.row[0].kodeSuperAdmin;
-                    final namaSuperAdmin = superAdmin.row[0].namaSuperAdmin;
+                    final kodeSuperAdmin = superAdmin[0]['kode_super_admin'];
+                    final namaSuperAdmin = superAdmin[0]['nama_super_admin'];
                     final totalsampah =
-                        superAdmin.row[0].detailSampahSuperAdmins![0].berat;
-                    final sampah_hariinni =
-                        superAdmin.row[0].detailSampahSuperAdmins![0].berat;
+                        superAdmin[0]['DetailSampahSuperAdmins'][0]['berat'];
                     final saldo =
-                        superAdmin.row[0].detailSampahSuperAdmins![0].saldo;
+                         superAdmin[0]['DetailSampahSuperAdmins'][0]['saldo'];
                     return PoinCard2(
                       size,
                       'Hi, $namaSuperAdmin',
                       'Kode Super Admin : ${kodeSuperAdmin}',
                       '$totalsampah Kg',
-                      saldo.toString(),
+                      CurrencyFormat.convertToIdr(saldo, 0),
                     );
                   }
                 },
@@ -258,12 +255,12 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 20),
                       child: InkWell(
-                        onTap: (){
-                                    Navigator.push(
+                        onTap: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return TebBarScreen();
+                                return LaporansemuaScreen();
                               },
                             ),
                           ).then((value) {

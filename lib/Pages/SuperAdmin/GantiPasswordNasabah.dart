@@ -1,10 +1,9 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListNasabah.dart';
 
 class GantiPasswordNasabahScreen extends StatefulWidget {
   final String kode_reg;
@@ -14,10 +13,12 @@ class GantiPasswordNasabahScreen extends StatefulWidget {
   });
 
   @override
-  State<GantiPasswordNasabahScreen> createState() => _GantiPasswordNasabahScreenState();
+  State<GantiPasswordNasabahScreen> createState() =>
+      _GantiPasswordNasabahScreenState();
 }
 
-class _GantiPasswordNasabahScreenState extends State<GantiPasswordNasabahScreen> {
+class _GantiPasswordNasabahScreenState
+    extends State<GantiPasswordNasabahScreen> {
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -25,6 +26,7 @@ class _GantiPasswordNasabahScreenState extends State<GantiPasswordNasabahScreen>
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -35,7 +37,7 @@ class _GantiPasswordNasabahScreenState extends State<GantiPasswordNasabahScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Ganti Password'),
+            appbar3(context, size, 'Ganti Password',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -62,18 +64,31 @@ class _GantiPasswordNasabahScreenState extends State<GantiPasswordNasabahScreen>
                         padding: const EdgeInsets.only(top: 53),
                         child: Column(
                           children: [
-                            fieldText1(
-                                size, 'Ganti Password', true, passwordController),
+                            fieldText1(size, 'Ganti Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().gantiPasswordNasabah(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UsersSuperAdminController().gantiPasswordNasabah(
                           password: passwordController.text,
                           kodeReg: widget.kode_reg);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListNasabahSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

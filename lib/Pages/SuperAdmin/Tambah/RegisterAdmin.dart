@@ -1,9 +1,9 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
+import '../Beranda.dart';
 import '../Controllers/user_controller.dart';
 
 class TambahAdminScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _TambahAdminScreenState extends State<TambahAdminScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Admin'),
+            appbar3(context, size, 'Register Admin',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -57,38 +57,54 @@ class _TambahAdminScreenState extends State<TambahAdminScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Nama Admin Bank Sampah', true,
-                                namaAdminController),
+                                namaAdminController, TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', true, rwController),
+                                  child: fieldText2(size, 'RW', true,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController),
-                            fieldText1(
-                                size, 'Password', true, passwordController),
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
+                            fieldText1(size, 'Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
-                    continer('REGISTER', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().registerAdmin(
-                          nama_admin: namaAdminController.text,
-                          rw: rwController.text,
-                          rt: rtController.text,
-                          no_telp: noTelpController.text,
-                          password: passwordController.text);
-                      Navigator.pop(context);
-
-                    }),
-                    //continer('BATAL', Color(0xFFDD3737))
+                    continer(
+                      'REGISTER',
+                      Color(0xFF4CAF50),
+                      () async {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                        await UsersSuperAdminController().registerAdmin(
+                            nama_admin: namaAdminController.text,
+                            rw: rwController.text,
+                            rt: rtController.text,
+                            no_telp: noTelpController.text,
+                            password: passwordController.text);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return BerandaSuperAdmin();
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

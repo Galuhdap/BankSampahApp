@@ -21,7 +21,7 @@ class _SelectJualState extends State<SelectJual> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 40, left: 10, bottom: 20),
-            child: appbar3(context, size, 'Jaul Sampah'),
+            child: appbar3(context, size, 'Jaul Sampah',(){}),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),

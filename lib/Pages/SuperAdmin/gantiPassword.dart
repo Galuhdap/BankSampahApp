@@ -1,10 +1,9 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListAdmin.dart';
 
 class GantiPasswordScreen extends StatefulWidget {
   final String kode_reg;
@@ -25,6 +24,7 @@ class _GantiPasswordScreenState extends State<GantiPasswordScreen> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -35,7 +35,7 @@ class _GantiPasswordScreenState extends State<GantiPasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Ganti Password'),
+            appbar3(context, size, 'Ganti Password',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -62,18 +62,31 @@ class _GantiPasswordScreenState extends State<GantiPasswordScreen> {
                         padding: const EdgeInsets.only(top: 53),
                         child: Column(
                           children: [
-                            fieldText1(
-                                size, 'Ganti Password', true, passwordController),
+                            fieldText1(size, 'Ganti Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().gantiPassword(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UsersSuperAdminController().gantiPassword(
                           password: passwordController.text,
                           kodeReg: widget.kode_reg);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListAdminSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

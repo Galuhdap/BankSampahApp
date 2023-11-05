@@ -1,10 +1,9 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListAdmin.dart';
 
 class EditAdminScreen extends StatefulWidget {
   final String kode_admin;
@@ -51,7 +50,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Edit BS'),
+            appbar3(context, size, 'Edit BS',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -79,34 +78,47 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Nama Admin Bank Sampah', true,
-                                namaAdminController),
+                                namaAdminController, TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', false, rwController),
+                                      size, 'RW', false, rwController, TextInputType.number),
                                 ),
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                      size, 'RT', true, rtController, TextInputType.number),
                                 ),
                               ],
                             ),
                             fieldText1(
-                                size, 'No telepon', true, noTelpController),
+                                size, 'No telepon', true, noTelpController, TextInputType.phone),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().updateAdmin(
+                      showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                     await UsersSuperAdminController().updateAdmin(
                           nama_admin: namaAdminController.text,
                           rw: rwController.text,
                           rt: rtController.text,
                           no_telp: noTelpController.text,
                           kodeAdmin: widget.kode_admin);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return ListAdminSuperAdminScreen();
+                            },
+                          ),
+                        );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

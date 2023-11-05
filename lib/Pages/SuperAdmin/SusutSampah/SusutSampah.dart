@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../Components/CardRiwayat.dart';
 import '../../../Data/curentFormat.dart';
+import '../Beranda.dart';
 import '../Controllers/sampahController.dart';
 
 class SusutSampahScreen extends StatefulWidget {
@@ -54,7 +55,21 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
                 ),
                 child: Stack(
                   children: [
-                    appbar3(context, size, 'Susut Sampah'),
+                    appbar5(
+                      context,
+                      size,
+                      'Susut Sampah',
+                      () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return BerandaSuperAdmin();
+                            },
+                          ),
+                        );
+                      },
+                    ),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 90, left: 30, right: 30),
@@ -226,9 +241,11 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
                           return transactionCard2(
                               filteredData[index]["kode_susut_induk"],
                               filteredData[index]["nama_pembeli"].toString(),
-                              filteredData[index]["berat"].toString(),
-                              filteredData[index]["harga"].toString(),
-                              filteredData[index]["total"].toString(),
+                              '${filteredData[index]["berat"]} Kg',
+                              CurrencyFormat.convertToIdr(
+                                  filteredData[index]["harga"], 0),
+                              CurrencyFormat.convertToIdr(
+                                  filteredData[index]["total"], 0),
                               () async {},
                               size);
                         },

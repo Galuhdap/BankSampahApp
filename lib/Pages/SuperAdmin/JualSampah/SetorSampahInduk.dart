@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
+import '../../Admin/JualSampah/SelectJual.dart';
 import '../Controllers/sampahController.dart';
 
 class SetorSampahInduk extends StatefulWidget {
@@ -48,7 +49,7 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Penjualan Sampah Bank Induk'),
+            appbar3(context, size, 'Penjualan Sampah Bank Induk',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -228,6 +229,13 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
                       ),
                     ),
                     buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50), () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
                       await SampahSuperAdminController().setorSampahSuperAdmin(
                           kodeSampah: dropdownValue.toString(),
                           kodeBarang: dropdownValueBarang.toString(),
@@ -235,7 +243,14 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
                           harga: int.parse(hargaController.text),
                           catatan: catatanController.text,
                           nama_pembeli: namaPembeliController.text);
-                          Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return SelectJual();
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ),

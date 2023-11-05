@@ -1,24 +1,22 @@
-import 'package:banksampah_application/Pages/Admin/Models/nasabah_model.dart';
+
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Controllers/sampahController.dart';
 import 'Tambah/BiayaAdminEdit.dart';
-import 'Tambah/SampahBarangEdit.dart';
+
 
 class ListBiayaAdminScreen extends StatefulWidget {
   const ListBiayaAdminScreen({super.key});
 
   @override
-  State<ListBiayaAdminScreen> createState() =>
-      _ListBiayaAdminScreenState();
+  State<ListBiayaAdminScreen> createState() => _ListBiayaAdminScreenState();
 }
 
-class _ListBiayaAdminScreenState
-    extends State<ListBiayaAdminScreen> {
+class _ListBiayaAdminScreenState extends State<ListBiayaAdminScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
 
@@ -35,7 +33,7 @@ class _ListBiayaAdminScreenState
     return Scaffold(
       body: Column(
         children: [
-          appbar3(context, size, 'List Biaya Admin'),
+          appbar3(context, size, 'List Biaya Admin',(){}),
           FutureBuilder<List<dynamic>>(
             future: _futureData,
             builder: (context, snapshot) {
@@ -63,16 +61,17 @@ class _ListBiayaAdminScreenState
                         return listNasabahSampah(
                             size,
                             snapshot.data![index]["kode_biayaAdmin"].toString(),
-                            snapshot.data![index]["harga"].toString(),
-                             (value) {
+                            CurrencyFormat.convertToIdr(
+                                snapshot.data![index]["harga"], 0), (value) {
                           if (value == 'edit') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (builde) {
                                   return BiayaAdminEditScreen(
-                                  kode_admin: snapshot.data![index]["kode_biayaAdmin"],
-                                  harga:  snapshot.data![index]["harga"],
+                                    kode_admin: snapshot.data![index]
+                                        ["kode_biayaAdmin"],
+                                    harga: snapshot.data![index]["harga"],
                                   );
                                 },
                               ),
@@ -100,8 +99,7 @@ class _ListBiayaAdminScreenState
     );
   }
 
-  Padding listNasabahSampah(
-      Size size, kode, harga1,  edit, hapus) {
+  Padding listNasabahSampah(Size size, kode, harga1, edit, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(
@@ -154,7 +152,6 @@ class _ListBiayaAdminScreenState
                       height: 0,
                     ),
                   ),
-                 
                   SizedBox(
                     height: size.height * 0.005,
                   ),
@@ -184,7 +181,6 @@ class _ListBiayaAdminScreenState
                     ),
                   ),
                 ),
-                
               ],
               child: Icon(
                 Icons.more_vert,

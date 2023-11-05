@@ -47,7 +47,7 @@ class _TambahNasabahState extends State<TambahNasabah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Nasabah'),
+            appbar3(context, size, 'Register Nasabah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -77,25 +77,25 @@ class _TambahNasabahState extends State<TambahNasabah> {
                             // fieldText1(
                             //     size, 'Kode Nasabah', true),
                             fieldText1(size, 'Nama Nasabah', true,
-                                namaNasabahController),
-                            fieldText1(size, 'Alamat', true, alamatController),
+                                namaNasabahController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', false, rwController),
+                                      size, 'RW', false, rwController, TextInputType.number),
                                 ),
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                      size, 'RT', true, rtController, TextInputType.number),
                                 ),
                               ],
                             ),
                             fieldText1(
-                                size, 'No telepon', true, noTelpController),
-                            fieldText1(size, 'PIN', true, pinController),
+                                size, 'No telepon', true, noTelpController, TextInputType.phone),
+                            fieldText1(size, 'PIN', true, pinController, TextInputType.name),
                             fieldText1(
-                                size, 'Password', true, passwordController),
+                                size, 'Password', true, passwordController, TextInputType.name),
                           ],
                         ),
                       ),

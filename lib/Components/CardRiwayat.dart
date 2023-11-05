@@ -1,13 +1,115 @@
 import 'package:flutter/material.dart';
 
-Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
+Padding cardRiwayat(Size size, clr1, ttl,status, date, number, clr2 , ontp) {
   return Padding(
-    padding: const EdgeInsets.only(top: 7),
+    padding: const EdgeInsets.only(top: 10),
+    child: InkWell(
+      onTap: ontp,
+      child: Stack(
+        children: [
+          Container(
+            width: size.width * 0.9,
+            height: 68,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x19000000),
+                  blurRadius: 17,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                      decoration: ShapeDecoration(
+                        color: clr1,
+                        shape: OvalBorder(),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${number}',
+                        style: TextStyle(
+                          color: clr2,
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 50,
+            top: 10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${ttl}',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  '$status',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  '$date',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Padding cardRiwayatSampah(Size size, clr1, ttl,status, date, number, clr2) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 10),
     child: Stack(
       children: [
         Container(
           width: size.width * 0.9,
-          height: 58,
+          height: 68,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -59,7 +161,7 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
         ),
         Positioned(
           left: 50,
-          top: 18,
+          top: 10,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +176,15 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
                 ),
               ),
               Text(
+                '$status Kg',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 13,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Text(
                 '$date',
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -82,6 +193,7 @@ Padding cardRiwayat(Size size, clr1, ttl, date, number, clr2) {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+             
             ],
           ),
         ),

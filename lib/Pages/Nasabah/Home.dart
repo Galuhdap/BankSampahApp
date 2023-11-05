@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
-import '../../Components/CardRiwayat.dart';
-import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../../Data/curentFormat.dart';
 import '../Login/login.dart';
 import 'Models/NasabahModel.dart';
 import 'Statistic.dart';
@@ -61,34 +60,29 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder<NasabahModel?>(
-                future: UserControllerNasabah().getUser(),
+              FutureBuilder<List<dynamic>>(
+                future: UserControllerNasabah().getUsers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    final nasabah = snapshot.data!;
-                    final namaNasabah = nasabah.row[0].namaNasabah;
-                    final kodeNasabah = nasabah.row[0].kodeNasabah;
+                   final List<dynamic> nasabah = snapshot.data!;
+                    final namaNasabah = nasabah[0]['nama_nasabah'];
+                    final kodeNasabah = nasabah[0]['kode_nasabah'];
                     final totalSampah =
-                        nasabah.row[0].detailSampahNasabahs![0].berat;
-                    final sampahharini =
-                        nasabah.row[0].detailSampahNasabahs![0].beratSekarang;
+                        nasabah[0]['DetailSampahNasabahs'][0]['berat'];
                     final saldoHariini =
-                        nasabah.row[0].detailSampahNasabahs![0].saldo;
+                        nasabah[0]['DetailSampahNasabahs'][0]['saldo'];
 
-                    return PoinCard(
+                    return PoinCard2(
                       size,
                       'Hi, $namaNasabah',
                       'Kode Nasabah : $kodeNasabah',
                       '$totalSampah Kg',
-                      '$sampahharini Kg',
-                      '$saldoHariini',
-                      Image.asset(
-                        'assets/img/refresh.png',
-                        width: 21,
-                        height: 21,
-                      ),
+                      CurrencyFormat.convertToIdr(
+                               saldoHariini,
+                                0)
+                     
                     );
                   }
                 },

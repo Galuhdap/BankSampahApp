@@ -27,7 +27,7 @@ class UserControllerAdmin {
     return kodeReg;
   }
 
-  Future<Admin?> getUser() async {
+  Future<List<dynamic>> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? kode_reg = await getKodeReg();
 
@@ -46,20 +46,55 @@ class UserControllerAdmin {
       // await prefs.setString('kodePenimbang', kode_penimbang);
       await prefs.setString('kodeAdmin', kode_admin);
       await prefs.setString('rw', rw);
+      final responseData = response.data['payload']['row'];
+      print('Ini Response Data : $responseData');
+    return responseData;
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = response.data["payload"];
-        print('Ini data : $jsonData');
-        return Admin.fromJson(jsonData);
-      } else {
-        // Handle error here, e.g., throw an exception or return null
-        return null;
-      }
+      // if (response.statusCode == 200) {
+      //   final Map<String, dynamic> jsonData = response.data["payload"];
+      //   return Admin.fromJson(jsonData);
+      // } else {
+      //   // Handle error here, e.g., throw an exception or return null
+      //   return null;
+      // }
     } catch (e) {
       // Handle exceptions here
-      return null;
+      return [];
     }
   }
+  // Future<Admin?> getUser() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? kode_reg = await getKodeReg();
+
+  //   final datas = {
+  //     'kode_user': kode_reg,
+  //   };
+  //   try {
+  //     final response =
+  //         await Dio().get('http://' + _baseUrl + '/adminbyid', data: datas);
+  //     var data = response.data["payload"]["row"][0];
+
+  //     // var kode_penimbang = data["kode_penimbang"];
+  //     var kode_admin = data["kode_admin"];
+  //     var rw = data["rw"];
+
+  //     // await prefs.setString('kodePenimbang', kode_penimbang);
+  //     await prefs.setString('kodeAdmin', kode_admin);
+  //     await prefs.setString('rw', rw);
+
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> jsonData = response.data["payload"];
+  //       print('ini Dari APi : $jsonData');
+  //       return Admin.fromJson(jsonData);
+  //     } else {
+  //       // Handle error here, e.g., throw an exception or return null
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     // Handle exceptions here
+  //     return null;
+  //   }
+  // }
 
   Future<List> getUsers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -4,6 +4,7 @@ import 'package:d_chart/ordinal/pie.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../../Components/AppBar.dart';
 import '../../../Components/CardRiwayat.dart';
 import '../../../Data/curentFormat.dart';
 import '../Controllers/laporanController.dart';
@@ -19,53 +20,34 @@ class LaporansemuaScreen extends StatefulWidget {
 }
 
 class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
-  int _penj = 0;
-  int saldos = 0;
-  List pembelian = [];
-  int pengeluaran = 0;
-  List penjualan = [];
-  List peng = [];
-
-  List hpp = [];
-  List prTer = [];
-  List produks = [];
+  Future<int>? _futureDataNasabah;
+  Future<int>? _futureDataAdmin;
+  Future<int>? _futureDataPenimbang;
 
   int totals = 0;
   int totalSampahInduk = 0;
   int totalSampahMasuk = 0;
+  int saldoMasuk = 0;
+  int saldoKeluar = 0;
 
   Future fetchData() async {
-    // int saldoss = await saldoController.allKas();
-    // List pembelians = await pembelianController.all();
-    // int pengeluarans = await pengeluaranController.all();
-    // List pengeluarans2 = await pengeluaranController.allPeng();
-    // List penjualans = await transaksiController.all();
-    // int penj = await transaksiController.totals();
-    // List totalHpp = await produkController.totalHpp();
-    // List prTers = await transaksiController.totalProd();
-    // List produk = await transaksiController.allProd();
-    // totals = await transaksiController.totalSemua();
+    saldoMasuk = await LaporanSuperAdminController().getsaldoMasuk();
+    saldoKeluar = await LaporanSuperAdminController().getsaldoKeluar();
     totals = await LaporanSuperAdminController().totalSamapah();
-    totalSampahInduk = await LaporanSuperAdminController().getpenjualanSampahK3();
+    totalSampahInduk =
+        await LaporanSuperAdminController().getpenjualanSampahK3();
     totalSampahMasuk = await LaporanSuperAdminController().getsampahMasuk();
 
-    setState(() {
-      // saldos = saldoss;
-      // pembelian = pembelians;
-      // pengeluaran = pengeluarans;
-      // penjualan = penjualans;
-      // _penj = penj;
-      // hpp = totalHpp;
-      // prTer = prTers;
-      // produks = produk;
-      // peng = pengeluarans2;
-    });
+    setState(() {});
   }
 
   @override
   void initState() {
     // TODO: implement initState
     fetchData();
+    _futureDataNasabah = LaporanSuperAdminController().totalNasabah();
+    _futureDataPenimbang = LaporanSuperAdminController().totalPenimbang();
+    _futureDataAdmin = LaporanSuperAdminController().totalAdmin();
     super.initState();
   }
 
@@ -75,11 +57,11 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
     List<OrdinalData> ordinalDataList = [
       OrdinalData(
           domain: 'Pengeluaran',
-          measure: pengeluaran,
+          measure: saldoKeluar,
           color: Color(0xFFE91616)),
       OrdinalData(
         domain: 'Pemasukan',
-        measure: _penj,
+        measure: saldoMasuk,
         color: Color(0xFF2196F3),
       ),
     ];
@@ -87,13 +69,11 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
     return Scaffold(
       body: Container(
         width: size.width,
-        height: size.height * 0.9999,
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 width: size.width,
-                height: 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -106,49 +86,50 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  padding: const EdgeInsets.only(right: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Nominal Keseluruhan',
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            ),
-                            FutureBuilder<SuperAdmin?>(
-                              future: UsersSuperAdminController().getUser(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  final superAdmin = snapshot.data!;
-                                  final saldo = superAdmin
-                                      .row[0].detailSampahSuperAdmins![0].saldo;
-                                  return Text(
-                                    CurrencyFormat.convertToIdr(saldo, 0),
-                                    style: TextStyle(
-                                      color: Color(0xFF333333),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      height: 0,
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                            appbar3(context, size, 'Laporan',(){}),
+                            // Text(
+                            //   'Nominal Keseluruhan',
+                            //   style: TextStyle(
+                            //     color: Color(0xFF333333),
+                            //     fontSize: 15,
+                            //     fontFamily: 'Poppins',
+                            //     fontWeight: FontWeight.w400,
+                            //     height: 0,
+                            //   ),
+                            // ),
+                            // FutureBuilder<SuperAdmin?>(
+                            //   future: UsersSuperAdminController().getUser(),
+                            //   builder: (context, snapshot) {
+                            //     if (snapshot.connectionState ==
+                            //         ConnectionState.waiting) {
+                            //       return Center(
+                            //           child: CircularProgressIndicator());
+                            //     } else {
+                            //       final superAdmin = snapshot.data!;
+                            //       final saldo = superAdmin
+                            //           .row[0].detailSampahSuperAdmins![0].saldo;
+                            //       return Text(
+                            //         CurrencyFormat.convertToIdr(saldo, 0),
+                            //         style: TextStyle(
+                            //           color: Color(0xFF333333),
+                            //           fontSize: 20,
+                            //           fontFamily: 'Poppins',
+                            //           fontWeight: FontWeight.w600,
+                            //           height: 0,
+                            //         ),
+                            //       );
+                            //     }
+                            //   },
+                            // ),
                           ],
                         ),
                       ),
@@ -160,7 +141,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: SizedBox(
                   width: size.width,
-                  height: size.height * 0.7,
+                  height: size.height * 0.89,
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     padding: EdgeInsets.only(top: 10),
@@ -308,7 +289,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                     ConnectionState.waiting) {
                                                   return CircularProgressIndicator();
                                                 } else {
-                                                  print(snapshot.data ?? 0);
+                                                  
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -396,7 +377,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                     ConnectionState.waiting) {
                                                   return CircularProgressIndicator();
                                                 } else {
-                                                  print(snapshot.data ?? 0);
+                                                  
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -431,7 +412,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                             ),
                           ),
                           FutureBuilder<SuperAdmin?>(
-                            future: UsersSuperAdminController().getUser(),
+                            future: UsersSuperAdminController().getUserss(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -457,7 +438,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                print(snapshot.data ?? 0);
+                                
                                 return contText(
                                   size,
                                   "Total Penjualan Sampah Ke Pihak Luar",
@@ -475,7 +456,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                print(snapshot.data ?? 0);
+                                
                                 return contText(
                                   size,
                                   "Total Sampah Masuk",
@@ -492,10 +473,81 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                print(snapshot.data ?? 0);
+                                
                                 return contText(
                                   size,
                                   "Total Sampah",
+                                  '${snapshot.data ?? 0} Kg',
+                                );
+                              }
+                            },
+                          ),
+                          FutureBuilder<int>(
+                            future: _futureDataNasabah,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else {
+                                print(snapshot.data);
+                                return contText(size, "Nasabah",
+                                    '${snapshot.data ?? 0} User');
+                              }
+                            },
+                          ),
+                          FutureBuilder<int>(
+                            future: _futureDataPenimbang,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else {
+                                return contText(size, "Penimbang",
+                                    '${snapshot.data ?? 0} User');
+                              }
+                            },
+                          ),
+                          FutureBuilder<int>(
+                            future: _futureDataAdmin,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else {
+                                return contText(size, "Admin Bank Sampah",
+                                    '${snapshot.data ?? 0} User');
+                              }
+                            },
+                          ),
+                          FutureBuilder<int>(
+                            future:
+                                LaporanSuperAdminController().totalSampahBS(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else {
+                                
+                                return contText(
+                                  size,
+                                  "Total Sampah Admin Bank Sampah",
+                                  '${snapshot.data ?? 0} Kg',
+                                );
+                              }
+                            },
+                          ),
+                          FutureBuilder<int>(
+                            future: LaporanSuperAdminController()
+                                .totalSampahInduk(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else {
+                                
+                                return contText(
+                                  size,
+                                  "Total Sampah Bank Sampah Induk",
                                   '${snapshot.data ?? 0} Kg',
                                 );
                               }

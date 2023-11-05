@@ -30,7 +30,7 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penimbang'),
+          appbar3(context, size, 'List Penimbang',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

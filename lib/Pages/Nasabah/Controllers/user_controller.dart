@@ -52,6 +52,35 @@ class UserControllerNasabah {
     }
   }
 
+  Future<List<dynamic>> getUsers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? kode_reg = await getKodeReg();
+
+    final datas = {
+      'kode_user': kode_reg,
+    };
+    try {
+      final response =
+          await Dio().get('http://' + _baseUrl + '/nasabahByid', data: datas);
+      var data = response.data["payload"]["row"][0];
+      var kode_nasabah = data["kode_nasabah"];
+      var kode_super = data["kode_super_admin"];
+      var kode_admin = data["kode_admin"];
+      var pin = data["pin"];
+      
+      await prefs.setString('kodeNasabah', kode_nasabah);
+      await prefs.setString('kodeAdmin', kode_admin);
+      await prefs.setString('kodeSuperAdmin', kode_super);
+      await prefs.setString('pin', pin);
+      final responseData = response.data['payload']['row'];
+      print('Ini Response Data : $responseData');
+      return responseData;
+    } catch (e) {
+      // Handle exceptions here
+      return [];
+    }
+  }
+
   Future penarikanSaldo(
       {required int jumlah_penarikan,
       required String kode_invoice,

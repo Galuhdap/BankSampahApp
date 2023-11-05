@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
 import '../Controllers/sampahController.dart';
+import 'SusutSampah.dart';
 
 class SusutSampahAddScreen extends StatefulWidget {
   const SusutSampahAddScreen({super.key});
@@ -48,7 +49,7 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Susut Sampah'),
+            appbar3(context, size, 'Susut Sampah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -228,6 +229,13 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
                       ),
                     ),
                     buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50), () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
                       await SampahSuperAdminController().susutSampahSuperAdmin(
                           kodeSampah: dropdownValue.toString(),
                           kodeBarang: dropdownValueBarang.toString(),
@@ -235,7 +243,14 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
                           harga: int.parse(hargaController.text),
                           catatan: catatanController.text,
                           nama_pembeli: namaPembeliController.text);
-                          Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return SusutSampahScreen();
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ),

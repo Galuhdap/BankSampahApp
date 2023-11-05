@@ -1,10 +1,10 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListPenimbang.dart';
 
 class GantiPasswordPenimbangScreen extends StatefulWidget {
   final String kode_reg;
@@ -14,10 +14,12 @@ class GantiPasswordPenimbangScreen extends StatefulWidget {
   });
 
   @override
-  State<GantiPasswordPenimbangScreen> createState() => _GantiPasswordPenimbangScreenState();
+  State<GantiPasswordPenimbangScreen> createState() =>
+      _GantiPasswordPenimbangScreenState();
 }
 
-class _GantiPasswordPenimbangScreenState extends State<GantiPasswordPenimbangScreen> {
+class _GantiPasswordPenimbangScreenState
+    extends State<GantiPasswordPenimbangScreen> {
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -25,6 +27,7 @@ class _GantiPasswordPenimbangScreenState extends State<GantiPasswordPenimbangScr
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -35,7 +38,7 @@ class _GantiPasswordPenimbangScreenState extends State<GantiPasswordPenimbangScr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Ganti Password'),
+            appbar3(context, size, 'Ganti Password',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -62,18 +65,31 @@ class _GantiPasswordPenimbangScreenState extends State<GantiPasswordPenimbangScr
                         padding: const EdgeInsets.only(top: 53),
                         child: Column(
                           children: [
-                            fieldText1(
-                                size, 'Ganti Password', true, passwordController),
+                            fieldText1(size, 'Ganti Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().gantiPasswordPengepul(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UsersSuperAdminController().gantiPasswordPengepul(
                           password: passwordController.text,
                           kodeReg: widget.kode_reg);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListPenimbangSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

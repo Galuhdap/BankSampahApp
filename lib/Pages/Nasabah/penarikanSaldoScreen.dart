@@ -38,7 +38,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
 
   var data;
   var cek;
-  String? _pin ;
+  String? _pin;
   Future _data() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? pin = await prefs.getString('pin');
@@ -92,7 +92,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: 10),
-                    child: appbar3(context, size, 'Penarikan Saldo'),
+                    child: appbar3(context, size, 'Penarikan Saldo',(){}),
                   ),
                   Padding(
                     padding:
@@ -152,16 +152,16 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                             ),
                           ),
                         ),
-                        FutureBuilder<NasabahModel?>(
-                          future: UserControllerNasabah().getUser(),
+                        FutureBuilder<List<dynamic>>(
+                          future: UserControllerNasabah().getUsers(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
                             } else {
-                              final nasabah = snapshot.data!;
-                              final saldoHariini =
-                                  nasabah.row[0].detailSampahNasabahs![0].saldo;
+                              final List<dynamic> nasabah = snapshot.data!;
+                          final saldoHariini =
+                              nasabah[0]['DetailSampahNasabahs'][0]['saldo'];
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
@@ -187,7 +187,8 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                                       child: TextButton(
                                         style: TextButton.styleFrom(
                                           backgroundColor:
-                                              (saldoHariini >= 10000 && cek == 0)
+                                              (saldoHariini >= 10000 &&
+                                                      cek == 0)
                                                   ? Color(0xFF4CAF50)
                                                   : Colors.grey,
                                           shape: RoundedRectangleBorder(
@@ -290,6 +291,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                         );
                       }
                       final nasabah = snapshot.data!;
+
                       return Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Container(
@@ -300,22 +302,65 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                             padding: EdgeInsets.only(top: 10),
                             itemCount: nasabah.length,
                             itemBuilder: (BuildContext context, index) {
+                              print(snapshot.data![index]["createdAt"]);
+                              String statusText = "";
+                              if (snapshot.data![index]["status"] == false) {
+                                statusText = "Belum Dibayar";
+                              } else {
+                                statusText = "Sudah Dibayar";
+                              }
                               return cardRiwayat(
-                                size,
-                                Color.fromARGB(255, 0, 131, 20),
-                                snapshot.data![index]["nomor_invoice"]
-                                    .toString(),
-                                'Biaya Admin: ${snapshot.data![index]["BiayaAdmin"]["harga"]}',
-                                snapshot.data![index]["jumlah_penarikan"]
-                                    .toString(),
-                                Color.fromARGB(255, 0, 131, 20),
-                              );
+                                  size,
+                                  snapshot.data![index]["status"] == true
+                                      ? Color.fromARGB(255, 0, 131, 20)
+                                      : Colors.red,
+                                  snapshot.data![index]["nomor_invoice"]
+                                      .toString(),
+                                  statusText,
+                                  'Biaya Admin: ${CurrencyFormat.convertToIdr(snapshot.data![index]["BiayaAdmin"]["harga"], 0)}',
+                                  CurrencyFormat.convertToIdr(
+                                      snapshot.data![index]["jumlah_penarikan"],
+                                      0),
+                                  snapshot.data![index]["status"] == true
+                                      ? Color.fromARGB(255, 0, 131, 20)
+                                      : Colors.red, () {
+                                if (snapshot.data![index]["status"] == false) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (builde) {
+                                        return SuccesScreen(
+                                          kode_invoice: snapshot.data![index]
+                                              ["nomor_invoice"],
+                                          jumlah_penarikan: snapshot
+                                              .data![index]["jumlah_penarikan"],
+                                          biaya_admin: snapshot.data![index]
+                                              ["BiayaAdmin"]["harga"],
+                                              date: snapshot.data![index]
+                                              ["createdAt"].toString(),
+                                        );
+                                      },
+                                    ),
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
+                                  // DetailPenarikanSaldoScreen(
+                                  //   kode_invoice: filteredData[index]
+                                  //       ["nomor_invoice"],
+                                  //   jumlah_penarikan: filteredData[index]
+                                  //       ["jumlah_penarikan"],
+                                  //   kode_nasabah: filteredData[index]
+                                  //       ["kode_nasabah"],
+                                  //   kode_admin: filteredData[index]
+                                  //       ["kode_admin"],
+                                  // );
+                                }
+                              });
                             },
                           ),
                         ),
                       );
                     } else {
-                      print(snapshot.error);
                       return Center(
                         child: CircularProgressIndicator(
                           color: Colors.blue,
@@ -336,7 +381,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
       context: context,
       builder: (context) {
         final random = Random();
-        String invoice = 'KI';
+        String invoice = 'KI-';
 
         for (int i = 0; i < 5; i++) {
           invoice += random.nextInt(10).toString();
@@ -442,7 +487,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                                 }
                                 return null;
                               },
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.name,
                               controller: pinController,
                               style: TextStyle(
                                 fontSize: 13.0,
@@ -530,6 +575,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                                             kode_invoice: invoice,
                                             jumlah_penarikan: harga,
                                             biaya_admin: data,
+                                            date: DateTime.now().toString(),
                                           );
                                         },
                                       ),

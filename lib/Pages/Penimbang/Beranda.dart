@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../../Data/curentFormat.dart';
 import '../Login/login.dart';
 import 'List_Setor_Sampah.dart';
 import 'Models/PenimbangModel.dart';
@@ -66,28 +67,27 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder<Penimbang?>(
-                  future: userController.getUser(),
+              FutureBuilder<Map<String, dynamic>>(
+                  future: userController.getUsers(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else {
-                        final penimbang = snapshot.data!;
-                        final kodePenimbang = penimbang.row[0].kodePenimbang;
-                        final namaPenimbang = penimbang.row[0].namaPenimbang;
-                        final totalsampah = penimbang.sampah[0].berat;
-                        final sampah_hariinni =
-                            penimbang.sampah[0].beratSekarang;
-                        final saldohariini = penimbang.sampah[0].saldoSekarang;
-                        return PoinCard(
-                            size,
-                            'Hi, $namaPenimbang',
-                            'Kode Penimbang : ${kodePenimbang}',
-                            '$totalsampah Kg',
-                            '$sampah_hariinni Kg',
-                            '$saldohariini',
-                            Container());
+                        final Map<String, dynamic> penimbang = snapshot.data!;
+                        final kodePenimbang = penimbang['row'][0]['kode_penimbang'];
+                        final namaPenimbang = penimbang['row'][0]['nama_penimbang'];
+                        final totalsampah = penimbang['sampah'][0]['berat'];
+                        final saldo = penimbang['sampah'][0]['saldo'];
+                        return PoinCard2(
+                          size,
+                          'Hi,$namaPenimbang',
+                          'Kode Penimbang :${kodePenimbang}',
+                          totalsampah.toString(),
+                          CurrencyFormat.convertToIdr(
+                               saldo,
+                                0),
+                        );
                       }
                     }
                     return Center(

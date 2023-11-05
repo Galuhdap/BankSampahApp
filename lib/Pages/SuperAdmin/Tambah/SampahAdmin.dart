@@ -1,11 +1,7 @@
-import 'package:banksampah_application/Pages/Admin/Register/TambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/Register/tambahnasabah.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../../Components/AppBar.dart';
-import '../../../Components/Setting.dart';
+import '../Beranda.dart';
 import '../ListBiayaAdmin.dart';
 import '../ListSampah.dart';
 import 'SampahBarang.dart';
@@ -29,57 +25,74 @@ class _SampahSuperAdminScreenState extends State<SampahSuperAdminScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Kelola Sampah'),
+            appbar5(
+              context,
+              size,
+              'Kelola Sampah',
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builde) {
+                      return BerandaSuperAdmin();
+                    },
+                  ),
+                );
+              },
+            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Column(
                   children: [
-                    pilihanReg('assets/img/truck.png', 'Tambah Sampah Kering' , (){Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return SampahKeringScreen();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });}),
-                    pilihanReg('assets/img/truck.png', 'Tambah Barang',(){
+                    pilihanReg('assets/img/truck.png', 'Tambah Sampah Kering',
+                        () {
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return BarangSampahScreen();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return SampahKeringScreen();
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     }),
-                    pilihanReg('assets/img/truck.png', 'Biaya Admin',(){
+                    pilihanReg('assets/img/truck.png', 'Tambah Barang', () {
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return ListBiayaAdminScreen();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return BarangSampahScreen();
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     }),
-                    pilihanReg('assets/img/gram.png', 'List Sampah',(){
+                    pilihanReg('assets/img/truck.png', 'Biaya Admin', () {
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return ListSampahSuperAdminScreen();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListBiayaAdminScreen();
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
+                    }),
+                    pilihanReg('assets/img/gram.png', 'List Sampah', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListSampahSuperAdminScreen();
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     }),
                   ],
                 ),

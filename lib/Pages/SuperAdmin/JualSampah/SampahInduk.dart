@@ -47,7 +47,7 @@ class _SampahIndukScreenState extends State<SampahIndukScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 40, left: 10),
-                      child: appbar3(context, size, 'Sampah Admin'),
+                      child: appbar3(context, size, 'Sampah Admin',(){}),
                     ),
                     Padding(
                       padding:

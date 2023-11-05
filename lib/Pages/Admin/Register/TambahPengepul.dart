@@ -38,7 +38,7 @@ class _TambahPengepulState extends State<TambahPengepul> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Penimbang'),
+            appbar3(context, size, 'Register Penimbang',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -66,24 +66,24 @@ class _TambahPengepulState extends State<TambahPengepul> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Nama Penimbang', true,
-                                namaPengepulController),
-                            fieldText1(size, 'Alamat', true, alamatController),
+                                namaPengepulController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', false, rwController),
+                                      size, 'RW', false, rwController, TextInputType.number),
                                 ),
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                      size, 'RT', true, rtController,TextInputType.number),
                                 ),
                               ],
                             ),
                             fieldText1(
-                                size, 'No telepon', true, noTelpController),
+                                size, 'No telepon', true, noTelpController, TextInputType.phone),
                             fieldText1(
-                                size, 'Password', true, passwordController),
+                                size, 'Password', true, passwordController, TextInputType.name),
                           ],
                         ),
                       ),

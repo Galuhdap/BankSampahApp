@@ -1,11 +1,10 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import '../Controllers/sampahController.dart';
-import '../Controllers/user_controller.dart';
+
 
 class BiayaAdminEditScreen extends StatefulWidget {
     final String kode_admin;
@@ -37,7 +36,7 @@ class _BiayaAdminEditScreenState extends State<BiayaAdminEditScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tambah Sampah Kering'),
+            appbar3(context, size, 'Tambah Sampah Kering',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -65,9 +64,9 @@ class _BiayaAdminEditScreenState extends State<BiayaAdminEditScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Kode Biaya Admin', false,
-                                kodebiayaAdminController),
+                                kodebiayaAdminController, TextInputType.name),
                             fieldText1(size, 'Biaya', true,
-                                biayaAdminController),
+                                biayaAdminController, TextInputType.number),
                            
                           ],
                         ),

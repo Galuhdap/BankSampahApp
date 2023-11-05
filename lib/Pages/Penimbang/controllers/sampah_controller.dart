@@ -36,7 +36,7 @@ class SampahPenimbangController {
   Future setorSampah(
       {required String kodeSampah,
       required String kodeBarang,
-      required int berat,
+      required double berat,
       required String catatan,
       required String kodeNasabah}) async {
     try {
@@ -56,12 +56,33 @@ class SampahPenimbangController {
         "kode_admin": kodeAdmin,
         "kode_super_admin": kodeSuperAdmin,
       };
-      final _datas = await Dio().post('http://' + _baseUrl + '/setor/sampah', data: datas);
+ await Dio().post('http://' + _baseUrl + '/setor/sampah', data: datas);
 
-      print(_datas.data);
       
     } catch (e) {
       print(e);
+    }
+  }
+
+    Future deleteSetorSampah({
+    required final kodeSetor,
+    required final berat,
+    required final saldo,
+    required final kode_nasabah,
+    required final kode_admin,
+  }) async {
+    try {
+      final datas = {
+        "kodeSetor": kodeSetor,
+        "berat": berat,
+        "saldo": saldo,
+        "kode_nasabah": kode_nasabah,
+        "kode_admin": kode_admin
+      };
+      await Dio()
+          .get('http://' + _baseUrl + '/setor/sampah/hapus', data: datas);
+    } catch (e) {
+      return e;
     }
   }
 

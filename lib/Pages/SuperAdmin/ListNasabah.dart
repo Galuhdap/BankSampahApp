@@ -1,29 +1,27 @@
-import 'package:banksampah_application/Pages/Admin/Models/nasabah_model.dart';
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Controllers/sampahController.dart';
 import 'Controllers/user_controller.dart';
 import 'EditListNasabah.dart';
 import 'GantiPasswordNasabah.dart';
-import 'gantiPassword.dart';
-
 
 class ListNasabahSuperAdminScreen extends StatefulWidget {
   const ListNasabahSuperAdminScreen({super.key});
 
   @override
-  State<ListNasabahSuperAdminScreen> createState() => _ListNasabahSuperAdminScreenState();
+  State<ListNasabahSuperAdminScreen> createState() =>
+      _ListNasabahSuperAdminScreenState();
 }
 
-class _ListNasabahSuperAdminScreenState extends State<ListNasabahSuperAdminScreen> {
+class _ListNasabahSuperAdminScreenState
+    extends State<ListNasabahSuperAdminScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
 
-  String query ="";
+  String query = "";
 
   @override
   void initState() {
@@ -39,7 +37,7 @@ class _ListNasabahSuperAdminScreenState extends State<ListNasabahSuperAdminScree
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Nasabah'),
+          appbar3(context, size, 'List Nasabah',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -105,24 +103,29 @@ class _ListNasabahSuperAdminScreenState extends State<ListNasabahSuperAdminScree
                       itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
                         return listNasabahSampah(
-                          size,
-                          filteredData[index]["nama_nasabah"],
-                          filteredData[index]["kode_nasabah"],
-                          filteredData[index]["alamat"],
-                          filteredData[index]["rw"],
-                          filteredData[index]["rt"],
-                          filteredData[index]["DetailSampahNasabahs"][0]["saldo"],
-                         filteredData[index]["DetailSampahNasabahs"][0]["berat"],
-                         filteredData[index]["kode_user"],
-                         (value) {
+                            size,
+                            filteredData[index]["nama_nasabah"],
+                            filteredData[index]["kode_nasabah"],
+                            filteredData[index]["alamat"],
+                            filteredData[index]["rw"],
+                            filteredData[index]["rt"],
+                            CurrencyFormat.convertToIdr(
+                                filteredData[index]["DetailSampahNasabahs"][0]
+                                    ["saldo"],
+                                0),
+                            filteredData[index]["DetailSampahNasabahs"][0]
+                                ["berat"],
+                            filteredData[index]["kode_user"], (value) {
                           if (value == 'editAdmin') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (builde) {
                                   return EditNasabahScreen(
-                                    kode_nasabah: filteredData[index]["kode_nasabah"],
-                                    nama_nasabah: filteredData[index]["nama_nasabah"],
+                                    kode_nasabah: filteredData[index]
+                                        ["kode_nasabah"],
+                                    nama_nasabah: filteredData[index]
+                                        ["nama_nasabah"],
                                     alamat: filteredData[index]["alamat"],
                                     no_telp: filteredData[index]["no_telp"],
                                     rw: filteredData[index]["rw"],
@@ -152,11 +155,11 @@ class _ListNasabahSuperAdminScreenState extends State<ListNasabahSuperAdminScree
                           await UsersSuperAdminController().deleteNasabah(
                               kode_reg: filteredData[index]["kode_user"],
                               kode_nasabah: filteredData[index]["kode_nasabah"],
-                              kode_detail_sampah: filteredData[index]["DetailSampahNasabahs"][0]["kode_detail_sampah"]
-                              );
+                              kode_detail_sampah: filteredData[index]
+                                      ["DetailSampahNasabahs"][0]
+                                  ["kode_detail_sampah"]);
                           Navigator.pop(context);
-                        }
-                        );
+                        });
                       },
                     ),
                   ),
@@ -176,7 +179,8 @@ class _ListNasabahSuperAdminScreenState extends State<ListNasabahSuperAdminScree
     );
   }
 
-  Padding listNasabahSampah(Size size, ttl, kode, alamat, rw, rt, sampah, berat, reg, edit, hapus) {
+  Padding listNasabahSampah(
+      Size size, ttl, kode, alamat, rw, rt, sampah, berat, reg, edit, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(

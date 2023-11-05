@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Models/detailsampahnasabah.dart';
 
 class ListPenjualanSampahScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Sampah'),
+          appbar3(context, size, 'List Penjualan Sampah',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -83,7 +84,7 @@ class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
                     ),
                   );
                 }
-                 final List<dynamic> filteredData = snapshot.data!
+                final List<dynamic> filteredData = snapshot.data!
                     .where((item) => item["kode_susut_sampah_bs"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
@@ -101,11 +102,12 @@ class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
                         return listNasabahSampah(
                           size,
                           filteredData[index]["kode_susut_sampah_bs"],
+                          filteredData[index]["kode_super_admin"],
                           "",
                           "",
                           "",
-                          "",
-                          filteredData[index]["harga"],
+                          CurrencyFormat.convertToIdr(
+                              filteredData[index]["harga"], 0),
                           filteredData[index]["berat"],
                         );
                       },

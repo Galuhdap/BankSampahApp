@@ -20,7 +20,7 @@ class _PenjualanSampahPihakEksternalScreenState extends State<PenjualanSampahPih
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size , 'Penjualan Sampah Pihak Eksternal'),
+            appbar3(context, size , 'Penjualan Sampah Pihak Eksternal',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),

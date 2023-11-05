@@ -1,10 +1,9 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListPenimbang.dart';
 
 class EditPenimbangScreen extends StatefulWidget {
   final String kode_penimbang;
@@ -57,7 +56,7 @@ class _EditPenimbangScreenState extends State<EditPenimbangScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Edit Nasabah'),
+            appbar3(context, size, 'Edit Nasabah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -85,37 +84,50 @@ class _EditPenimbangScreenState extends State<EditPenimbangScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Nama Nasabah', true,
-                                namaPenimbangController),
-                            fieldText1(size, 'Alamat', true, alamatController),
+                                namaPenimbangController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController,
+                                TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', false, rwController),
+                                  child: fieldText2(size, 'RW', false,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController),
-                            
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().updatePenimbang(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UsersSuperAdminController().updatePenimbang(
                           nama_penimbang: namaPenimbangController.text,
                           alamat: alamatController.text,
                           rw: rwController.text,
                           rt: rtController.text,
                           no_telp: noTelpController.text,
                           kode_penimbang: widget.kode_penimbang);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListPenimbangSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

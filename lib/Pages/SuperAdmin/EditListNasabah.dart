@@ -1,15 +1,14 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import 'Controllers/user_controller.dart';
+import 'ListNasabah.dart';
 
 class EditNasabahScreen extends StatefulWidget {
   final String kode_nasabah;
   final String nama_nasabah;
-  final String no_telp;
+  final String no_telp; 
   final String alamat;
   final String rt;
   final String rw;
@@ -59,7 +58,7 @@ class _EditNasabahScreenState extends State<EditNasabahScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Edit Nasabah'),
+            appbar3(context, size, 'Edit Nasabah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -87,29 +86,38 @@ class _EditNasabahScreenState extends State<EditNasabahScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Nama Nasabah', true,
-                                namaNasabahController),
-                            fieldText1(size, 'Alamat', true, alamatController),
+                                namaNasabahController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController,
+                                TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', false, rwController),
+                                  child: fieldText2(size, 'RW', false,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController),
-                            fieldText1(size, 'PIN', true, pinController),
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
+                            fieldText1(size, 'PIN', true, pinController,
+                                TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('SIMPAN', Color(0xFF4CAF50), () async {
-                      UsersSuperAdminController().updateNasabah(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UsersSuperAdminController().updateNasabah(
                           nama_nasabah: namaNasabahController.text,
                           alamat: alamatController.text,
                           rw: rwController.text,
@@ -117,8 +125,14 @@ class _EditNasabahScreenState extends State<EditNasabahScreen> {
                           no_telp: noTelpController.text,
                           pin: pinController.text,
                           kode_nasabah: widget.kode_nasabah);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListNasabahSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

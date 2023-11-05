@@ -44,7 +44,7 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
     return Scaffold(
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo'),
+          appbar3(context, size, 'List Penarikan Saldo',(){}),
           pilihanReg(
               size, 'assets/img/tapeng.png', 'Aktifkan\nPenarikan\nSaldo', () {
             setState(() {
@@ -52,7 +52,7 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
             });
             UserControllerAdmin().tombol(tombol: isToggled);
           }, isToggled),
-           Padding(
+          Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
               width: size.width * 0.8,
@@ -101,7 +101,7 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
                     ),
                   );
                 }
-                 final List<dynamic> filteredData = snapshot.data!
+                final List<dynamic> filteredData = snapshot.data!
                     .where((item) => item["nomor_invoice"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
@@ -110,39 +110,47 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: Container(
                     width: size.width * 0.9,
-                    height: size.height * 0.8,
+                    height: size.height * 0.7,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 10),
                       itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
+                        String statusText = "";
+                        if (filteredData[index]["status"] == false) {
+                          statusText = "Belum Dibayar";
+                        } else {
+                          statusText = "Sudah Dibayar";
+                        }
                         return listNasabahSampah(
                           size,
                           filteredData[index]["nomor_invoice"],
                           filteredData[index]["kode_nasabah"],
-                          filteredData[index]["status"],
+                          statusText,
                           CurrencyFormat.convertToIdr(
                               filteredData[index]["jumlah_penarikan"], 0),
                           () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builde) {
-                                  return DetailPenarikanSaldoScreen(
-                                    kode_invoice: filteredData[index]
-                                        ["nomor_invoice"],
-                                    jumlah_penarikan: filteredData[index]
-                                        ["jumlah_penarikan"],
-                                    kode_nasabah: filteredData[index]
-                                        ["kode_nasabah"],
-                                    kode_admin: filteredData[index]
-                                        ["kode_admin"],
-                                  );
-                                },
-                              ),
-                            ).then((value) {
-                              setState(() {});
-                            });
+                            if (filteredData[index]["status"] == false) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (builde) {
+                                    return DetailPenarikanSaldoScreen(
+                                      kode_invoice: filteredData[index]
+                                          ["nomor_invoice"],
+                                      jumlah_penarikan: filteredData[index]
+                                          ["jumlah_penarikan"],
+                                      kode_nasabah: filteredData[index]
+                                          ["kode_nasabah"],
+                                      kode_admin: filteredData[index]
+                                          ["kode_admin"],
+                                    );
+                                  },
+                                ),
+                              ).then((value) {
+                                setState(() {});
+                              });
+                            }
                           },
                         );
                       },
@@ -263,7 +271,7 @@ Padding pilihanReg(Size size, img, txt, ontp, isToggled) {
         width: size.width * 0.3,
         height: 40,
         decoration: ShapeDecoration(
-          color: !isToggled ? Colors.grey : Color(0xFF4CAF50),
+          color: isToggled ? Colors.grey : Color(0xFF4CAF50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -280,9 +288,9 @@ Padding pilihanReg(Size size, img, txt, ontp, isToggled) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              !isToggled ? "MATI" : "MENAYALA",
+              isToggled ? "MATI" : "MENAYALA",
               style: TextStyle(
-                color: !isToggled
+                color: isToggled
                     ? Color.fromARGB(255, 255, 255, 255)
                     : Colors.white,
                 fontSize: 10,

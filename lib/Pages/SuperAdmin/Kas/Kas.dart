@@ -47,7 +47,7 @@ class _KasScreenState extends State<KasScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 40, left: 10),
-                      child: appbar3(context, size, 'Kas'),
+                      child: appbar3(context, size, 'Kas',(){}),
                     ),
                     Padding(
                       padding:

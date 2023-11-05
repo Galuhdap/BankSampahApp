@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
+import '../../Data/curentFormat.dart';
 import 'ListPenarikanSaldo.dart';
 import 'ListPenarikanSaldoBS.dart';
 import 'ListPenjualanSampah.dart';
@@ -31,6 +32,8 @@ class BerandaAdmin extends StatefulWidget {
 }
 
 class _BerandaAdminState extends State<BerandaAdmin> {
+  Future<List<dynamic>>? _futureData;
+
   Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -42,6 +45,13 @@ class _BerandaAdminState extends State<BerandaAdmin> {
       ),
       (_) => false,
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // _futureData = UserControllerAdmin().getUser();
+    super.initState();
   }
 
   @override
@@ -57,27 +67,26 @@ class _BerandaAdminState extends State<BerandaAdmin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder<Admin?>(
+              FutureBuilder<List<dynamic>>(
                   future: UserControllerAdmin().getUser(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
                     } else {
-                      print(snapshot.data);
-                      var admin = snapshot.data!;
-                      var kodeAdmin = admin.row[0].kodeAdmin;
-                      var namaAdmin = admin.row[0].namaBs;
-                      var totalsampah = admin.row[0].detailSampahBs![0].berat;
-                      var sampah_hariinni =
-                          admin.row[0].detailSampahBs![0].beratSekarang;
-                      var saldohariini =
-                          admin.row[0].detailSampahBs![0].saldoSekarang;
+                      // var admin = snapshot.data!.['nama_bs'];
+                      final List<dynamic> filteredData = snapshot.data!;
+                      final namaAdmin = filteredData[0]['nama_bs'];
+                      final kodeAdmin = filteredData[0]['kode_admin'];
+                      final totalsampah = filteredData[0]['DetailSampahBs'][0]['berat'];
+                      final saldo = filteredData[0]['DetailSampahBs'][0]['saldo'];
                       return PoinCard2(
                           size,
                           'Hi, $namaAdmin',
                           'Kode Penimbang : ${kodeAdmin}',
                           '$totalsampah Kg',
-                          '$saldohariini');
+                           CurrencyFormat.convertToIdr(
+                               saldo,
+                                0),);
                     }
                   }),
               Padding(
@@ -145,7 +154,8 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        subMenu(size, 'assets/img/money.png', 'List PENARIKAN\nSALDO BS', () {
+                        subMenu(size, 'assets/img/money.png',
+                            'List PENARIKAN\nSALDO BS', () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -161,8 +171,7 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                     ),
                     menuKategori(
                       [
-                        subMenu(
-                            size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
+                        subMenu(size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
                             () {
                           Navigator.push(
                             context,
@@ -175,11 +184,8 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        subMenu(
-                            size, 'assets/img/money-w.png', 'VALIDASI PENARIKAN SALDO',
-                            () async {
-                         
-
+                        subMenu(size, 'assets/img/money-w.png',
+                            'VALIDASI PENARIKAN SALDO', () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

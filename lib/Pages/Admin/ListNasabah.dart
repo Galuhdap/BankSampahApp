@@ -34,7 +34,7 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Nasabah'),
+          appbar3(context, size, 'List Nasabah',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

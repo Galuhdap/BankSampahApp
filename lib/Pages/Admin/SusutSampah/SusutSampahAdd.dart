@@ -20,7 +20,7 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size , 'Susut Sampah'),
+            appbar3(context, size , 'Susut Sampah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),

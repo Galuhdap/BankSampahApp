@@ -1,11 +1,11 @@
-import 'package:banksampah_application/Pages/Admin/Register/detailTambahPengepul.dart';
-import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import '../Controllers/sampahController.dart';
-import '../Controllers/user_controller.dart';
+
+import 'SampahAdmin.dart';
 
 class SampahKeringScreen extends StatefulWidget {
   const SampahKeringScreen({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _SampahKeringScreenState extends State<SampahKeringScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tambah Sampah Kering'),
+            appbar3(context, size, 'Tambah Sampah Kering',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -54,15 +54,29 @@ class _SampahKeringScreenState extends State<SampahKeringScreen> {
                         child: Column(
                           children: [
                             fieldText1(size, 'Jenis Sampah', true,
-                                sampahKeringController),
-                           
+                                sampahKeringController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('TAMBAH', Color(0xFF4CAF50), () async {
-                      SampahSuperAdminController().tambahSampahKering(jenis_sampah:  sampahKeringController.text);
-                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await SampahSuperAdminController().tambahSampahKering(
+                          jenis_sampah: sampahKeringController.text);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return SampahSuperAdminScreen();
+                          },
+                        ),
+                      );
                     }),
                     //continer('BATAL', Color(0xFFDD3737))
                   ],

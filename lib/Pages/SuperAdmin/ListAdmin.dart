@@ -1,11 +1,11 @@
-import 'package:banksampah_application/Pages/Admin/Models/nasabah_model.dart';
+
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/gantiPassword.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Controllers/sampahController.dart';
 import 'Controllers/user_controller.dart';
 import 'EditListAdmin.dart';
@@ -36,7 +36,7 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Admin'),
+          appbar3(context, size, 'List Admin',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -79,14 +79,13 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
                   return Padding(
-                    padding: EdgeInsets.only(
-                        top: size.height * 0.40, bottom: size.height * 0.21),
+                    padding: EdgeInsets.only(top: 400, bottom: 300),
                     child: Center(
                       child: Text("DATA KOSONG"),
                     ),
                   );
                 }
-                 final List<dynamic> filteredData = snapshot.data!
+                final List<dynamic> filteredData = snapshot.data!
                     .where((item) => item["nama_bs"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
@@ -108,7 +107,10 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
                             filteredData[index]["no_telp"],
                             filteredData[index]["rw"],
                             filteredData[index]["rt"],
-                            filteredData[index]["DetailSampahBs"][0]["saldo"],
+                            CurrencyFormat.convertToIdr(
+                                filteredData[index]["DetailSampahBs"][0]
+                                    ["saldo"],
+                                0),
                             filteredData[index]["DetailSampahBs"][0]["berat"],
                             filteredData[index]["kode_user"], (value) {
                           if (value == 'editAdmin') {
@@ -210,7 +212,7 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
                     height: size.height * 0.005,
                   ),
                   Text(
-                    'Kode Nasabah : ${kode}',
+                    'Kode Admin : ${kode}',
                     style: TextStyle(
                       color: Color(0xFF3D3D3D),
                       fontSize: 11,

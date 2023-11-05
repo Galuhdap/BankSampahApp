@@ -1,7 +1,5 @@
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
 import 'Controllers/sampahController.dart';
@@ -36,7 +34,7 @@ class _ListPenimbangSuperAdminScreenState extends State<ListPenimbangSuperAdminS
       resizeToAvoidBottomInset: false,
       body: Column( 
         children: [
-          appbar3(context, size, 'List Penimbang'),
+          appbar3(context, size, 'List Penimbang',(){}),
            Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

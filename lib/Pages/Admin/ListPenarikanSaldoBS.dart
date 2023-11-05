@@ -43,10 +43,10 @@ class _ListPenarikanSaldoBSScreenState
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo BS'),
+          appbar3(context, size, 'List Penarikan Saldo BS',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Container(
@@ -102,6 +102,7 @@ class _ListPenarikanSaldoBSScreenState
                         .contains(query.toLowerCase()))
                     .toList();
                 // final nasabah = snapshot.data!;
+
                 return Padding(
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: Container(
@@ -112,11 +113,15 @@ class _ListPenarikanSaldoBSScreenState
                       padding: EdgeInsets.only(top: 10),
                       itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
+                        String statusText = "";
+                        if (filteredData[index]["status"] == false) {
+                          statusText = "Sudah Dibayar";
+                        }
                         return listNasabahSampah(
                           size,
                           filteredData[index]["nomor_invoice"],
                           filteredData[index]["kode_super_admin"],
-                          filteredData[index]["status"],
+                          statusText,
                           CurrencyFormat.convertToIdr(
                               filteredData[index]["jumlah_penarikan"], 0),
                           () {

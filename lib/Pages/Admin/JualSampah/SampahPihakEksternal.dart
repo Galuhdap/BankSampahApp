@@ -48,7 +48,7 @@ class _SampahPihakEksternalScreenState extends State<SampahPihakEksternalScreen>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 40, left: 10),
-                      child: appbar3(context, size, 'Sampah Pihak Eksternal'),
+                      child: appbar3(context, size, 'Sampah Pihak Eksternal',(){}),
                     ),
                     Padding(
                       padding:

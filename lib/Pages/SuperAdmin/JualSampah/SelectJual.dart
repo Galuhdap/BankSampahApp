@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../Beranda.dart';
 import 'ListPenjualanSampahBs.dart';
 import 'ListPenjualanSampahInduk.dart';
 import 'SetorSampahBS.dart';
@@ -24,9 +25,24 @@ class _SelectJualState extends State<SelectJual> {
     return Scaffold(
       body: Column(
         children: [
-          appbar3(context, size, 'Jaul Sampah'),
+          appbar5(
+            context,
+            size,
+            'Jaul Sampah',
+            () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (builde) {
+                    return BerandaSuperAdmin();
+                  },
+                ),
+              );
+            },
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 10, left: 30 , right: 30),
+            padding:
+                const EdgeInsets.only(top: 20, bottom: 10, left: 30, right: 30),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -72,7 +88,7 @@ class _SelectJualState extends State<SelectJual> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 30 , right: 30),
+            padding: const EdgeInsets.only(bottom: 10, left: 30, right: 30),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -118,7 +134,7 @@ class _SelectJualState extends State<SelectJual> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 30 , right: 30),
+            padding: const EdgeInsets.only(bottom: 10, left: 30, right: 30),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -164,7 +180,7 @@ class _SelectJualState extends State<SelectJual> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 30 , right: 30),
+            padding: const EdgeInsets.only(bottom: 10, left: 30, right: 30),
             child: InkWell(
               onTap: () {
                 Navigator.push(

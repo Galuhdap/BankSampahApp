@@ -31,7 +31,7 @@ class _ListPenjualanBSSuperAdminScreenState extends State<ListPenjualanBSSuperAd
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Admin BS'),
+          appbar3(context, size, 'List Penjualan Admin BS',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

@@ -1,7 +1,7 @@
 class DetailSampahSuperAdmin {
     String kodeDetailSampah;
     String kodeSuperAdmin;
-    int berat;
+    double berat;
     int saldo;
     DateTime createdAt;
     DateTime updatedAt;

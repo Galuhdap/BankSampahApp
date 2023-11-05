@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
+import '../../Admin/JualSampah/SelectJual.dart';
 import '../Controllers/sampahController.dart';
 
 class SetorSampahBS extends StatefulWidget {
@@ -38,6 +39,8 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
   TextEditingController tglController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
 
+  num? numericValue;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -48,7 +51,7 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Setor Sampah'),
+            appbar3(context, size, 'Setor Sampah',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -227,30 +230,36 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
                       ),
                     ),
                     buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50), () async {
+                      String inputText = beratController.text;
+                      double? numericValue;
 
+                      try {
+                        numericValue = double.parse(inputText);
+                      } catch (e) {
+                        print('Input tidak valid: $e');
+                        return;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
                       await SampahSuperAdminController().setorSampahAdmin(
                           kodeSampah: dropdownValue.toString(),
                           kodeBarang: dropdownValueBarang.toString(),
-                          berat: int.parse(beratController.text),
+                          berat: numericValue,
                           catatan: catatanController.text,
                           kodeBS: kodeAdminController.text);
-                      // await SampahPenimbangController().setorSampah(
-                      //     kodeSampah: dropdownValue.toString(),
-                      //     kodeBarang: dropdownValueBarang.toString(),
-                      //     berat: int.parse(beratController.text),
-                      //     catatan: catatanController.text,
-                      //     kodeNasabah: kodeNasabahController.text);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (builde) {
-                      //       return BerandaPenimbang();
-                      //     },
-                      //   ),
-                      // ).then((value) {
-                      //   setState(() {});
-                      // });
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return SelectJual();
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ),

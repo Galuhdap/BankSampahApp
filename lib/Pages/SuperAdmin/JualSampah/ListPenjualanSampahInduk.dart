@@ -34,7 +34,7 @@ String query = "";
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Bank INDUK'),
+          appbar3(context, size, 'List Penjualan Bank INDUK',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

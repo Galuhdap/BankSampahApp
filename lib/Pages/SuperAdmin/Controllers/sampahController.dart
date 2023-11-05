@@ -147,7 +147,7 @@ class SampahSuperAdminController {
   Future setorSampahAdmin(
       {required String kodeSampah,
       required String kodeBarang,
-      required int berat,
+      required double berat,
       required String catatan,
       required String kodeBS}) async {
     try {

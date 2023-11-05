@@ -1,10 +1,8 @@
-import 'package:banksampah_application/Pages/Admin/Models/nasabah_model.dart';
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Controllers/sampahController.dart';
 import 'Tambah/SampahBarangEdit.dart';
 
@@ -35,7 +33,7 @@ class _ListSampahSuperAdminScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Sampah'),
+          appbar3(context, size, 'List Sampah',(){}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -86,8 +84,7 @@ class _ListSampahSuperAdminScreenState
                   );
                 }
                 final List<dynamic> filteredData = snapshot.data!
-                    .where((item) => item["JenisBarangs"][0]
-                                ["jenis_barang"]
+                    .where((item) => item["JenisBarangs"][0]["jenis_barang"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
                     .toList();
@@ -103,15 +100,19 @@ class _ListSampahSuperAdminScreenState
                       itemBuilder: (BuildContext context, index) {
                         return listNasabahSampah(
                             size,
-                            snapshot.data![index]["jenis_sampah"],
+                            snapshot.data![index]["jenis_sampah"] ?? '',
                             snapshot.data![index]["JenisBarangs"][0]
-                                ["jenis_barang"],
+                                ["jenis_barang"] ?? '',
                             snapshot.data![index]["JenisBarangs"][0]
-                                ["kode_barang"],
-                            snapshot.data![index]["JenisBarangs"][0]
-                                ["harga_pertama"],
-                            snapshot.data![index]["JenisBarangs"][0]
-                                ["harga_kedua"], (value) {
+                                ["kode_barang"] ?? '',
+                            CurrencyFormat.convertToIdr(
+                                snapshot.data![index]["JenisBarangs"][0]
+                                    ["harga_pertama"] ?? 0,
+                                0),
+                            CurrencyFormat.convertToIdr(
+                                snapshot.data![index]["JenisBarangs"][0]
+                                    ["harga_kedua"] ?? 0,
+                                0), (value) {
                           if (value == 'edit') {
                             Navigator.push(
                               context,

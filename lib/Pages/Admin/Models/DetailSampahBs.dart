@@ -1,7 +1,7 @@
 class DetailSampahBs {
     String kodeDetailSampah;
     String kodeAdmin;
-    int berat;
+    double berat;
     int saldo;
     int beratSekarang;
     int saldoSekarang;

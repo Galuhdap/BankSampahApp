@@ -339,7 +339,9 @@ class _StatisticPenimbangState extends State<StatisticPenimbang> {
                       sampas[index]['sampah'],
                       sampas[index]['tgl'],
                       sampas[index]['berat'].toString(),
+                      '',
                       sampas[index]['clr2'],
+                      (){}
                       );
                 },
               ),

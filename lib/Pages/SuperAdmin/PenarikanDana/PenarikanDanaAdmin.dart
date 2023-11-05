@@ -79,7 +79,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                 ),
                 child: Stack(
                   children: [
-                    appbar3(context, size, 'Penarikan Dana '),
+                    appbar3(context, size, 'Penarikan Dana ',(){}),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 90, left: 30, right: 30),
@@ -130,7 +130,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Text(
-                               "Penarikan Dana BS Admin",
+                              "Penarikan Dana BS Admin",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF333333),
@@ -155,8 +155,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                 add(size);
                               },
                               child: Text(
-                                "Tarik Dana"
-                               ,
+                                "Tarik Dana",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -225,10 +224,10 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                     );
                   }
                   final List<dynamic> filteredData = snapshot.data!
-                    .where((item) => item["kode_admin"]
-                        .toLowerCase()
-                        .contains(query.toLowerCase()))
-                    .toList();
+                      .where((item) => item["kode_admin"]
+                          .toLowerCase()
+                          .contains(query.toLowerCase()))
+                      .toList();
                   return Padding(
                     padding: const EdgeInsets.only(left: 35, right: 35),
                     child: Container(
@@ -447,13 +446,13 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                   setState(() {
                                     harga = parsedHarga;
                                   });
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  String? _data =
-                                      await prefs.getString('kodeSuperAdmin');
-                                  print(_data);
-                                  // kodeAdminController.clear();
-
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      });
                                   await UsersSuperAdminController()
                                       .penarikanSaldoAdmin(
                                     kode_invoice: invoice,

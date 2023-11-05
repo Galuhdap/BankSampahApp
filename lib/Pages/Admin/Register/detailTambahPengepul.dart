@@ -82,25 +82,25 @@ class _DetailPenimbangScreenState extends State<DetailPenimbangScreen> {
                             // fieldText1(
                             //     size, 'Kode Nasabah', true),
                             fieldText1(size, 'Nama Penimbang', true,
-                                namaNasabahController),
-                            fieldText1(size, 'Alamat', true, alamatController),
+                                namaNasabahController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RW', true, rwController),
+                                      size, 'RW', true, rwController, TextInputType.number),
                                 ),
                                 Expanded(
                                   child: fieldText2(
-                                      size, 'RT', true, rtController),
+                                      size, 'RT', true, rtController, TextInputType.number),
                                 ),
                               ],
                             ),
                             fieldText1(
-                                size, 'No telepon', true, noTelpController),
+                                size, 'No telepon', true, noTelpController, TextInputType.phone),
 
                             fieldText1(
-                                size, 'Password', true, passwordController),
+                                size, 'Password', true, passwordController, TextInputType.name),
                           ],
                         ),
                       ),

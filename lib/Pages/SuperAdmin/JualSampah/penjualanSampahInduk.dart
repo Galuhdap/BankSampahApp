@@ -20,7 +20,7 @@ class _PenjualanSampahIndukScreenState extends State<PenjualanSampahIndukScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size , 'Penjualan Sampah Admin'),
+            appbar3(context, size , 'Penjualan Sampah Admin',(){}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),

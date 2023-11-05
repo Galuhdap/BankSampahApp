@@ -43,4 +43,31 @@ class UserController {
       return null;
     }
   }
+
+  Future<Map<String, dynamic>> getUsers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? kode_reg = await getDataLocal('kodeReg');
+
+    final datas = {
+      'kode_user': kode_reg,
+    };
+    try {
+      final response =
+          await Dio().get('http://' + _baseUrl + '/penimbangbyid', data: datas);
+
+      var data = response.data["payload"]["row"][0];
+      var kode_penimbang = data["kode_penimbang"];
+      var kode_super_admin = data["kode_super_admin"];
+      var kode_admin = data["kode_admin"];
+      await prefs.setString('kodePenimbang', kode_penimbang);
+      await prefs.setString('kodeAdmin', kode_admin);
+      await prefs.setString('kodeSuperAdmin', kode_super_admin);
+      final responseData = response.data['payload'];
+      print(responseData);
+      return responseData;
+    } catch (e) {
+      // Handle exceptions here
+      return{};
+    }
+  }
 }

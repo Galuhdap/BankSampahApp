@@ -98,7 +98,7 @@ InkWell subMenu1(Size size, img, txt1, txt, ontp) {
                   txt1,
                   style: TextStyle(
                     color: Color.fromARGB(255, 252, 252, 252),
-                    fontSize: 20,
+                    fontSize: 15,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                   ),

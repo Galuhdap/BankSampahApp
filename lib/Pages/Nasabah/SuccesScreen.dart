@@ -7,9 +7,10 @@ import '../../Data/curentFormat.dart';
 
 class SuccesScreen extends StatefulWidget {
   final String kode_invoice;
+  final String date;
   final int jumlah_penarikan;
   final int biaya_admin;
-  const SuccesScreen({super.key, required this.kode_invoice , required this.jumlah_penarikan , required this.biaya_admin});
+  const SuccesScreen({super.key, required this.kode_invoice , required this.jumlah_penarikan , required this.biaya_admin, required this.date});
 
   @override
   State<SuccesScreen> createState() => _SuccesScreenState();
@@ -200,7 +201,7 @@ class _SuccesScreenState extends State<SuccesScreen> {
                     ),
                   ),
                   Text(
-                    DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.now()),
+                    DateFormat(' dd MMMM yyyy', 'id_ID').format(DateTime.parse(widget.date) ),
                     style: TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 24,

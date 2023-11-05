@@ -21,7 +21,38 @@ class UsersSuperAdminController {
     return kodeReg;
   }
 
-  Future<SuperAdmin?> getUser() async {
+  Future<List<dynamic>> getUser() async {
+    String? kode_reg = await getKodeReg();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final datas = {
+      'kode_user': kode_reg,
+    };
+
+    try {
+      final response =
+          await Dio().get('http://' + _baseUrl + '/suadminbyid', data: datas);
+      var data = response.data["payload"]["row"][0];
+
+      var kode_super_admin = data["kode_super_admin"];
+
+      // await prefs.setString('kodePenimbang', kode_penimbang);
+      await prefs.setString('kodeSuperAdmin', kode_super_admin);
+      final responseData = response.data['payload']['row'];
+      print('Ini Response Data : $responseData');
+      return responseData;
+      // if (response.statusCode == 200) {
+      //   final Map<String, dynamic> jsonData = response.data["payload"];
+      //   return SuperAdmin.fromJson(jsonData);
+      // } else {
+      //   // Handle error here, e.g., throw an exception or return null
+      //   return null;
+      // }
+    } catch (e) {
+      // Handle exceptions here
+      return [];
+    }
+  }
+  Future<SuperAdmin?> getUserss() async {
     String? kode_reg = await getKodeReg();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final datas = {
@@ -67,7 +98,6 @@ class UsersSuperAdminController {
       // await prefs.setString('kodePenimbang', kode_penimbang);
       await prefs.setString('kodeSuperAdmin', kode_super_admin);
       return response.data["payload"]["row"];
-    
     } catch (e) {
       // Handle exceptions here
       print(e);
@@ -258,14 +288,12 @@ class UsersSuperAdminController {
     };
 
     try {
-      await Dio().post('http://' + _baseUrl + '/service/saldo/admin', data: datas);
+      await Dio()
+          .post('http://' + _baseUrl + '/service/saldo/admin', data: datas);
     } catch (e) {
       // Handle exceptions here
       print(e);
       return null;
     }
   }
-
-
-
 }
