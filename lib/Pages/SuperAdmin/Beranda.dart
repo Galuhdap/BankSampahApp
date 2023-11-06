@@ -1,4 +1,3 @@
-
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/Models/SuperAdminModels.dart';
 import 'package:flutter/material.dart';
@@ -43,21 +42,25 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appbar(() {
-        removeToken();
-      }),
+      // appBar: appbar(() {
+      //   removeToken();
+      // }),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppBarNew(
+                size,
+                () {
+                  removeToken();
+                },
+              ),
               FutureBuilder<List<dynamic>>(
                 future: UsersSuperAdminController().getUser(),
                 builder: (context, snapshot) {
@@ -70,7 +73,7 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                     final totalsampah =
                         superAdmin[0]['DetailSampahSuperAdmins'][0]['berat'];
                     final saldo =
-                         superAdmin[0]['DetailSampahSuperAdmins'][0]['saldo'];
+                        superAdmin[0]['DetailSampahSuperAdmins'][0]['saldo'];
                     return PoinCard2(
                       size,
                       'Hi, $namaSuperAdmin',
@@ -198,7 +201,7 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return SelectJual();
+                                return SelectJualinduk();
                               },
                             ),
                           ).then((value) {
@@ -319,4 +322,6 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
       ),
     );
   }
+
+ 
 }

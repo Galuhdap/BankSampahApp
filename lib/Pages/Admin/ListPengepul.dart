@@ -30,7 +30,7 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penimbang',(){}),
+          appbar3(context, size, 'List Penimbang',(){Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -162,7 +162,7 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
                 height: size.height * 0.005,
               ),
               Text(
-                'Kode Pengepul : ${kode}',
+                'Kode Penimbang : ${kode}',
                 style: TextStyle(
                   color: Color(0xFF3D3D3D),
                   fontSize: 11,

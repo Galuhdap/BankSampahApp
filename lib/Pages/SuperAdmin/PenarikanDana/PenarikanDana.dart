@@ -48,7 +48,7 @@ class _PenarikanDanaAddScreenState extends State<PenarikanDanaAddScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tarik Dana',(){}),
+            appbar3(context, size, 'Tarik Dana',(){Navigator.pop(context);}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),

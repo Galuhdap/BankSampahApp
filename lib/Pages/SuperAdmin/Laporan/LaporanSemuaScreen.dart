@@ -29,14 +29,16 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   int totalSampahMasuk = 0;
   int saldoMasuk = 0;
   int saldoKeluar = 0;
+  int saldo = 0;
 
   Future fetchData() async {
     saldoMasuk = await LaporanSuperAdminController().getsaldoMasuk();
+    saldo = await UsersSuperAdminController().totalSaldo();
     saldoKeluar = await LaporanSuperAdminController().getsaldoKeluar();
     totals = await LaporanSuperAdminController().totalSamapah();
     totalSampahInduk =
         await LaporanSuperAdminController().getpenjualanSampahK3();
-    totalSampahMasuk = await LaporanSuperAdminController().getsampahMasuk();
+    // totalSampahMasuk = await LaporanSuperAdminController().getsampahMasuk();
 
     setState(() {});
   }
@@ -95,7 +97,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            appbar3(context, size, 'Laporan',(){}),
+                            appbar3(context, size, 'Laporan', () {Navigator.pop(context);}),
                             // Text(
                             //   'Nominal Keseluruhan',
                             //   style: TextStyle(
@@ -168,11 +170,10 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) {
                                       return PDFLaporanSemuaScreen(
-                                        kas: 3333,
+                                        kas: saldo,
                                         pengeluaran: totalSampahInduk,
                                         penjualan: totalSampahMasuk,
                                         pemblihanbahan: totals,
-                                        total: 3333333,
                                       );
                                     }));
                                   },
@@ -180,7 +181,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                     width: size.width * 0.20,
                                     height: 29,
                                     decoration: ShapeDecoration(
-                                      color: Color(0xFF3F51B5),
+                                      color: Colors.green,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -289,7 +290,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                     ConnectionState.waiting) {
                                                   return CircularProgressIndicator();
                                                 } else {
-                                                  
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -377,7 +377,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                                     ConnectionState.waiting) {
                                                   return CircularProgressIndicator();
                                                 } else {
-                                                  
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -424,7 +423,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                     .row[0].detailSampahSuperAdmins![0].saldo;
                                 return contText(
                                   size,
-                                  "Kas",
+                                  "Saldo",
                                   CurrencyFormat.convertToIdr(saldo, 0),
                                 );
                               }
@@ -438,7 +437,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                
                                 return contText(
                                   size,
                                   "Total Penjualan Sampah Ke Pihak Luar",
@@ -456,7 +454,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                
                                 return contText(
                                   size,
                                   "Total Sampah Masuk",
@@ -473,7 +470,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                
                                 return contText(
                                   size,
                                   "Total Sampah",
@@ -527,7 +523,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                
                                 return contText(
                                   size,
                                   "Total Sampah Admin Bank Sampah",
@@ -544,7 +539,6 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
                               } else {
-                                
                                 return contText(
                                   size,
                                   "Total Sampah Bank Sampah Induk",

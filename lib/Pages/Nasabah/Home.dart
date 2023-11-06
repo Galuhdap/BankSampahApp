@@ -50,23 +50,23 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
       "assets/img/banner1.png",
     ];
     return Scaffold(
-      appBar: appbar(() {
-        removeToken();
-      }),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppBarNew(size, () {
+                removeToken();
+              }),
               FutureBuilder<List<dynamic>>(
                 future: UserControllerNasabah().getUsers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                   final List<dynamic> nasabah = snapshot.data!;
+                    final List<dynamic> nasabah = snapshot.data!;
                     final namaNasabah = nasabah[0]['nama_nasabah'];
                     final kodeNasabah = nasabah[0]['kode_nasabah'];
                     final totalSampah =
@@ -75,15 +75,11 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
                         nasabah[0]['DetailSampahNasabahs'][0]['saldo'];
 
                     return PoinCard2(
-                      size,
-                      'Hi, $namaNasabah',
-                      'Kode Nasabah : $kodeNasabah',
-                      '$totalSampah Kg',
-                      CurrencyFormat.convertToIdr(
-                               saldoHariini,
-                                0)
-                     
-                    );
+                        size,
+                        'Hi, $namaNasabah',
+                        'Kode Nasabah : $kodeNasabah',
+                        '$totalSampah Kg',
+                        CurrencyFormat.convertToIdr(saldoHariini, 0));
                   }
                 },
               ),
@@ -134,19 +130,20 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20 , right: 20),
+                        padding: const EdgeInsets.only(
+                            top: 20, bottom: 20, left: 20, right: 20),
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return Statistic();
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                              context,
+                              MaterialPageRoute(
+                                builder: (builde) {
+                                  return Statistic();
+                                },
+                              ),
+                            ).then((value) {
+                              setState(() {});
+                            });
                           },
                           child: Container(
                             width: size.width * 0.9,

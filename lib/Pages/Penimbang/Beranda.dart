@@ -58,15 +58,15 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: appbar(() {
-        removeToken();
-      }),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppBarNew(size, () {
+                removeToken();
+              }),
               FutureBuilder<Map<String, dynamic>>(
                   future: userController.getUsers(),
                   builder: (context, snapshot) {
@@ -75,8 +75,10 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
                         return Center(child: CircularProgressIndicator());
                       } else {
                         final Map<String, dynamic> penimbang = snapshot.data!;
-                        final kodePenimbang = penimbang['row'][0]['kode_penimbang'];
-                        final namaPenimbang = penimbang['row'][0]['nama_penimbang'];
+                        final kodePenimbang =
+                            penimbang['row'][0]['kode_penimbang'];
+                        final namaPenimbang =
+                            penimbang['row'][0]['nama_penimbang'];
                         final totalsampah = penimbang['sampah'][0]['berat'];
                         final saldo = penimbang['sampah'][0]['saldo'];
                         return PoinCard2(
@@ -84,9 +86,7 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
                           'Hi,$namaPenimbang',
                           'Kode Penimbang :${kodePenimbang}',
                           totalsampah.toString(),
-                          CurrencyFormat.convertToIdr(
-                               saldo,
-                                0),
+                          CurrencyFormat.convertToIdr(saldo, 0),
                         );
                       }
                     }

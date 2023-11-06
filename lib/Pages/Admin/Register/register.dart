@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/Setting.dart';
+import '../Beranda.dart';
 
 class TambahPengguna extends StatefulWidget {
   const TambahPengguna({super.key});
@@ -16,7 +17,7 @@ class TambahPengguna extends StatefulWidget {
 }
 
 class _TambahPenggunaState extends State<TambahPengguna> {
-    var _rw;
+  var _rw;
 
   Future datas() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,6 +33,7 @@ class _TambahPenggunaState extends State<TambahPengguna> {
     datas();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -42,37 +44,48 @@ class _TambahPenggunaState extends State<TambahPengguna> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tambah Pengguna',(){}),
+            appbar3(context, size, 'Tambah Pengguna', () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (builde) {
+                    return BerandaAdmin();
+                  },
+                ),
+              );
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Column(
                   children: [
-                    pilihanReg('assets/img/regnas.png', 'Tambah Nasabah' , (){Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return TambahNasabah(
-                                  rw: _rw,
-                                );
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });}),
-                    pilihanReg('assets/img/tapeng.png', 'Tambah Penimbang',(){
+                    pilihanReg('assets/img/regnas.png', 'Tambah Nasabah', () {
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builde) {
-                                return TambahPengepul(
-                                   rw: _rw,
-                                );
-                              },
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return TambahNasabah(
+                              rw: _rw,
+                            );
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
+                    }),
+                    pilihanReg('assets/img/tapeng.png', 'Tambah Penimbang', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return TambahPengepul(
+                              rw: _rw,
+                            );
+                          },
+                        ),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     }),
                   ],
                 ),

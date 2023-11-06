@@ -238,16 +238,21 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
                         padding: EdgeInsets.only(top: 10),
                         itemCount: filteredData.length,
                         itemBuilder: (BuildContext context, index) {
-                          return transactionCard2(
+                          return listPenimbang(
+                            size,
                               filteredData[index]["kode_susut_induk"],
                               filteredData[index]["nama_pembeli"].toString(),
-                              '${filteredData[index]["berat"]} Kg',
+                              '${filteredData[index]["berat"]}',
+                              filteredData[index]["JenisSampahKering"]
+                              ["jenis_sampah"],
+                           filteredData[index]["JenisBarang"]["jenis_barang"],
                               CurrencyFormat.convertToIdr(
                                   filteredData[index]["harga"], 0),
                               CurrencyFormat.convertToIdr(
                                   filteredData[index]["total"], 0),
                               () async {},
-                              size);
+                              (){}
+                              );
                         },
                       ),
                     ),
@@ -264,6 +269,193 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
             ),
           ],
         ),
+      ),
+    );
+
+    
+  }
+   Padding listPenimbang(
+      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, edit, hapus) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Stack(
+        children: [
+          Container(
+            width: size.width * 0.9,
+            height: 150,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x28000000),
+                  blurRadius: 16,
+                  offset: Offset(0, 0),
+                  spreadRadius: -6,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ttl,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Text(
+                    ttl1,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.015,
+                  ),
+                  Text(
+                    "Sampah ${sampah}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Text(
+                    "${kode}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  Text(
+                    "${alamat} KG",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                   SizedBox(
+                    height: size.height * 0.008,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${notelp}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
+                      ),
+                      Text(
+                        '${reg}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          // Positioned(
+          //   left: size.width * 0.73,
+          //   top: size.height * 0.01,
+          //   child: PopupMenuButton(
+          //     onSelected: edit,
+          //     itemBuilder: (context) => [
+          //       PopupMenuItem(
+          //         value: 'editAdmin',
+          //         child: Padding(
+          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
+          //           child: Text(
+          //             "Edit Penimbang",
+          //             textAlign: TextAlign.right,
+          //             style: TextStyle(
+          //               color: Colors.grey,
+          //               fontSize: 15,
+          //               fontFamily: 'Poppins',
+          //               fontWeight: FontWeight.w500,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       PopupMenuItem(
+          //         value: 'gantipassword',
+          //         child: Padding(
+          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
+          //           child: Text(
+          //             "Ganti Password",
+          //             textAlign: TextAlign.right,
+          //             style: TextStyle(
+          //               color: Colors.grey,
+          //               fontSize: 15,
+          //               fontFamily: 'Poppins',
+          //               fontWeight: FontWeight.w500,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       PopupMenuItem(
+          //         onTap: hapus,
+          //         child: Padding(
+          //           padding: const EdgeInsets.only(bottom: 7),
+          //           child: Text(
+          //             "Hapus",
+          //             textAlign: TextAlign.right,
+          //             style: TextStyle(
+          //               color: Colors.grey,
+          //               fontSize: 15,
+          //               fontFamily: 'Poppins',
+          //               fontWeight: FontWeight.w500,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //     child: Icon(
+          //       Icons.more_vert,
+          //       size: 20,
+          //       color: Colors.grey,
+          //     ),
+          //   ),
+          // ),
+        ],
       ),
     );
   }

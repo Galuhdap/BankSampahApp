@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
@@ -29,7 +28,17 @@ class _TambahAdminScreenState extends State<TambahAdminScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Admin',(){}),
+            appbar3(context, size, 'Register Admin', () {
+              Navigator.pop(context);
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (builde) {
+              //       return BerandaSuperAdmin();
+              //     },
+              //   ),
+              // );
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(

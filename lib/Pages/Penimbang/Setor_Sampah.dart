@@ -48,7 +48,7 @@ class _SetorSampahState extends State<SetorSampah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Setor Sampah',(){}),
+            appbar3(context, size, 'Setor Sampah',(){Navigator.pop(context);}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -254,13 +254,13 @@ class _SetorSampahState extends State<SetorSampah> {
                           //     isLoading = false;
                           //   });
                           // });
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (context) {
-                          //       return Center(
-                          //         child: CircularProgressIndicator(),
-                          //       );
-                          //     });
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
                           await SampahPenimbangController().setorSampah(
                               kodeSampah: dropdownValue.toString(),
                               kodeBarang: dropdownValueBarang.toString(),

@@ -26,7 +26,7 @@ class _SampahKeringScreenState extends State<SampahKeringScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tambah Sampah Kering',(){}),
+            appbar3(context, size, 'Tambah Sampah Kering',(){Navigator.pop(context);}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(

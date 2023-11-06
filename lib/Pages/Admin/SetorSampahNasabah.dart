@@ -8,33 +8,33 @@ import '../../Components/AppBar.dart';
 import '../../Data/curentFormat.dart';
 import 'Models/detailsampahnasabah.dart';
 
-class ListPenjualanSampahScreen extends StatefulWidget {
-  const ListPenjualanSampahScreen({super.key});
+class SetorSampahScreen extends StatefulWidget {
+  const SetorSampahScreen({super.key});
 
   @override
-  State<ListPenjualanSampahScreen> createState() =>
-      _ListPenjualanSampahScreenState();
+  State<SetorSampahScreen> createState() => _SetorSampahScreenState();
 }
 
-class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
+class _SetorSampahScreenState extends State<SetorSampahScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
   String query = "";
   @override
   void initState() {
     // TODO: implement initState
-    _futureData = UserControllerAdmin().listJualSampah();
+    _futureData = UserControllerAdmin().listSetorSampah();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_futureData);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Sampah',(){Navigator.pop(context);}),
+          appbar3(context, size, 'List Setor Sampah', () {Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -85,7 +85,7 @@ class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
                   );
                 }
                 final List<dynamic> filteredData = snapshot.data!
-                    .where((item) => item["kode_susut_sampah_bs"]
+                    .where((item) => item["kode_nasabah"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
                     .toList();
@@ -101,12 +101,13 @@ class _ListPenjualanSampahScreenState extends State<ListPenjualanSampahScreen> {
                       itemBuilder: (BuildContext context, index) {
                         return listNasabahSampah(
                           size,
-                          filteredData[index]["kode_susut_sampah_bs"],
-                          filteredData[index]["kode_super_admin"],
-                          filteredData[index]["JenisSampahKering"]["jenis_sampah"],
-                          filteredData[index]["JenisSampahKering"]["jenis_sampah"],
+                          filteredData[index]["kode_setor"],
+                          filteredData[index]["kode_nasabah"],
+                          filteredData[index]["JenisSampahKering"]
+                              ["jenis_sampah"],
+                          filteredData[index]["JenisBarang"]["jenis_barang"],
                           CurrencyFormat.convertToIdr(
-                              filteredData[index]["harga"], 0),
+                              filteredData[index]["total"], 0),
                           filteredData[index]["berat"],
                         );
                       },

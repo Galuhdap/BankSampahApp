@@ -10,6 +10,8 @@ class NasbahRowModel {
     String? pin;
     String? kodeUser;
     String? kodeAdmin;
+    num? berat;
+    int? saldo;
     DateTime? createdAt;
     DateTime? updatedAt;
     List<DetailSampahNasabah>? detailSampahNasabahs;
@@ -24,6 +26,8 @@ class NasbahRowModel {
         this.pin,
         this.kodeUser,
         this.kodeAdmin,
+        this.berat,
+        this.saldo,
         this.createdAt,
         this.updatedAt,
         this.detailSampahNasabahs,
@@ -39,6 +43,8 @@ class NasbahRowModel {
         pin: json["pin"],
         kodeUser: json["kode_user"],
         kodeAdmin: json["kode_admin"],
+        berat: json["berat"],
+        saldo: json["saldo"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         detailSampahNasabahs: List<DetailSampahNasabah>.from(json["DetailSampahNasabahs"].map((x) => DetailSampahNasabah.fromJson(x))),
@@ -54,6 +60,8 @@ class NasbahRowModel {
         "pin": pin,
         "kode_user": kodeUser,
         "kode_admin": kodeAdmin,
+        "berat": berat,
+        "saldo": saldo,
         "createdAt": createdAt!.toIso8601String(),
         "updatedAt": updatedAt!.toIso8601String(),
         "DetailSampahNasabahs": List<dynamic>.from(detailSampahNasabahs!.map((x) => x.toJson())),

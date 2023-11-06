@@ -53,7 +53,7 @@ class _BarangSampahScreenState extends State<BarangSampahScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Tambah Sampah Barang',(){}),
+            appbar3(context, size, 'Tambah Sampah Barang',(){Navigator.pop(context);}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -77,7 +77,7 @@ class _BarangSampahScreenState extends State<BarangSampahScreen> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 53),
+                        padding: const EdgeInsets.only(top:35),
                         child: Column(
                           children: [
                             Padding(

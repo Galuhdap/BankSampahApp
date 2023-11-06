@@ -173,6 +173,19 @@ class UserControllerAdmin {
     return responseData;
   }
 
+  Future<List<dynamic>> listSetorSampah() async {
+    String? kodeAdmin = await getDataLocal('kodeAdmin');
+
+    final datas = {
+      'kode_admin': kodeAdmin,
+    };
+    final response =
+        await Dio().get('http://' + _baseUrl + '/setor/getsampah/admin', data: datas);
+    final responseData = response.data['payload']['row'];
+    print(responseData);
+    return responseData;
+  }
+
   Future<List<dynamic>> getPenimbang() async {
     String? kodeAdmin = await getDataLocal('kodeAdmin');
 

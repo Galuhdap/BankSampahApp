@@ -34,7 +34,7 @@ class _ListPenimbangSuperAdminScreenState extends State<ListPenimbangSuperAdminS
       resizeToAvoidBottomInset: false,
       body: Column( 
         children: [
-          appbar3(context, size, 'List Penimbang',(){}),
+          appbar3(context, size, 'List Penimbang',(){Navigator.pop(context);}),
            Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

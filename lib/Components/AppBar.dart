@@ -171,3 +171,46 @@ Padding appbar4(BuildContext context, Size size, ttl) {
     ),
   );
 }
+
+
+ Padding AppBarNew(Size size, ontp) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Container(
+        width: size.width,
+        height: 70,
+        decoration: BoxDecoration(
+          color: Colors.green,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 16,
+              offset: Offset(0, 0),
+              spreadRadius: -6,
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "BANK SAMPAH",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
+              IconButton(
+                  onPressed: ontp,
+                  icon: Icon(
+                    Icons.logout_rounded,
+                    color: Colors.white,
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }

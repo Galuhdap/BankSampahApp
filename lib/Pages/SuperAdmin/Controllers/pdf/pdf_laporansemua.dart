@@ -171,14 +171,13 @@ class PdfLaporanSemuaInduk {
         ],
       );
 
-
   static Widget buildTabelPenggunaAdmin(LaporanSemua invoice) {
     final headers = [
       'Tanggal',
       'Kode BS',
       'Nama BS',
       'No Telp',
-      'Berat Sampah',
+      'Berat',
       'Saldo',
     ];
     final data = invoice.itemsAdmin.map((item) {
@@ -187,10 +186,9 @@ class PdfLaporanSemuaInduk {
             .format(DateTime.parse(item.createdAt.toString())),
         item.kodeAdmin,
         item.namaBs,
-        item.noTelp,
-        item.detailSampahBs?.isNotEmpty == true
-            ? item.detailSampahBs![0].berat
-            : 0,
+        '${item.noTelp}',
+        item.berat,
+        CurrencyFormat.convertToIdr(item.saldo, 0),
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -256,10 +254,12 @@ class PdfLaporanSemuaInduk {
   static Widget buildTabelPenggunaNasabah(LaporanSemua invoice) {
     final headers = [
       'Tanggal',
-      'Kode Nasabah',
-      'Nama Nasabah',
-      'No Telp',
+      'Kode',
+      'Nama',
+      'No Tlp',
       'Alamat',
+      'Berat',
+      'Saldo'
     ];
     final data = invoice.itemsNasabah.map((item) {
       return [
@@ -268,7 +268,9 @@ class PdfLaporanSemuaInduk {
         item.kodeNasabah,
         item.namaNasabah,
         item.noTelp,
-        item.alamat
+        item.alamat,
+        item.berat,
+        CurrencyFormat.convertToIdr(item.saldo, 0),
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -277,7 +279,7 @@ class PdfLaporanSemuaInduk {
       headers: headers,
       data: data,
       border: null,
-      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
       headerDecoration: BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,
       cellAlignments: {
@@ -286,6 +288,8 @@ class PdfLaporanSemuaInduk {
         2: Alignment.centerRight,
         3: Alignment.centerRight,
         4: Alignment.centerRight,
+        5: Alignment.centerRight,
+        6: Alignment.centerRight,
       },
     );
   }
@@ -294,8 +298,9 @@ class PdfLaporanSemuaInduk {
     final headers = [
       'Tanggal',
       'Kode Setor',
-      'Kode Nasabah',
-      'Kode Penimbang',
+      'Nasabah',
+      'Penimbang',
+      'Barang',
       'berat',
       'total',
     ];
@@ -304,10 +309,12 @@ class PdfLaporanSemuaInduk {
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
         item.kodeSetor,
-        item.kodeNasabah,
-        item.kodePenimbang,
+        item.nasabah,
+        item.penimbang,
+        item.barang,
         item.berat,
-        item.total
+        CurrencyFormat.convertToIdr(item.total, 0),
+
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -316,7 +323,7 @@ class PdfLaporanSemuaInduk {
       headers: headers,
       data: data,
       border: null,
-      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
       headerDecoration: BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,
       cellAlignments: {
@@ -325,6 +332,8 @@ class PdfLaporanSemuaInduk {
         2: Alignment.centerRight,
         3: Alignment.centerRight,
         4: Alignment.centerRight,
+        5: Alignment.centerRight,
+        6: Alignment.centerRight,
       },
     );
   }
@@ -333,7 +342,8 @@ class PdfLaporanSemuaInduk {
     final headers = [
       'Tanggal',
       'Kode Setor',
-      'Kode Admin',
+      'Admin',
+      'Barang',
       'berat',
       'harga',
     ];
@@ -342,9 +352,11 @@ class PdfLaporanSemuaInduk {
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
         item.kodeSusutSampahBs,
-        item.kodeAdminBs,
+        item.admin,
+        item.barang,
         item.berat,
-        item.harga
+        CurrencyFormat.convertToIdr(item.harga, 0),
+
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -362,6 +374,8 @@ class PdfLaporanSemuaInduk {
         2: Alignment.centerRight,
         3: Alignment.centerRight,
         4: Alignment.centerRight,
+        5: Alignment.centerRight,
+        6: Alignment.centerRight,
       },
     );
   }
@@ -369,8 +383,9 @@ class PdfLaporanSemuaInduk {
   static Widget buildTabelSusutInduk(LaporanSemua invoice) {
     final headers = [
       'Tanggal',
-      'Kode Setor',
-      'Nama Pembeli',
+      'KS',
+      'NP',
+      'Barang',
       'berat',
       'harga',
       'total',
@@ -381,9 +396,10 @@ class PdfLaporanSemuaInduk {
             .format(DateTime.parse(item.createdAt.toString())),
         item.kodeSusutInduk,
         item.namaPembeli,
+        item.barang,
         item.berat,
-        item.harga,
-        item.total
+        CurrencyFormat.convertToIdr(item.harga, 0),
+        CurrencyFormat.convertToIdr(item.total, 0),
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -392,15 +408,18 @@ class PdfLaporanSemuaInduk {
       headers: headers,
       data: data,
       border: null,
-      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
       headerDecoration: BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,
       cellAlignments: {
-        0: Alignment.centerLeft,
+        0: Alignment.centerRight,
         1: Alignment.centerRight,
         2: Alignment.centerRight,
         3: Alignment.centerRight,
         4: Alignment.centerRight,
+        5: Alignment.centerRight,
+        6: Alignment.centerRight,
+        7: Alignment.centerRight,
       },
     );
   }
@@ -409,7 +428,7 @@ class PdfLaporanSemuaInduk {
     final headers = [
       'Tanggal',
       'Nomer Invoice',
-      'Kode Admin',
+      'Admin',
       'Jumlah Penarikan',
     ];
     final data = invoice.itemspenarikanDanaAdmin.map((item) {
@@ -417,8 +436,9 @@ class PdfLaporanSemuaInduk {
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
         item.nomorInvoice,
-        item.kodeAdmin,
-        item.jumlahPenarikan,
+        item.namaAdmin,
+        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
+
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -444,7 +464,8 @@ class PdfLaporanSemuaInduk {
     final headers = [
       'Tanggal',
       'Nomer Invoice',
-      'Kode Nasabah',
+      'Nasabah',
+      'Admin',
       'Jumlah Penarikan',
     ];
     final data = invoice.itemspenarikanDanaNasabah.map((item) {
@@ -452,8 +473,9 @@ class PdfLaporanSemuaInduk {
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
         item.nomorInvoice,
-        item.kodeNasabah,
-        item.jumlahPenarikan,
+        item.namaNasabah,
+        item.namaAdmin,
+        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -515,37 +537,35 @@ class PdfLaporanSemuaInduk {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildText(
-                  title: 'Kas',
+                  title: 'Saldo',
                   value: CurrencyFormat.convertToIdr(invoice.all.kas, 0),
                   unite: true,
                 ),
                 buildText(
                   title: 'Total Penjualan Sampah Induk',
-                  value: CurrencyFormat.convertToIdr(
-                      invoice.all.pemblihanbahan, 0),
+                  value: '${invoice.all.pemblihanbahan} Kg',
                   unite: true,
                 ),
                 buildText(
                   title: 'Total Sampah Masuk',
-                  value:
-                      CurrencyFormat.convertToIdr(invoice.all.pengeluaran, 0),
+                  value: '${invoice.all.pengeluaran} Kg',
                   unite: true,
                 ),
                 buildText(
                   title: 'Total Sampah',
-                  value: CurrencyFormat.convertToIdr(invoice.all.penjualan, 0),
+                  value: '${invoice.all.penjualan} Kg',
                   unite: true,
                 ),
                 Divider(),
-                buildText(
-                  title: 'Total Keseluruhan',
-                  titleStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  value: CurrencyFormat.convertToIdr(invoice.all.total, 0),
-                  unite: true,
-                ),
+                // buildText(
+                //   title: 'Total Keseluruhan',
+                //   titleStyle: TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   value: CurrencyFormat.convertToIdr(invoice.all.total, 0),
+                //   unite: true,
+                // ),
                 SizedBox(height: 2 * PdfPageFormat.mm),
                 Container(height: 1, color: PdfColors.grey400),
                 SizedBox(height: 0.5 * PdfPageFormat.mm),

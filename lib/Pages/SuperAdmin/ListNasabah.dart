@@ -37,7 +37,9 @@ class _ListNasabahSuperAdminScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Nasabah',(){}),
+          appbar3(context, size, 'List Nasabah',(){
+            Navigator.pop(context);
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

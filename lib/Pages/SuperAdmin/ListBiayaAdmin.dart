@@ -33,7 +33,7 @@ class _ListBiayaAdminScreenState extends State<ListBiayaAdminScreen> {
     return Scaffold(
       body: Column(
         children: [
-          appbar3(context, size, 'List Biaya Admin',(){}),
+          appbar3(context, size, 'List Biaya Admin',(){Navigator.pop(context);}),
           FutureBuilder<List<dynamic>>(
             future: _futureData,
             builder: (context, snapshot) {

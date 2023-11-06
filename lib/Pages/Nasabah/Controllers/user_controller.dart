@@ -73,7 +73,6 @@ class UserControllerNasabah {
       await prefs.setString('kodeSuperAdmin', kode_super);
       await prefs.setString('pin', pin);
       final responseData = response.data['payload']['row'];
-      print('Ini Response Data : $responseData');
       return responseData;
     } catch (e) {
       // Handle exceptions here

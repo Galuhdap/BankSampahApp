@@ -33,7 +33,7 @@ class _ListSampahSuperAdminScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Sampah',(){}),
+          appbar3(context, size, 'List Sampah',(){Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

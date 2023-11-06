@@ -10,7 +10,7 @@ String susutSampahAdminModelToJson(SusutSampahAdminModel data) => json.encode(da
 
 class SusutSampahAdminModel {
     String? kodeSusutInduk;
-    int? berat;
+    num? berat;
     int? harga;
     int? total;
     String? catatan;
@@ -18,6 +18,8 @@ class SusutSampahAdminModel {
     String? kodeSuperAdmin;
     String? kodeSampah;
     String? kodeBarang;
+    String? sampah;
+    String? barang;
     DateTime? createdAt;
     DateTime? updatedAt;
 
@@ -31,6 +33,8 @@ class SusutSampahAdminModel {
         this.kodeSuperAdmin,
         this.kodeSampah,
         this.kodeBarang,
+        this.sampah,
+        this.barang,
         this.createdAt,
         this.updatedAt,
     });
@@ -45,6 +49,8 @@ class SusutSampahAdminModel {
         kodeSuperAdmin: json["kode_super_admin"],
         kodeSampah: json["kode_sampah"],
         kodeBarang: json["kode_barang"],
+        sampah: json["sampah"],
+        barang: json["barang"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     );
@@ -59,6 +65,8 @@ class SusutSampahAdminModel {
         "kode_super_admin": kodeSuperAdmin,
         "kode_sampah": kodeSampah,
         "kode_barang": kodeBarang,
+        "sampah": sampah,
+        "barang": barang,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
     };

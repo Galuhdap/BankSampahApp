@@ -12,6 +12,7 @@ class PenarikanDanaAdminModel {
     String? nomorInvoice;
     String? kodeSuperAdmin;
     String? kodeAdmin;
+    String? namaAdmin;
     int? jumlahPenarikan;
     bool? status;
     DateTime? createdAt;
@@ -21,6 +22,7 @@ class PenarikanDanaAdminModel {
         this.nomorInvoice,
         this.kodeSuperAdmin,
         this.kodeAdmin,
+        this.namaAdmin,
         this.jumlahPenarikan,
         this.status,
         this.createdAt,
@@ -31,6 +33,7 @@ class PenarikanDanaAdminModel {
         nomorInvoice: json["nomor_invoice"],
         kodeSuperAdmin: json["kode_super_admin"],
         kodeAdmin: json["kode_admin"],
+        namaAdmin: json["nama_admin"],
         jumlahPenarikan: json["jumlah_penarikan"],
         status: json["status"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
@@ -41,6 +44,7 @@ class PenarikanDanaAdminModel {
         "nomor_invoice": nomorInvoice,
         "kode_super_admin": kodeSuperAdmin,
         "kode_admin": kodeAdmin,
+        "nama_admin": namaAdmin,
         "jumlah_penarikan": jumlahPenarikan,
         "status": status,
         "createdAt": createdAt?.toIso8601String(),

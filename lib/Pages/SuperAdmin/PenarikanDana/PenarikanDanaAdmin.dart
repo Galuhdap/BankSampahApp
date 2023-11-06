@@ -79,7 +79,9 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                 ),
                 child: Stack(
                   children: [
-                    appbar3(context, size, 'Penarikan Dana ',(){}),
+                    appbar3(context, size, 'Penarikan Dana ', () {
+                      Navigator.pop(context);
+                    }),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 90, left: 30, right: 30),
@@ -242,9 +244,12 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                               filteredData[index]["nomor_invoice"],
                               filteredData[index]["kode_admin"].toString(),
                               '',
-                              filteredData[index]["createdAt"].toString(),
-                              filteredData[index]["jumlah_penarikan"]
-                                  .toString(),
+                              DateFormat(' dd MMMM yyyy', 'id_ID').format(
+                                  DateTime.parse(filteredData[index]
+                                          ["createdAt"]
+                                      .toString())),
+                              CurrencyFormat.convertToIdr(
+                                  filteredData[index]["jumlah_penarikan"], 0),
                               () async {},
                               size);
                         },

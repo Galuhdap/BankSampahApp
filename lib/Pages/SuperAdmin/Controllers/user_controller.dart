@@ -81,6 +81,25 @@ class UsersSuperAdminController {
     }
   }
 
+  Future<int> totalSaldo() async {
+    String? kode_reg = await getKodeReg();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final datas = {
+      'kode_user': kode_reg,
+    };
+
+    try {
+      final response =
+          await Dio().get('http://' + _baseUrl + '/suadminbyid', data: datas);
+      var data = response.data["payload"]["row"][0]['DetailSampahSuperAdmins'][0]['saldo'];
+      print(data);
+      return data;
+    } catch (e) {
+      // Handle exceptions here
+      return 0;
+    }
+  }
+
   Future<List> getUsers() async {
     String? kode_reg = await getKodeReg();
     SharedPreferences prefs = await SharedPreferences.getInstance();

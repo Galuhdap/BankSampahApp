@@ -16,6 +16,7 @@ import '../../../Data/curentFormat.dart';
 import 'Controllers/user_controller.dart';
 import 'Models/NasabahModel.dart';
 import 'OTPScreen.dart';
+import 'Statistic.dart';
 import 'SuccesScreen.dart';
 
 class PenarikanSaldo extends StatefulWidget {
@@ -66,7 +67,6 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print("ini : $cek");
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -91,8 +91,17 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
               child: Stack(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: appbar3(context, size, 'Penarikan Saldo',(){}),
+                    padding: EdgeInsets.only(left: 2),
+                    child: appbar3(context, size, 'Penarikan Saldo', () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return Statistic();
+                          },
+                        ),
+                      );
+                    }),
                   ),
                   Padding(
                     padding:
@@ -160,8 +169,8 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                               return Center(child: CircularProgressIndicator());
                             } else {
                               final List<dynamic> nasabah = snapshot.data!;
-                          final saldoHariini =
-                              nasabah[0]['DetailSampahNasabahs'][0]['saldo'];
+                              final saldoHariini = nasabah[0]
+                                  ['DetailSampahNasabahs'][0]['saldo'];
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
@@ -336,8 +345,9 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
                                               .data![index]["jumlah_penarikan"],
                                           biaya_admin: snapshot.data![index]
                                               ["BiayaAdmin"]["harga"],
-                                              date: snapshot.data![index]
-                                              ["createdAt"].toString(),
+                                          date: snapshot.data![index]
+                                                  ["createdAt"]
+                                              .toString(),
                                         );
                                       },
                                     ),

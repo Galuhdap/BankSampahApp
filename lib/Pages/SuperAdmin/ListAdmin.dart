@@ -36,7 +36,7 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Admin',(){}),
+          appbar3(context, size, 'List Admin',(){Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

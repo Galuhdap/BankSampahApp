@@ -140,7 +140,6 @@ class SampahSuperAdminController {
     final response = await Dio()
         .get('http://' + _baseUrl + '/service/biayaadmin', data: datas);
     final responseData = response.data['payload']['rows'];
-    print(responseData);
     return responseData;
   }
 
@@ -152,7 +151,6 @@ class SampahSuperAdminController {
       required String kodeBS}) async {
     try {
       String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
-      print(kodeSuperAdmin);
       final datas = {
         "kode_sampah": kodeSampah,
         "kode_barang": kodeBarang,
@@ -171,7 +169,7 @@ class SampahSuperAdminController {
   Future setorSampahSuperAdmin(
       {required String kodeSampah,
       required String kodeBarang,
-      required int berat,
+      required double berat,
       required int harga,
       required String catatan,
       required String nama_pembeli}) async {
@@ -292,6 +290,19 @@ class SampahSuperAdminController {
     final response = await Dio()
         .get('http://' + _baseUrl + '/setor/sampah/nasabah', data: datas);
     final responseData = response.data['payload']['rows'];
+    return responseData;
+  }
+
+  Future<List<dynamic>> totalSampah() async {
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    final datas = {
+      'kode_super_admin': kodeSuperAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/laporan/totalsampah', data: datas);
+    final responseData = response.data['payload'];
+    print(responseData);
     return responseData;
   }
 }

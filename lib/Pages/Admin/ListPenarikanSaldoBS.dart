@@ -46,7 +46,7 @@ class _ListPenarikanSaldoBSScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo BS',(){}),
+          appbar3(context, size, 'List Penarikan Saldo BS',(){Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Container(

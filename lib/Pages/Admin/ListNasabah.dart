@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
+import '../../Data/curentFormat.dart';
 import 'Models/detailsampahnasabah.dart';
 
 class ListNasabahScreen extends StatefulWidget {
@@ -34,7 +35,9 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Nasabah',(){}),
+          appbar3(context, size, 'List Nasabah', () {
+            Navigator.pop(context);
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -106,8 +109,10 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
                           filteredData[index]["alamat"],
                           filteredData[index]["rw"],
                           filteredData[index]["rt"],
-                          filteredData[index]["DetailSampahNasabahs"][0]
-                              ["saldo"],
+                          CurrencyFormat.convertToIdr(
+                              filteredData[index]["DetailSampahNasabahs"][0]
+                                  ["saldo"],
+                              0),
                           filteredData[index]["DetailSampahNasabahs"][0]
                               ["berat"],
                           filteredData[index]["kode_user"],

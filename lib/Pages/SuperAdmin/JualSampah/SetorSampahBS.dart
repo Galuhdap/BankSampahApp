@@ -51,7 +51,7 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Setor Sampah',(){}),
+            appbar3(context, size, 'Setor Sampah',(){Navigator.pop(context);}),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),

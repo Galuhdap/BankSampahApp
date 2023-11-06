@@ -21,6 +21,7 @@ import 'ListPenarikanSaldo.dart';
 import 'ListPenarikanSaldoBS.dart';
 import 'ListPenjualanSampah.dart';
 import 'Register/register.dart';
+import 'SetorSampahNasabah.dart';
 import 'SusutSampah/SusutSampah.dart';
 import 'controller/userController.dart';
 
@@ -58,15 +59,15 @@ class _BerandaAdminState extends State<BerandaAdmin> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appbar(() {
-        removeToken();
-      }),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppBarNew(size, () {
+                removeToken();
+              }),
               FutureBuilder<List<dynamic>>(
                   future: UserControllerAdmin().getUser(),
                   builder: (context, snapshot) {
@@ -77,16 +78,20 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                       final List<dynamic> filteredData = snapshot.data!;
                       final namaAdmin = filteredData[0]['nama_bs'];
                       final kodeAdmin = filteredData[0]['kode_admin'];
-                      final totalsampah = filteredData[0]['DetailSampahBs'][0]['berat'];
-                      final saldo = filteredData[0]['DetailSampahBs'][0]['saldo'];
-                      return PoinCard2(
-                          size,
-                          'Hi, $namaAdmin',
-                          'Kode Penimbang : ${kodeAdmin}',
-                          '$totalsampah Kg',
-                           CurrencyFormat.convertToIdr(
-                               saldo,
-                                0),);
+                      final totalsampah =
+                          filteredData[0]['DetailSampahBs'][0]['berat'];
+                      final saldo =
+                          filteredData[0]['DetailSampahBs'][0]['saldo'];
+                      final saldos = filteredData[0]['DetailSampahBs'][0]
+                          ['saldo_sekarang'];
+                      return PoinCard3(
+                        size,
+                        'Hi, $namaAdmin',
+                        'Kode Admin : ${kodeAdmin}',
+                        '$totalsampah Kg',
+                        CurrencyFormat.convertToIdr(saldo, 0),
+                        CurrencyFormat.convertToIdr(saldo, 0),
+                      );
                     }
                   }),
               Padding(
@@ -171,13 +176,13 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                     ),
                     menuKategori(
                       [
-                        subMenu(size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
-                            () {
+                        subMenu(size, 'assets/img/recycle.png',
+                            'LIST SETOR\nSAMPAH', () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return ListPenjualanSampahScreen();
+                                return SetorSampahScreen();
                               },
                             ),
                           ).then((value) {
@@ -197,6 +202,37 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
+                        // subMenu(size, 'assets/img/money-w.png',
+                        //     '', () async {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (builde) {
+                        //         return ListPenarikanSaldoScreen();
+                        //       },
+                        //     ),
+                        //   ).then((value) {
+                        //     setState(() {});
+                        //   });
+                        // }),
+                      ],
+                    ),
+                    menuKategori(
+                      [
+                        subMenu(size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return ListPenjualanSampahScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                        
                       ],
                     ),
                     const SizedBox(height: 15.0)

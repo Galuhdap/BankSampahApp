@@ -11,14 +11,14 @@ import 'ListPenjualanSampahInduk.dart';
 import 'SetorSampahBS.dart';
 import 'SetorSampahInduk.dart';
 
-class SelectJual extends StatefulWidget {
-  const SelectJual({super.key});
+class SelectJualinduk extends StatefulWidget {
+  const SelectJualinduk({super.key});
 
   @override
-  State<SelectJual> createState() => _SelectJualState();
+  State<SelectJualinduk> createState() => _SelectJualindukState();
 }
 
-class _SelectJualState extends State<SelectJual> {
+class _SelectJualindukState extends State<SelectJualinduk> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

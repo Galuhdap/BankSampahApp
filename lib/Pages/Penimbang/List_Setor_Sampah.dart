@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/AppBar.dart';
+import 'Beranda.dart';
 import 'Models/RowSampahModel.dart';
 import 'controllers/sampah_controller.dart';
 
@@ -74,7 +75,13 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
       body: Column(
         children: [
           Padding(padding: EdgeInsets.only(top: 0)),
-          appbar3(context, size, 'List Setor Sampah',(){}),
+          appbar3(context, size, 'List Setor Sampah', () {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (builde) {
+                return BerandaPenimbang();
+              },
+            ));
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -145,7 +152,9 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
                           filteredData[index]["kode_nasabah"],
                           DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
                               DateTime.parse(filteredData[index]["createdAt"])),
-                          filteredData[index]["kode_sampah"],
+                          filteredData[index]["JenisSampahKering"]
+                              ["jenis_sampah"],
+                          filteredData[index]["JenisBarang"]["jenis_barang"],
                           filteredData[index]["berat"],
                           () async {
                             await SampahPenimbangController().deleteSetorSampah(
@@ -175,14 +184,15 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
     );
   }
 
-  Padding listSetorSampah(Size size, ttl, kode, tgl, sampah, berat, hapus) {
+  Padding listSetorSampah(
+      Size size, ttl, kode, tgl, sampah, barang, berat, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(
         children: [
           Container(
             width: size.width * 0.9,
-            height: 111,
+            height: 120,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -216,7 +226,7 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
                     height: size.height * 0.005,
                   ),
                   Text(
-                    'Kode Pengepul : ${kode}',
+                    'Kode Nasabah : ${kode}',
                     style: TextStyle(
                       color: Color(0xFF3D3D3D),
                       fontSize: 11,
@@ -265,7 +275,20 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Text(
+                    '${barang}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  ),
                 ],
               ),
             ),

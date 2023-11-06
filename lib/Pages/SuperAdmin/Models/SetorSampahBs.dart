@@ -10,13 +10,15 @@ String setorSampahBsModelToJson(SetorSampahBsModel data) => json.encode(data.toJ
 
 class SetorSampahBsModel {
     String? kodeSusutSampahBs;
-    int? berat;
+    num? berat;
     int? harga;
     String? catatan;
     String? kodeAdminBs;
     String? kodeSuperAdmin;
     String? kodeSampah;
     String? kodeBarang;
+    String? barang;
+    String? admin;
     DateTime? createdAt;
     DateTime? updatedAt;
 
@@ -29,6 +31,8 @@ class SetorSampahBsModel {
         this.kodeSuperAdmin,
         this.kodeSampah,
         this.kodeBarang,
+        this.barang,
+        this.admin,
         this.createdAt,
         this.updatedAt,
     });
@@ -42,6 +46,8 @@ class SetorSampahBsModel {
         kodeSuperAdmin: json["kode_super_admin"],
         kodeSampah: json["kode_sampah"],
         kodeBarang: json["kode_barang"],
+        admin: json["admin"],
+        barang: json["barang"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     );
@@ -55,6 +61,8 @@ class SetorSampahBsModel {
         "kode_super_admin": kodeSuperAdmin,
         "kode_sampah": kodeSampah,
         "kode_barang": kodeBarang,
+        "admin": admin,
+        "barang": barang,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
     };

@@ -9,6 +9,7 @@ import '../../Components/CardRiwayat.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Data/curentFormat.dart';
 import 'Controllers/user_controller.dart';
+import 'Home.dart';
 import 'Models/NasabahModel.dart';
 
 class Statistic extends StatefulWidget {
@@ -47,7 +48,16 @@ class _StatisticState extends State<Statistic> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          appbar3(context, size, '', () {}),
+          appbar3(context, size, '', () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (builde) {
+                  return HomeNasabahScreen();
+                },
+              ),
+            );
+          }),
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 7),
@@ -291,7 +301,7 @@ class _StatisticState extends State<Statistic> {
                                 Colors.green,
                                 'Setor Sampah',
                                 snapshot.data![index]["berat"].toString(),
-                                'Plastik',
+                                '${snapshot.data![index]["JenisBarang"]["jenis_barang"]}',
                                 CurrencyFormat.convertToIdr(
                                     snapshot.data![index]["total"], 0),
                                 Colors.green,

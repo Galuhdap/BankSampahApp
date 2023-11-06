@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../../Components/AppBar.dart';
+import '../../../Data/curentFormat.dart';
 import '../Controllers/sampahController.dart';
 
 class ListPenjualanSuperAdminScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _ListPenjualanSuperAdminScreenState
     extends State<ListPenjualanSuperAdminScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
-String query = "";
+  String query = "";
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ String query = "";
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Bank INDUK',(){}),
+          appbar3(context, size, 'List Penjualan Bank Induk', () {Navigator.pop(context);}),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -102,11 +103,19 @@ String query = "";
                         return listPenimbang(
                             size,
                             filteredData[index]["kode_penjualan_induk"],
-                             filteredData[index]["nama_pembeli"].toString(),
+                            filteredData[index]["nama_pembeli"].toString(),
+                             
                             filteredData[index]["berat"],
-                            '',
-                            filteredData[index]["harga"],
-                            filteredData[index]["total"], (value) {
+                            filteredData[index]["JenisSampahKering"]
+                              ["jenis_sampah"],
+                           filteredData[index]["JenisBarang"]["jenis_barang"],
+                           CurrencyFormat.convertToIdr(
+                              filteredData[index]["harga"], 0),
+                            CurrencyFormat.convertToIdr(
+                              filteredData[index]["total"], 0),
+                            
+                            
+                            (value) {
                           // if (value == 'editAdmin') {
                           //   Navigator.push(
                           //     context,
@@ -167,14 +176,14 @@ String query = "";
   }
 
   Padding listPenimbang(
-      Size size, ttl, ttl1, alamat, rt, notelp, reg, edit, hapus) {
+      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, edit, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(
         children: [
           Container(
             width: size.width * 0.9,
-            height: 111,
+            height: 150,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -211,7 +220,7 @@ String query = "";
                     ttl1,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
+                      fontSize: 13,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                       height: 0,
@@ -221,9 +230,9 @@ String query = "";
                     height: size.height * 0.015,
                   ),
                   Text(
-                    "${alamat} KG",
+                    "Sampah ${sampah}",
                     style: TextStyle(
-                      color: Color(0xFF7F7F7F),
+                      color: Color.fromARGB(255, 0, 0, 0),
                       fontSize: 13,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w400,
@@ -232,6 +241,29 @@ String query = "";
                   ),
                   SizedBox(
                     height: size.height * 0.005,
+                  ),
+                  Text(
+                    "${kode}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  Text(
+                    "${alamat} KG",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                   SizedBox(
+                    height: size.height * 0.008,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

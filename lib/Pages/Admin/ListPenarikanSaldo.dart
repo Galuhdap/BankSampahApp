@@ -44,7 +44,7 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
     return Scaffold(
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo',(){}),
+          appbar3(context, size, 'List Penarikan Saldo',(){Navigator.pop(context);}),
           pilihanReg(
               size, 'assets/img/tapeng.png', 'Aktifkan\nPenarikan\nSaldo', () {
             setState(() {
