@@ -48,15 +48,15 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
                         child: Column(
                           children: [
                             fieldText(
-                                size, 'Jenis Sampah', 'Jenis Sampa', true,''),
+                                size, 'Jenis Sampah', 'Jenis Sampah', true,'', TextInputType.number),
                             fieldText(
-                                size, 'Jenis Barang', 'Jenis Barang', true,''),
-                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true,''),
-                            fieldText(size, 'Berat Susut Sampah (KG)', 'Berat (KG)', true,''),
+                                size, 'Jenis Barang', 'Jenis Barang', true,'', TextInputType.number),
+                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true,'', TextInputType.number),
+                            fieldText(size, 'Berat Susut Sampah (KG)', 'Berat (KG)', true,'', TextInputType.number),
                             fieldText(
-                                size, 'Tanggal Setor', 'Tanggal Setor', true,''),
+                                size, 'Tanggal Setor', 'Tanggal Setor', true,'', TextInputType.number),
                             fieldText(size, 'Catatan Tambahan',
-                                'Catatan Tambahan', true,''),
+                                'Catatan Tambahan', true,'', TextInputType.number),
                           ],
                         ),
                       ),

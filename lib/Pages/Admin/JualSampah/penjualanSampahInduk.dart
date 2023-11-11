@@ -48,17 +48,17 @@ class _PenjualanSampahIndukScreenState extends State<PenjualanSampahIndukScreen>
                         child: Column(
                           children: [
                             fieldText(
-                                size, 'Jenis Sampah', 'Jenis Sampa', true,''),
+                                size, 'Jenis Sampah', 'Jenis Sampa', true,'', TextInputType.number),
                             fieldText(
-                                size, 'Jenis Barang', 'Jenis Barang', true,''),
-                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true,''),
-                            fieldText(size, 'Harga', 'Harga', true,''),
+                                size, 'Jenis Barang', 'Jenis Barang', true,'', TextInputType.number),
+                            fieldText(size, 'Berat (KG)', 'Berat (KG)', true,'', TextInputType.number),
+                            fieldText(size, 'Harga', 'Harga', true,'', TextInputType.number),
                             fieldText(
-                                size, 'Tanggal Penjualan', 'Tanggal Penjualan', true,''),
+                                size, 'Tanggal Penjualan', 'Tanggal Penjualan', true,'',TextInputType.number),
                             fieldText(
-                                size, 'Nama Pembeli Sampah', 'Nama Pembeli Sampah', true,''),
+                                size, 'Nama Pembeli Sampah', 'Nama Pembeli Sampah', true,'', TextInputType.number),
                             fieldText(size, 'Catatan Tambahan',
-                                'Catatan Tambahan', true,''),
+                                'Catatan Tambahan', true,'', TextInputType.number),
                           ],
                         ),
                       ),

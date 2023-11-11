@@ -1,8 +1,10 @@
 import 'package:banksampah_application/Components/AppBar.dart';
 import 'package:banksampah_application/Pages/Penimbang/Beranda.dart';
 import 'package:banksampah_application/Pages/Penimbang/controllers/sampah_controller.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
@@ -17,6 +19,8 @@ class SusutSampahAddScreen extends StatefulWidget {
 }
 
 class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
+  CurrencyTextInputFormatter _currencyFormatter =
+      CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
   String? dropdownValue;
   String? dropdownValueBarang;
   var _data;
@@ -49,7 +53,9 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Susut Sampah',(){}),
+            appbar3(context, size, 'Susut Sampah', () {
+              Navigator.pop(context);
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -215,42 +221,124 @@ class _SusutSampahAddScreenState extends State<SusutSampahAddScreen> {
                                 ],
                               ),
                             ),
-                            fieldText(
-                                size, 'Berat (KG)', '', true, beratController),
-                            fieldText(size, 'Harga', '', true, hargaController),
+                            fieldText(size, 'Berat (KG)', '', true,
+                                beratController, TextInputType.number),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 19),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 5),
+                                    child: Text(
+                                      'Harga',
+                                      style: TextStyle(
+                                        color: Color(0xFF333333),
+                                        fontSize: 13,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: size.width * 0.75,
+                                    child: TextField(
+                                      controller: hargaController,
+                                      enabled: true,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [_currencyFormatter],
+                                      decoration: InputDecoration(
+                                        prefixText: 'Rp ',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.green,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.green,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        filled: true,
+                                        fillColor: Color(0xFFE6F4F1),
+                                        isDense: true,
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             // fieldText(
                             //     size, 'Tanggal Setor', '', true, tglController),
                             fieldText(size, 'Catatan Tambahan', '', true,
-                                catatanController),
+                                catatanController, TextInputType.name),
                             fieldText(size, 'Nama Pembeli', '', true,
-                                namaPembeliController),
+                                namaPembeliController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     buttom(size, 'SETOR SAMPAH', Color(0xFF4CAF50), () async {
-                      showDialog(
+                      int? _harga;
+                      String hargaText = hargaController.text
+                          .replaceAll('Rp ', '')
+                          .replaceAll('.', '');
+
+                      int parsedHarga = int.tryParse(hargaText) ?? 0;
+
+                      setState(() {
+                        _harga = parsedHarga;
+                      });
+
+                      String inputText = beratController.text;
+                      double? numericValue;
+
+                      try {
+                        numericValue = double.parse(inputText);
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                        await SampahSuperAdminController()
+                            .susutSampahSuperAdmin(
+                                kodeSampah: dropdownValue.toString(),
+                                kodeBarang: dropdownValueBarang.toString(),
+                                berat: numericValue,
+                                harga: _harga!,
+                                catatan: catatanController.text,
+                                nama_pembeli: namaPembeliController.text);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return SusutSampahScreen();
+                            },
+                          ),
+                        );
+                      } catch (e) {
+                        Alert(
                           context: context,
-                          builder: (context) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          });
-                      await SampahSuperAdminController().susutSampahSuperAdmin(
-                          kodeSampah: dropdownValue.toString(),
-                          kodeBarang: dropdownValueBarang.toString(),
-                          berat: int.parse(beratController.text),
-                          harga: int.parse(hargaController.text),
-                          catatan: catatanController.text,
-                          nama_pembeli: namaPembeliController.text);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (builde) {
-                            return SusutSampahScreen();
-                          },
-                        ),
-                      );
+                          type: AlertType.error,
+                          title: "ERROR INPUT",
+                          desc: "Masukan Berat Tidak Bisa dengan (,)",
+                        ).show();
+                        return;
+                      }
+                      ;
                     }),
                   ],
                 ),

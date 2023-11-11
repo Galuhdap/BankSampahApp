@@ -166,12 +166,13 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                     ),
                     menuKategori(
                       [
-                        subMenu(size, 'assets/img/truck.png', 'Sampah', () {
+                        subMenu(size, 'assets/img/recycle.png', 'JUAL SAMPAH',
+                            () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return SampahSuperAdminScreen();
+                                return SelectJualinduk();
                               },
                             ),
                           ).then((value) {
@@ -195,19 +196,19 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                     ),
                     menuKategori(
                       [
-                        subMenu(size, 'assets/img/truck.png', 'Jual Sampah',
-                            () {
+                         subMenu(size, 'assets/img/truck.png', 'SAMPAH', () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return SelectJualinduk();
+                                return SampahSuperAdminScreen();
                               },
                             ),
                           ).then((value) {
                             setState(() {});
                           });
                         }),
+                       
                         subMenu(
                             size, 'assets/img/money-w.png', 'PENARIKAN DANA',
                             () {

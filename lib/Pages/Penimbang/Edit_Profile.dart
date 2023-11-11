@@ -100,11 +100,11 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                   ),
-                  fieldText(size, 'Nama', 'galuh', false,''),
-                  fieldText(size, 'Kode Pengepul', 'KP-1102231', false,''),
-                  fieldText(size, 'No Telp', '+628332212', false,''),
+                  fieldText(size, 'Nama', 'galuh', false,'', TextInputType.number),
+                  fieldText(size, 'Kode Pengepul', 'KP-1102231', false,'', TextInputType.number),
+                  fieldText(size, 'No Telp', '+628332212', false,'', TextInputType.number),
                   fieldText(
-                      size, 'Alamat', 'Nginden Selatan , Surabaya', false,''),
+                      size, 'Alamat', 'Nginden Selatan , Surabaya', false,'', TextInputType.number),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Row(

@@ -1,20 +1,12 @@
 import 'package:banksampah_application/Pages/Login/login.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/Admin/Beranda.dart';
-import 'Pages/Admin/Navigation_Bar.dart';
 import 'Pages/Nasabah/Home.dart';
-import 'Pages/Nasabah/Navigation_bar.dart';
 import 'Pages/Penimbang/Beranda.dart';
-import 'Pages/Penimbang/Navigation_bar.dart';
 import 'Pages/SuperAdmin/Beranda.dart';
-import 'Pages/SuperAdmin/Navigation_Bar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

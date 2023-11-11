@@ -5,12 +5,12 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 
 import '../../../../Data/curentFormat.dart';
-import '../../Models/LaporanSemuaModel.dart';
-import '../../Models/UsersSuperAdminModel.dart';
+import '../../SuperAdmin/Models/UsersSuperAdminModel.dart';
+import '../Models/LaporanAdminModel.dart';
 
-class PdfLaporanSemuaInduk {
+class PdfLaporanAdmin {
   //ini untuk pdf flutter
-  Future<Uint8List> generate(LaporanSemua invoice) async {
+  Future<Uint8List> generate(LaporanAdmin invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -26,10 +26,6 @@ class PdfLaporanSemuaInduk {
         buildTabelSetorAdmin(invoice),
         Divider(),
 
-        SizedBox(height: 2 * PdfPageFormat.cm),
-        buildTitle('Laporan Penjualan Sampah Bank Sampah Induk'),
-        buildTabelSusutInduk(invoice),
-        Divider(),
 
         SizedBox(height: 2 * PdfPageFormat.cm),
         buildTitle('Laporan Tarik Saldo Nasabah'),
@@ -50,10 +46,6 @@ class PdfLaporanSemuaInduk {
         buildTabelPenggunaPenimbang(invoice),
         Divider(),
 
-        SizedBox(height: 2 * PdfPageFormat.cm),
-        buildTitle('Laporan Pengguna Bank Sampah Admin'),
-        buildTabelPenggunaAdmin(invoice),
-        Divider(),
 
         SizedBox(height: 2 * PdfPageFormat.cm),
         SizedBox(height: 2 * PdfPageFormat.cm),
@@ -68,7 +60,7 @@ class PdfLaporanSemuaInduk {
   }
 
   //ini untuk header
-  static Widget buildHeader(LaporanSemua invoice) => Column(
+  static Widget buildHeader(LaporanAdmin invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -78,7 +70,7 @@ class PdfLaporanSemuaInduk {
         ],
       );
 
-  static Widget totals(LaporanSemua lprn) => Column(
+  static Widget totals(LaporanAdmin lprn) => Column(
         children: [
           Container(
             child: Row(
@@ -103,7 +95,7 @@ class PdfLaporanSemuaInduk {
           ),
         ],
       );
-  static Widget totals2(LaporanSemua lprn) => Column(
+  static Widget totals2(LaporanAdmin lprn) => Column(
         children: [
           Container(
             width: 475,
@@ -121,7 +113,7 @@ class PdfLaporanSemuaInduk {
           ),
         ],
       );
-  static Widget totals3(LaporanSemua lprn) => Column(
+  static Widget totals3(LaporanAdmin lprn) => Column(
         children: [
           Container(
             child: Row(
@@ -171,7 +163,7 @@ class PdfLaporanSemuaInduk {
         ],
       );
 
-  static Widget buildTabelPenggunaAdmin(LaporanSemua invoice) {
+  static Widget buildTabelPenggunaAdmin(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Kode BS',
@@ -214,7 +206,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelPenggunaPenimbang(LaporanSemua invoice) {
+  static Widget buildTabelPenggunaPenimbang(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Kode Penimbang',
@@ -251,7 +243,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelPenggunaNasabah(LaporanSemua invoice) {
+  static Widget buildTabelPenggunaNasabah(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Kode',
@@ -294,7 +286,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelSetorNasabah(LaporanSemua invoice) {
+  static Widget buildTabelSetorNasabah(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Kode Setor',
@@ -338,7 +330,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelSetorAdmin(LaporanSemua invoice) {
+  static Widget buildTabelSetorAdmin(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Kode Setor',
@@ -380,7 +372,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelSusutInduk(LaporanSemua invoice) {
+  static Widget buildTabelSusutInduk(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'KS',
@@ -424,7 +416,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelTarikDanaAdmin(LaporanSemua invoice) {
+  static Widget buildTabelTarikDanaAdmin(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Nomer Invoice',
@@ -460,7 +452,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTabelTarikDanaNasabah(LaporanSemua invoice) {
+  static Widget buildTabelTarikDanaNasabah(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
       'Nomer Invoice',
@@ -498,7 +490,7 @@ class PdfLaporanSemuaInduk {
   }
 
 // //ini untuk kaki
-//   static Widget buildFooter(LaporanSemua invoice) => Column(
+//   static Widget buildFooter(LaporanAdmin invoice) => Column(
 //         crossAxisAlignment: CrossAxisAlignment.center,
 //         children: [
 //           Divider(),
@@ -526,7 +518,7 @@ class PdfLaporanSemuaInduk {
     );
   }
 
-  static Widget buildTotals(LaporanSemua invoice) {
+  static Widget buildTotals(LaporanAdmin invoice) {
     return Container(
       alignment: Alignment.centerRight,
       child: Row(
@@ -542,7 +534,7 @@ class PdfLaporanSemuaInduk {
                   unite: true,
                 ),
                 buildText(
-                  title: 'Total Penjualan Sampah Induk',
+                  title: 'Total Penjualan Sampah Admin',
                   value: '${invoice.all.pemblihanbahan} Kg',
                   unite: true,
                 ),
@@ -551,12 +543,7 @@ class PdfLaporanSemuaInduk {
                   value: '${invoice.all.pengeluaran} Kg',
                   unite: true,
                 ),
-                // buildText(
-                //   title: 'Total Sampah',
-                //   value: '${invoice.all.penjualan} Kg',
-                //   unite: true,
-                // ),
-                // Divider(),
+                Divider(),
                 // buildText(
                 //   title: 'Total Keseluruhan',
                 //   titleStyle: TextStyle(

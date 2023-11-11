@@ -84,112 +84,108 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
                 },
               ),
               Center(
-                child: SizedBox(
-                  height: 400,
-                  width: 500,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 35, top: 20),
-                        child: Text(
-                          'Berita Terkini',
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, top: 30),
+                      child: Text(
+                        'Berita Terkini',
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            height: size.height * 0.2,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            pauseAutoPlayOnTouch: true,
-                            enlargeCenterPage: true,
-                            viewportFraction: 0.9,
-                          ),
-                          items: beritaTerkini.map((title) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: AssetImage(title),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: size.height * 0.2,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          pauseAutoPlayOnTouch: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 20, left: 20, right: 20),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builde) {
-                                  return Statistic();
-                                },
-                              ),
-                            ).then((value) {
-                              setState(() {});
-                            });
-                          },
-                          child: Container(
-                            width: size.width * 0.9,
-                            height: 86,
-                            decoration: ShapeDecoration(
+                        items: beritaTerkini.map((title) {
+                          return Container(
+                            decoration: BoxDecoration(
                               color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: AssetImage(title),
                               ),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color.fromARGB(40, 0, 0, 0),
-                                  blurRadius: 19,
-                                  offset: Offset(3, 0),
-                                  spreadRadius: -8,
-                                )
-                              ],
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/img/money-w.png',
-                                  width: 50,
-                                  height: 50,
-                                ),
-                                SizedBox(
-                                  width: size.width * 0.05,
-                                ),
-                                Text(
-                                  'Pencairan Dana',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )
-                              ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, bottom: 20, left: 20, right: 20),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return Statistic();
+                              },
                             ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        },
+                        child: Container(
+                          width: size.width * 0.9,
+                          height: 86,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            shadows: [
+                              BoxShadow(
+                                color: Color.fromARGB(40, 0, 0, 0),
+                                blurRadius: 19,
+                                offset: Offset(3, 0),
+                                spreadRadius: -8,
+                              )
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/img/money-w.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              SizedBox(
+                                width: size.width * 0.05,
+                              ),
+                              Text(
+                                'Pencairan Dana',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF333333),
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],

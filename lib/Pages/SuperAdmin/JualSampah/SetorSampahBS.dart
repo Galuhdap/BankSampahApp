@@ -1,13 +1,16 @@
 import 'package:banksampah_application/Components/AppBar.dart';
 import 'package:banksampah_application/Pages/Penimbang/Beranda.dart';
 import 'package:banksampah_application/Pages/Penimbang/controllers/sampah_controller.dart';
+import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
 import '../../Admin/JualSampah/SelectJual.dart';
 import '../Controllers/sampahController.dart';
+import '../Controllers/user_controller.dart';
 
 class SetorSampahBS extends StatefulWidget {
   const SetorSampahBS({super.key});
@@ -51,7 +54,9 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Setor Sampah',(){Navigator.pop(context);}),
+            appbar3(context, size, 'Setor Sampah', () {
+              Navigator.pop(context);
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -78,7 +83,7 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
                         child: Column(
                           children: [
                             fieldText(size, 'Kode Bank Sampah', '', true,
-                                kodeAdminController),
+                                kodeAdminController, TextInputType.name),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 19),
                               child: Column(
@@ -219,12 +224,12 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
                                 ],
                               ),
                             ),
-                            fieldText(
-                                size, 'Berat (KG)', '', true, beratController),
+                            fieldText(size, 'Berat (KG)', '', true,
+                                beratController, TextInputType.number),
                             // fieldText(
                             //     size, 'Tanggal Setor', '', true, tglController),
                             fieldText(size, 'Catatan Tambahan', '', true,
-                                catatanController),
+                                catatanController, TextInputType.name),
                           ],
                         ),
                       ),
@@ -234,32 +239,48 @@ class _SetorSampahBSState extends State<SetorSampahBS> {
                       double? numericValue;
 
                       try {
-                        numericValue = double.parse(inputText);
+                        final valAdmin = await UsersSuperAdminController()
+                            .validasiAdmin(kodeAdmin: kodeAdminController.text);
+                        if (valAdmin["success"] == false) {
+                          Alert(
+                            context: context,
+                            type: AlertType.error,
+                            title: "ERROR INPUT",
+                            desc: "Masukan Kode Nasabah Dengan Benar",
+                          ).show();
+                        } else {
+                          numericValue = double.parse(inputText);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+                          await SampahSuperAdminController().setorSampahAdmin(
+                              kodeSampah: dropdownValue.toString(),
+                              kodeBarang: dropdownValueBarang.toString(),
+                              berat: numericValue,
+                              catatan: catatanController.text,
+                              kodeBS: kodeAdminController.text);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return SelectJualinduk();
+                              },
+                            ),
+                          );
+                        }
                       } catch (e) {
-                        print('Input tidak valid: $e');
+                        Alert(
+                          context: context,
+                          type: AlertType.error,
+                          title: "ERROR INPUT",
+                          desc: "Masukan Berat Tidak Bisa dengan (,)",
+                        ).show();
                         return;
                       }
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          });
-                      await SampahSuperAdminController().setorSampahAdmin(
-                          kodeSampah: dropdownValue.toString(),
-                          kodeBarang: dropdownValueBarang.toString(),
-                          berat: numericValue,
-                          catatan: catatanController.text,
-                          kodeBS: kodeAdminController.text);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (builde) {
-                            return SelectJual();
-                          },
-                        ),
-                      );
                     }),
                   ],
                 ),

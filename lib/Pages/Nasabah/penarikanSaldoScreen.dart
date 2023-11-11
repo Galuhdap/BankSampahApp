@@ -270,7 +270,7 @@ class _PenarikanSaldoState extends State<PenarikanSaldo> {
               padding: const EdgeInsets.only(top: 10),
               child: Container(
                 width: size.width * 0.9,
-                height: 344,
+                height: size.height *0.5,
                 decoration: ShapeDecoration(
                   color: Color(0xFFDCEAE7),
                   shape: RoundedRectangleBorder(

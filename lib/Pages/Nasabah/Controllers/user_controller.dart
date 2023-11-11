@@ -136,6 +136,30 @@ class UserControllerNasabah {
     return responseData;
   }
 
+   Future<int> totalpenarikan() async {
+     String? kodeNasabah = await getDataLocal('kodeNasabah');
+
+    final datas = {
+      'kode_nasabah': kodeNasabah,
+    };
+    final response =
+        await Dio().get('http://' + _baseUrl + '/service/totalnasabah', data: datas);
+    final responseData = response.data['payload']['rows'];
+    return responseData;
+  }
+
+   Future<int> totalPenyetoran() async {
+     String? kodeNasabah = await getDataLocal('kodeNasabah');
+
+    final datas = {
+      'kode_nasabah': kodeNasabah,
+    };
+    final response =
+        await Dio().get('http://' + _baseUrl + '/setor/total/nas', data: datas);
+    final responseData = response.data['payload']['row'];
+    return responseData;
+  }
+
    Future biayaAdmin() async {
     String? kodeNasabah = await getDataLocal('kodeSuperAdmin');
 

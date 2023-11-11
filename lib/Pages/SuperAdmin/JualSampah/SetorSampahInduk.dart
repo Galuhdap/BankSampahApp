@@ -4,6 +4,7 @@ import 'package:banksampah_application/Pages/Penimbang/controllers/sampah_contro
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/TextField.dart';
@@ -57,7 +58,9 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Penjualan Sampah Bank Induk', () {Navigator.pop(context);}),
+            appbar3(context, size, 'Penjualan Sampah Bank Induk', () {
+              Navigator.pop(context);
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -223,8 +226,8 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
                                 ],
                               ),
                             ),
-                            fieldText(
-                                size, 'Berat (KG)', '', true, beratController),
+                            fieldText(size, 'Berat (KG)', '', true,
+                                beratController, TextInputType.number),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 19),
                               child: Column(
@@ -249,7 +252,7 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
                                       controller: hargaController,
                                       enabled: true,
                                       keyboardType: TextInputType.number,
-                                       inputFormatters: [_currencyFormatter],
+                                      inputFormatters: [_currencyFormatter],
                                       decoration: InputDecoration(
                                         prefixText: 'Rp ',
                                         border: OutlineInputBorder(
@@ -278,14 +281,13 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
                                       ),
                                     ),
                                   ),
-                                 
                                 ],
                               ),
                             ),
                             fieldText(size, 'Catatan Tambahan', '', true,
-                                catatanController),
+                                catatanController, TextInputType.name),
                             fieldText(size, 'Nama Pembeli', '', true,
-                                namaPembeliController),
+                                namaPembeliController, TextInputType.name),
                           ],
                         ),
                       ),
@@ -306,32 +308,38 @@ class _SetorSampahIndukState extends State<SetorSampahInduk> {
 
                       try {
                         numericValue = double.parse(inputText);
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                        await SampahSuperAdminController()
+                            .setorSampahSuperAdmin(
+                                kodeSampah: dropdownValue.toString(),
+                                kodeBarang: dropdownValueBarang.toString(),
+                                berat: numericValue,
+                                harga: _harga,
+                                catatan: catatanController.text,
+                                nama_pembeli: namaPembeliController.text);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builde) {
+                              return SelectJualinduk();
+                            },
+                          ),
+                        );
                       } catch (e) {
-                        print('Input tidak valid: $e');
+                        Alert(
+                          context: context,
+                          type: AlertType.error,
+                          title: "ERROR INPUT",
+                          desc: "Masukan Berat Tidak Bisa dengan (,)",
+                        ).show();
                         return;
                       }
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          });
-                      await SampahSuperAdminController().setorSampahSuperAdmin(
-                          kodeSampah: dropdownValue.toString(),
-                          kodeBarang: dropdownValueBarang.toString(),
-                          berat: numericValue,
-                          harga: _harga,
-                          catatan: catatanController.text,
-                          nama_pembeli: namaPembeliController.text);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (builde) {
-                            return SelectJualinduk();
-                          },
-                        ),
-                      );
                     }),
                   ],
                 ),

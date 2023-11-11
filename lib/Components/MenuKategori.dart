@@ -61,14 +61,14 @@ Padding menuKategori1(p) {
   );
 }
 
-InkWell subMenu1(Size size, img, txt1, txt, ontp) {
+InkWell subMenu1(Size size, img, txt1, txt, ontp, clr) {
   return InkWell(
     onTap: ontp,
     child: Container(
       width: size.width * 0.435,
       height: size.height * 0.10,
       decoration: ShapeDecoration(
-        color: Colors.green,
+        color: clr,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

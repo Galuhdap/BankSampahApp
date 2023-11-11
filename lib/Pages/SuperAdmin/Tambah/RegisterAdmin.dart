@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
@@ -91,27 +92,39 @@ class _TambahAdminScreenState extends State<TambahAdminScreen> {
                       'REGISTER',
                       Color(0xFF4CAF50),
                       () async {
-                        showDialog(
+                        final valAdmin = await UsersSuperAdminController()
+                            .validasiRw(rw: rwController.text);
+                        print(valAdmin);
+                        if (valAdmin["status"] == true) {
+                          Alert(
                             context: context,
-                            builder: (context) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            });
-                        await UsersSuperAdminController().registerAdmin(
-                            nama_admin: namaAdminController.text,
-                            rw: rwController.text,
-                            rt: rtController.text,
-                            no_telp: noTelpController.text,
-                            password: passwordController.text);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builde) {
-                              return BerandaSuperAdmin();
-                            },
-                          ),
-                        );
+                            type: AlertType.warning,
+                            title: "ERROR INPUT",
+                            desc: "RW Sudah Di Gunakan",
+                          ).show();
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+                          await UsersSuperAdminController().registerAdmin(
+                              nama_admin: namaAdminController.text,
+                              rw: rwController.text,
+                              rt: rtController.text,
+                              no_telp: noTelpController.text,
+                              password: passwordController.text);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return BerandaSuperAdmin();
+                              },
+                            ),
+                          );
+                        }
                       },
                     ),
                   ],

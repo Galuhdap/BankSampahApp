@@ -85,7 +85,7 @@ class _BerandaPenimbangState extends State<BerandaPenimbang> {
                           size,
                           'Hi,$namaPenimbang',
                           'Kode Penimbang :${kodePenimbang}',
-                          totalsampah.toString(),
+                          '$totalsampah Kg',
                           CurrencyFormat.convertToIdr(saldo, 0),
                         );
                       }

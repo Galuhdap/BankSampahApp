@@ -70,7 +70,7 @@ class _SampahSuperAdminScreenState extends State<SampahSuperAdminScreen> {
                         setState(() {});
                       });
                     }),
-                    pilihanReg('assets/img/truck.png', 'Biaya Admin', () {
+                    pilihanReg('assets/img/rupiah.png', 'Biaya Admin', () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

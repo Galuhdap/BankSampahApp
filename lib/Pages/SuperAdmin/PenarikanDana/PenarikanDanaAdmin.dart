@@ -6,13 +6,13 @@ import 'package:banksampah_application/Pages/SuperAdmin/SusutSampah/SusutSampahA
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Components/CardRiwayat.dart';
 import '../../../Data/curentFormat.dart';
 import '../../Nasabah/Controllers/user_controller.dart';
 import '../Controllers/sampahController.dart';
-import 'PenarikanDana.dart';
 import 'SuccesDana.dart';
 
 class PenarikanDanaAdminScreen extends StatefulWidget {
@@ -240,14 +240,15 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                         padding: EdgeInsets.only(top: 10),
                         itemCount: filteredData.length,
                         itemBuilder: (BuildContext context, index) {
+                          print(filteredData[index]["BiayaAdmin"]["harga"]);
                           return transactionCard2(
                               filteredData[index]["nomor_invoice"],
                               filteredData[index]["kode_admin"].toString(),
-                              '',
                               DateFormat(' dd MMMM yyyy', 'id_ID').format(
                                   DateTime.parse(filteredData[index]
                                           ["createdAt"]
                                       .toString())),
+                              'Biaya Admin ${CurrencyFormat.convertToIdr(filteredData[index]["BiayaAdmin"]["harga"], 0)}',
                               CurrencyFormat.convertToIdr(
                                   filteredData[index]["jumlah_penarikan"], 0),
                               () async {},
@@ -276,7 +277,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
       context: context,
       builder: (context) {
         final random = Random();
-        String invoice = 'INV';
+        String invoice = 'INV-';
 
         for (int i = 0; i < 5; i++) {
           invoice += random.nextInt(10).toString();
@@ -451,34 +452,49 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                   setState(() {
                                     harga = parsedHarga;
                                   });
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      });
-                                  await UsersSuperAdminController()
-                                      .penarikanSaldoAdmin(
-                                    kode_invoice: invoice,
-                                    jumlah_penarikan: harga,
-                                    kode_admin: kodeAdminController.text,
-                                  );
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (builde) {
-                                        return SuccesDanaScreen(
-                                          kode_invoice: invoice,
-                                          jumlah_penarikan: harga,
-                                          biaya_admin: data,
-                                        );
-                                      },
-                                    ),
-                                  ).then((value) {
-                                    setState(() {});
-                                  });
+                                  final valAdmin =
+                                      await UsersSuperAdminController()
+                                          .validasiAdmin(
+                                              kodeAdmin:
+                                                  kodeAdminController.text);
+                                  if (valAdmin["success"] == false) {
+                                    Alert(
+                                      context: context,
+                                      type: AlertType.error,
+                                      title: "ERROR INPUT",
+                                      desc: "Masukan Kode Nasabah Dengan Benar",
+                                    ).show();
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        });
+                                    await UsersSuperAdminController()
+                                        .penarikanSaldoAdmin(
+                                      kode_invoice: invoice,
+                                      jumlah_penarikan: harga,
+                                      kode_admin: kodeAdminController.text,
+                                    );
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (builde) {
+                                          return SuccesDanaScreen(
+                                            kode_invoice: invoice,
+                                            jumlah_penarikan: harga,
+                                            biaya_admin: data,
+                                          );
+                                        },
+                                      ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  }
 
                                   // if (pinController.text == pin) {
                                   //   await UserControllerNasabah()

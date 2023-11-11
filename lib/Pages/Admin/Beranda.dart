@@ -17,6 +17,7 @@ import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import '../../Data/curentFormat.dart';
+import 'Laporan/LaporanScreen.dart';
 import 'ListPenarikanSaldo.dart';
 import 'ListPenarikanSaldoBS.dart';
 import 'ListPenjualanSampah.dart';
@@ -82,15 +83,15 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                           filteredData[0]['DetailSampahBs'][0]['berat'];
                       final saldo =
                           filteredData[0]['DetailSampahBs'][0]['saldo'];
-                      final saldos = filteredData[0]['DetailSampahBs'][0]
-                          ['saldo_sekarang'];
+                      final saldos = filteredData[0]['DetailSampahBs'][0]['saldo_sekarang'];
                       return PoinCard3(
                         size,
                         'Hi, $namaAdmin',
                         'Kode Admin : ${kodeAdmin}',
                         '$totalsampah Kg',
                         CurrencyFormat.convertToIdr(saldo, 0),
-                        CurrencyFormat.convertToIdr(saldo, 0),
+                        saldos.toString(),
+                        // CurrencyFormat.convertToIdr(saldos, 0),
                       );
                     }
                   }),
@@ -226,6 +227,19 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             MaterialPageRoute(
                               builder: (builde) {
                                 return ListPenjualanSampahScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                          subMenu(size, 'assets/img/books.png',
+                            'LAPORAN', () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return LaporanAdminScreen();
                               },
                             ),
                           ).then((value) {

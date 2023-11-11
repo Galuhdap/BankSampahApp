@@ -52,6 +52,7 @@ class UsersSuperAdminController {
       return [];
     }
   }
+
   Future<SuperAdmin?> getUserss() async {
     String? kode_reg = await getKodeReg();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,7 +92,8 @@ class UsersSuperAdminController {
     try {
       final response =
           await Dio().get('http://' + _baseUrl + '/suadminbyid', data: datas);
-      var data = response.data["payload"]["row"][0]['DetailSampahSuperAdmins'][0]['saldo'];
+      var data = response.data["payload"]["row"][0]['DetailSampahSuperAdmins']
+          [0]['saldo'];
       print(data);
       return data;
     } catch (e) {
@@ -313,6 +315,32 @@ class UsersSuperAdminController {
       // Handle exceptions here
       print(e);
       return null;
+    }
+  }
+
+  Future validasiAdmin({required String kodeAdmin}) async {
+    try {
+      final datas = {
+        "kode_admin": kodeAdmin,
+      };
+      final response =
+          await Dio().get('http://' + _baseUrl + '/cek/adminbyid', data: datas);
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future validasiRw({required String rw}) async {
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    try {
+      final datas = {"kode_super_admin": kodeSuperAdmin, "rw": rw};
+      final response = await Dio()
+          .get('http://' + _baseUrl + '/cek/rw/adminbyid', data: datas);
+      return response.data;
+    } catch (e) {
+      print(e);
     }
   }
 }

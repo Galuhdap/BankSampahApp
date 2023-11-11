@@ -548,7 +548,7 @@ Center PoinCard3(Size size, nama, kode, kg1, rp, rps) {
                       ),
                     ),
                     Text(
-                      'Total Saldo',
+                      'Saldo Nasabah',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 11,

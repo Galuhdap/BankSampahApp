@@ -65,7 +65,7 @@ class LaporanSuperAdminController {
     };
     final response =
         await Dio().get('http://' + _baseUrl + '/laporan/sampahmasuk/induk', data: datas);
-    final responseData = response.data['payload'];
+    final responseData = response.data['payload']['rows'];
     return responseData;
   }
   Future<int> totalSamapah() async {

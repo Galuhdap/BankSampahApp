@@ -129,7 +129,7 @@ class SampahSuperAdminController {
     String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
     final datas = {"kode_super_induk": kodeSuperAdmin};
     final response =
-        await Dio().get('http://' + _baseUrl + '/product/sampah', data: datas);
+        await Dio().get('http://' + _baseUrl + '/product/sampah/admin', data: datas);
     final responseData = response.data['payload'];
     return responseData;
   }
@@ -197,7 +197,7 @@ class SampahSuperAdminController {
   Future susutSampahSuperAdmin(
       {required String kodeSampah,
       required String kodeBarang,
-      required int berat,
+      required num berat,
       required int harga,
       required String catatan,
       required String nama_pembeli}) async {
@@ -276,7 +276,7 @@ class SampahSuperAdminController {
       'kode_super_admin': kodeSuperAdmin,
     };
     final response = await Dio()
-        .get('http://' + _baseUrl + '/service/cekinduk', data: datas);
+        .get('http://' + _baseUrl + '/laporan/perikansaldo/induk', data: datas);
     final responseData = response.data['payload']['rows'];
     return responseData;
   }

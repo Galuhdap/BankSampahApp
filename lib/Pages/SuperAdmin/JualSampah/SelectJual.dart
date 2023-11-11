@@ -28,7 +28,7 @@ class _SelectJualindukState extends State<SelectJualinduk> {
           appbar5(
             context,
             size,
-            'Jaul Sampah',
+            'Jual Sampah',
             () {
               Navigator.pushReplacement(
                 context,

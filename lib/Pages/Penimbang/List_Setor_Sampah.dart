@@ -48,27 +48,17 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
 
   String query = "";
 
-  List<RowSampahModel>? _datas;
   Future<List<dynamic>>? _futureData;
-  Future getDatas() async {
-    List<RowSampahModel> datas =
-        await SampahPenimbangController().testSetorSampah();
-    setState(() {
-      _datas = datas;
-    });
-  }
 
   @override
   void initState() {
     // TODO: implement initState
-    getDatas();
     _futureData = testSetorSampah();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_datas);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -164,6 +154,14 @@ class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
                                 kode_nasabah: filteredData[index]
                                     ["kode_nasabah"],
                                 kode_admin: filteredData[index]["kode_admin"]);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builde) {
+                                  return BerandaPenimbang();
+                                },
+                              ),
+                            );
                           },
                         );
                       },

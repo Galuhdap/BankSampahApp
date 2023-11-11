@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Padding fieldText(Size size, ttl, lbl, e ,ctrl) {
+Padding fieldText(Size size, ttl, lbl, e ,ctrl, kyt) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 19),
     child: Column(
@@ -21,6 +21,7 @@ Padding fieldText(Size size, ttl, lbl, e ,ctrl) {
         Container(
           width: size.width * 0.75,
           child: TextField(
+            keyboardType: kyt, 
             controller: ctrl,
             enabled: e,
             decoration: InputDecoration(

@@ -17,21 +17,19 @@ class SampahPenimbangController {
 
     return _data;
   }
+
   Future getSampah() async {
-     String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
     try {
-      
       final datas = {"kode_super_induk": kodeSuperAdmin};
-      final response =
-          await Dio().get('http://' + _baseUrl + '/product/sampah', data: datas);
+      final response = await Dio()
+          .get('http://' + _baseUrl + '/product/sampah/admin', data: datas);
 
       return response.data["payload"];
     } catch (e) {
       print(e);
     }
   }
-
-
 
   Future setorSampah(
       {required String kodeSampah,
@@ -40,11 +38,9 @@ class SampahPenimbangController {
       required String catatan,
       required String kodeNasabah}) async {
     try {
-
       String? kodePenimbang = await getDataLocal('kodePenimbang');
       String? kodeAdmin = await getDataLocal('kodeAdmin');
-      String? kodeSuperAdmin= await getDataLocal('kodeSuperAdmin');
-
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
 
       final datas = {
         "kode_sampah": kodeSampah,
@@ -56,15 +52,25 @@ class SampahPenimbangController {
         "kode_admin": kodeAdmin,
         "kode_super_admin": kodeSuperAdmin,
       };
- await Dio().post('http://' + _baseUrl + '/setor/sampah', data: datas);
-
-      
+      await Dio().post('http://' + _baseUrl + '/setor/sampah', data: datas);
     } catch (e) {
       print(e);
     }
   }
 
-    Future deleteSetorSampah({
+  Future validasiNasabah({required String kodeNasabah}) async {
+    try {
+      final datas = {
+        "kode_nasabah": kodeNasabah,
+      };
+     final response = await Dio().get('http://' + _baseUrl + '/cek/nasabahByid', data: datas);
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future deleteSetorSampah({
     required final kodeSetor,
     required final berat,
     required final saldo,
@@ -86,11 +92,11 @@ class SampahPenimbangController {
     }
   }
 
- Future<RowSampahModel?> getSetorSampah() async {
+  Future<RowSampahModel?> getSetorSampah() async {
     String? kodePenimbang = await getDataLocal('kodePenimbang');
 
     final datas = {
-      'kode_penimbang': kodePenimbang ,
+      'kode_penimbang': kodePenimbang,
     };
     try {
       final response =
@@ -109,16 +115,16 @@ class SampahPenimbangController {
     }
   }
 
- Future testSetorSampah() async {
+  Future testSetorSampah() async {
     String? kodePenimbang = await getDataLocal('kodePenimbang');
 
     final datas = {
-      'kode_penimbang': kodePenimbang ,
+      'kode_penimbang': kodePenimbang,
     };
-      final response =
-          await Dio().get('http://' + _baseUrl + '/setor/sampah', data: datas);
-    
-   final responseData = response.data['payload']['row'];
+    final response =
+        await Dio().get('http://' + _baseUrl + '/setor/sampah', data: datas);
+
+    final responseData = response.data['payload']['row'];
 
     return responseData;
   }

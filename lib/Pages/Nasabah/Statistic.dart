@@ -1,5 +1,8 @@
 import 'package:banksampah_application/Pages/Nasabah/penarikanSaldoScreen.dart';
+import 'package:d_chart/commons/config_render.dart';
+import 'package:d_chart/commons/data_model.dart';
 import 'package:d_chart/d_chart.dart';
+import 'package:d_chart/ordinal/pie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -32,17 +35,41 @@ class _StatisticState extends State<Statistic> {
   ];
 
   Future<List<dynamic>>? _futureData;
+  int _penyetoran = 0;
+  int _penarikan = 0;
+
+  Future fetchData() async {
+    int penyetoran = await UserControllerNasabah().totalPenyetoran();
+    int penarikan = await UserControllerNasabah().totalpenarikan();
+    setState(() {
+      _penyetoran  = penyetoran;
+      _penarikan = penarikan;
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     _futureData = UserControllerNasabah().riwayatSetorSampah();
+    fetchData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('ini Setor: $_penyetoran');
+    print('ini Tarik: $_penarikan');
     var size = MediaQuery.of(context).size;
+
+    List<OrdinalData> ordinalDataList = [
+      OrdinalData(
+          domain: 'Pengeluaran', measure: _penarikan, color: Color(0xFFFF3333)),
+      OrdinalData(
+        domain: 'Pemasukan',
+        measure: _penyetoran,
+        color: Color(0xFF4CAF50),
+      ),
+    ];
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -60,26 +87,23 @@ class _StatisticState extends State<Statistic> {
           }),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 7),
+              padding: const EdgeInsets.only(top: 0, bottom: 7),
               child: Container(
                 width: 250,
                 height: 250,
                 child: Stack(
                   children: [
-                    DChartPie(
-                      data: datas1.map((e) {
-                        return {'domain': e['hasil'], 'measure': e['berat1']};
-                      }).toList(),
-                      fillColor: (pieData, index) {
-                        switch (pieData['domain']) {
-                          case 'Penarikan':
-                            return Color(0xFFFF3333);
-                          default:
-                            return Color(0xFF4CAF50);
-                        }
-                      },
-                      donutWidth: 30,
-                      labelColor: Colors.white,
+                    Center(
+                      child: Container(
+                        width: size.width * 0.6,
+                        height: 700,
+                        child: DChartPieO(
+                          data: ordinalDataList,
+                          configRenderPie: const ConfigRenderPie(
+                            arcWidth: 30,
+                          ),
+                        ),
+                      ),
                     ),
                     Center(
                       child: Column(
@@ -187,7 +211,7 @@ class _StatisticState extends State<Statistic> {
               children: [
                 menuKategori1(
                   [
-                    subMenu1(size, 'assets/img/trash.png', '135.0Kg',
+                    subMenu1(size, 'assets/img/trash.png', '0Kg',
                         'Kapasitas \nBank Sampah', () {
                       // Navigator.push(
                       //   context,
@@ -199,7 +223,7 @@ class _StatisticState extends State<Statistic> {
                       // ).then((value) {
                       //   setState(() {});
                       // });
-                    }),
+                    }, Colors.grey),
                     FutureBuilder<List<dynamic>>(
                       future: UserControllerNasabah().getUsers(),
                       builder: (context, snapshot) {
@@ -225,7 +249,7 @@ class _StatisticState extends State<Statistic> {
                             ).then((value) {
                               setState(() {});
                             });
-                          });
+                          }, Colors.green);
                         }
                       },
                     ),
@@ -256,7 +280,7 @@ class _StatisticState extends State<Statistic> {
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Container(
                 width: size.width * 0.9,
-                height: 344,
+                height: size.height * 0.5,
                 decoration: ShapeDecoration(
                   color: Color(0xFFDCEAE7),
                   shape: RoundedRectangleBorder(
@@ -311,7 +335,6 @@ class _StatisticState extends State<Statistic> {
                         ),
                       );
                     } else {
-                      print(snapshot.error);
                       return Center(
                         child: CircularProgressIndicator(
                           color: Colors.blue,

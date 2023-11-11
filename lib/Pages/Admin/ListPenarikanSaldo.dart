@@ -288,7 +288,7 @@ Padding pilihanReg(Size size, img, txt, ontp, isToggled) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              isToggled ? "MATI" : "MENAYALA",
+              isToggled ? "MATI" : "MENYALA",
               style: TextStyle(
                 color: isToggled
                     ? Color.fromARGB(255, 255, 255, 255)
