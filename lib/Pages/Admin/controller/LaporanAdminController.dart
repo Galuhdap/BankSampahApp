@@ -172,5 +172,18 @@ class LaporanAdminController {
       return 0;
     }
   }
+
+    Future<List<dynamic>> getPenarikanSaldoAdmin() async {
+    String? kodeAdmin = await getDataLocal('kodeAdmin');
+
+    final datas = {
+      'kode_admin': kodeAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/service/cek/admin', data: datas);
+    final responseData = response.data['payload']['rows'];
+    print('Dari RESPONSE DATES $responseData');
+    return responseData;
+  }
  
 }

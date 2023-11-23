@@ -3,6 +3,7 @@ import 'package:banksampah_application/Pages/Admin/controller/userController.dar
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Data/curentFormat.dart';
@@ -22,20 +23,12 @@ class _ListPenarikanKeuntunganScreenState
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
   String query = "";
-  bool isToggled = false;
 
-  var cek;
-  Future datas() async {
-    var _cek = await UserControllerAdmin().cekTombol();
-    setState(() {
-      cek = _cek;
-    });
-  }
 
   @override
   void initState() {
     // TODO: implement initState
-    _futureData = UserControllerAdmin().getPenarikanSaldoBS();
+    _futureData = UserControllerAdmin().getKeuntunganBS();
     super.initState();
   }
 
@@ -46,7 +39,9 @@ class _ListPenarikanKeuntunganScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo BS',(){Navigator.pop(context);}),
+          appbar3(context, size, 'List Penarikan Keuntungan Admin', () {
+            Navigator.pop(context);
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Container(
@@ -113,37 +108,19 @@ class _ListPenarikanKeuntunganScreenState
                       padding: EdgeInsets.only(top: 10),
                       itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
-                        String statusText = "";
-                        if (filteredData[index]["status"] == false) {
-                          statusText = "Sudah Dibayar";
-                        }
+                        
+                        print(filteredData[index]);
                         return listNasabahSampah(
                           size,
-                          filteredData[index]["nomor_invoice"],
-                          filteredData[index]["kode_super_admin"],
-                          statusText,
+                          filteredData[index]["nomor_invoice"] ?? '',
+                          filteredData[index]["kode_admin"].toString(),
+                          DateFormat(' dd MMMM yyyy', 'id_ID').format(
+                              DateTime.parse(
+                                  filteredData[index]["createdAt"].toString())),
                           CurrencyFormat.convertToIdr(
                               filteredData[index]["jumlah_penarikan"], 0),
                           () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builde) {
-                                  return DetailPenarikanSaldoScreen(
-                                    kode_invoice: snapshot.data![index]
-                                        ["nomor_invoice"],
-                                    jumlah_penarikan: snapshot.data![index]
-                                        ["jumlah_penarikan"],
-                                    kode_nasabah: snapshot.data![index]
-                                        ["kode_nasabah"],
-                                    kode_admin: snapshot.data![index]
-                                        ["kode_admin"],
-                                  );
-                                },
-                              ),
-                            ).then((value) {
-                              setState(() {});
-                            });
+                            
                           },
                         );
                       },

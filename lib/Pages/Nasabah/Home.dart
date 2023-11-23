@@ -87,45 +87,45 @@ class _HomeNasabahScreenState extends State<HomeNasabahScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 30),
-                      child: Text(
-                        'Berita Terkini',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          height: size.height * 0.2,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 3),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          pauseAutoPlayOnTouch: true,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.9,
-                        ),
-                        items: beritaTerkini.map((title) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: AssetImage(title),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 20, top: 30),
+                    //   child: Text(
+                    //     'Berita Terkini',
+                    //     style: TextStyle(
+                    //       color: Color(0xFF333333),
+                    //       fontSize: 14,
+                    //       fontFamily: 'Poppins',
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10),
+                    //   child: CarouselSlider(
+                    //     options: CarouselOptions(
+                    //       height: size.height * 0.2,
+                    //       autoPlay: true,
+                    //       autoPlayInterval: const Duration(seconds: 3),
+                    //       autoPlayAnimationDuration:
+                    //           const Duration(milliseconds: 800),
+                    //       autoPlayCurve: Curves.fastOutSlowIn,
+                    //       pauseAutoPlayOnTouch: true,
+                    //       enlargeCenterPage: true,
+                    //       viewportFraction: 0.9,
+                    //     ),
+                    //     items: beritaTerkini.map((title) {
+                    //       return Container(
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //           borderRadius: BorderRadius.circular(10),
+                    //           image: DecorationImage(
+                    //             image: AssetImage(title),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 20, bottom: 20, left: 20, right: 20),

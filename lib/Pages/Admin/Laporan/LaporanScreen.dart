@@ -25,21 +25,27 @@ class _LaporanAdminScreenState extends State<LaporanAdminScreen> {
   Future<int>? _futureDataNasabah;
   Future<int>? _futureDataPenimbang;
 
-  num totals = 0;
-  int totalSampahMasuk = 0;
-  int saldoMasuk = 0;
-  int saldoKeluar = 0;
-  int saldo = 0;
+  num _totals = 0;
+  int _totalSampahMasuk = 0;
+  int _saldoMasuk = 0;
+  int _saldoKeluar = 0;
+  int _saldo = 0;
 
   Future fetchData() async {
-    saldoMasuk = await LaporanAdminController().getsaldoMasuk();
-    saldo = await LaporanAdminController().totalSaldo();
-    saldoKeluar = await LaporanAdminController().getsaldoKeluar();
-    totals = await LaporanAdminController().totalSampahBS();
+   int saldoMasuk = await LaporanAdminController().getsaldoMasuk();
+   int saldo = await LaporanAdminController().totalSaldo();
+   int saldoKeluar = await LaporanAdminController().getsaldoKeluar();
+   num totals = await LaporanAdminController().totalSampahBS();
 
-    totalSampahMasuk = await LaporanAdminController().getsampahMasuk();
+   int totalSampahMasuk = await LaporanAdminController().getsampahMasuk();
 
-    setState(() {});
+    setState(() {
+      _totals = totals;
+      _totalSampahMasuk = totalSampahMasuk;
+      _saldoMasuk = saldoMasuk;
+      _saldoKeluar = saldoKeluar;
+      _saldo = saldo;
+    });
   }
 
   @override
@@ -54,16 +60,16 @@ class _LaporanAdminScreenState extends State<LaporanAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('ini sampah masuk $totals');
+  
     var size = MediaQuery.of(context).size;
     List<OrdinalData> ordinalDataList = [
       OrdinalData(
           domain: 'Pengeluaran',
-          measure: saldoKeluar,
+          measure: _saldoKeluar,
           color: Color(0xFFE91616)),
       OrdinalData(
         domain: 'Pemasukan',
-        measure: saldoMasuk,
+        measure: _saldoMasuk,
         color: Color(0xFF2196F3),
       ),
     ];
@@ -172,10 +178,10 @@ class _LaporanAdminScreenState extends State<LaporanAdminScreen> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) {
                                       return PDFLaporanAdminScreen(
-                                        kas: saldo,
-                                        pengeluaran: totalSampahMasuk,
-                                        penjualan: totals,
-                                        pemblihanbahan: totalSampahMasuk,
+                                        kas: _saldo,
+                                        pengeluaran: _totalSampahMasuk,
+                                        penjualan: _totals,
+                                        pemblihanbahan: _totalSampahMasuk,
                                       );
                                     }));
                                   },

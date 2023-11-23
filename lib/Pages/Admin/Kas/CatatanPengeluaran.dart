@@ -15,7 +15,7 @@ import '../../../Data/curentFormat.dart';
 import '../../Nasabah/Controllers/user_controller.dart';
 import '../../SuperAdmin/Controllers/sampahController.dart';
 import '../controller/LaporanAdminController.dart';
-
+import '../controller/userController.dart';
 
 class CatatanPengeluaranAdminScreen extends StatefulWidget {
   const CatatanPengeluaranAdminScreen({super.key});
@@ -136,7 +136,7 @@ class _CatatanPengeluaranAdminScreenState
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Text(
-                              "Catatan Pengularan Super Admin",
+                              "Catatan Pengularan Admin",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF333333),
@@ -245,13 +245,22 @@ class _CatatanPengeluaranAdminScreenState
                         itemCount: snapshot.data!.length,
                         itemBuilder: (BuildContext context, index) {
                           return transactionCard2(
-                              '',
-                              '',
-                              ',',
-                              '',
-                              '',
-                              ',',
-
+                              snapshot.data![index]["nama_pengeluaran"]
+                                .toString(),
+                            snapshot.data![index]["catatan"],
+                            '',
+                            'TANGGAL',
+                            CurrencyFormat.convertToIdr(
+                                snapshot.data![index]["harga"], 0),
+                            () async {
+                              await UserControllerAdmin()
+                                  .deleteKeuntunganAdmin(
+                                kode_pengeluaran: snapshot.data![index]
+                                    ["kode_pengeluaran"],
+                                harga: snapshot.data![index]["harga"],
+                              );
+                              Navigator.pop(context);
+                            },
                               // filteredData[index]["nomor_invoice"],
                               // filteredData[index]["kode_admin"].toString(),
                               // DateFormat(' dd MMMM yyyy', 'id_ID').format(
@@ -513,8 +522,7 @@ class _CatatanPengeluaranAdminScreenState
                                           child: CircularProgressIndicator(),
                                         );
                                       });
-                                  await UsersSuperAdminController()
-                                      .catatPengeluaran(
+                                  await UserControllerAdmin().catatPengeluaran(
                                     nama_pengeluaran:
                                         namaPengeluaranController.text,
                                     harga: harga,

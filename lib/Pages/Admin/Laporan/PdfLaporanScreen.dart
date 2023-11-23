@@ -8,7 +8,6 @@ import '../../Admin/controller/userController.dart';
 import '../../Nasabah/Models/UserNasabahModel.dart';
 import '../../Penimbang/Models/UsersModel.dart';
 
-
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -21,6 +20,7 @@ import '../../SuperAdmin/Models/PenarikanDanaNasabahModel.dart';
 import '../../SuperAdmin/Models/SetorSampahBs.dart';
 import '../../SuperAdmin/Models/SetorSampahModel.dart';
 import '../../SuperAdmin/Models/SusutSampahAdminModel.dart';
+import '../../SuperAdmin/Models/TarikKeuntunganAdminModel.dart';
 import '../../SuperAdmin/Models/TotalSampahModel.dart';
 import '../../SuperAdmin/Models/UsersSuperAdminModel.dart';
 import '../Models/LaporanAdminModel.dart';
@@ -64,6 +64,8 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
   List _getSusutSampahAdmin = [];
   List _penarikanDanaAdmin = [];
   List _penarikanDanaNasabah = [];
+  List _catatPengeluaranSuperAdmin = [];
+  List _penarikanKeuntunganAdmin = [];
   List _totalSampah = [];
 
   Future getDatas() async {
@@ -71,14 +73,16 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
     List userPenimbang = await UserControllerAdmin().getPenimbang();
     List userNasabah = await UserControllerAdmin().getNasabah();
     List sampahAdmin = await UserControllerAdmin().listJualSampah();
-    List setorSampahNasabah =
-        await  UserControllerAdmin().listSetorSampah();
+    List setorSampahNasabah = await UserControllerAdmin().listSetorSampah();
     List getSusutSampahAdmin =
         await SampahSuperAdminController().getSusutSampahAdmin();
-    List penarikanDanaAdmin =
-        await UserControllerAdmin().getPenarikanSaldoBS();
+    List penarikanDanaAdmin = await LaporanAdminController().getPenarikanSaldoAdmin();
     List penarikanDanaNasabah =
         await LaporanAdminController().getPenarikanNasabahAdmin();
+    List catatPengeluaranSuperAdmin =
+        await LaporanAdminController().getCatatPengeluaran();
+    List penarikanKeuntunganAdmin =
+        await UserControllerAdmin().getKeuntunganBS();
     // List totalSampah = await SampahSuperAdminController().totalSampah();
     setState(() {
       _users = users;
@@ -89,6 +93,8 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
       _getSusutSampahAdmin = getSusutSampahAdmin;
       _penarikanDanaAdmin = penarikanDanaAdmin;
       _penarikanDanaNasabah = penarikanDanaNasabah;
+      _catatPengeluaranSuperAdmin = catatPengeluaranSuperAdmin;
+      _penarikanKeuntunganAdmin = penarikanKeuntunganAdmin;
       // _totalSampah = totalSampah;
     });
   }
@@ -102,7 +108,7 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_penarikanDanaNasabah);
+
     List<UserAdminModel> itemsPenggunaAdmin = _userAdmin.map((category) {
       return UserAdminModel(
           createdAt: DateTime.parse(category['createdAt']),
@@ -110,15 +116,13 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
           namaBs: category['nama_bs'],
           noTelp: category['no_telp'],
           berat: category['DetailSampahBs'][0]['berat'],
-          saldo: category['DetailSampahBs'][0]['saldo']
-         );
+          saldo: category['DetailSampahBs'][0]['saldo']);
     }).toList();
     List<UsersModel> itemsPenggunaPenimbang = _userPenimbang.map((category) {
       return UsersModel(
         createdAt: DateTime.parse(category['createdAt']),
         kodePenimbang: category['kode_penimbang'],
         namaPenimbang: category['nama_penimbang'],
-
         alamat: category['alamat'],
         noTelp: category['no_telp'],
       );
@@ -126,14 +130,13 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
 
     List<NasbahRowModel> itemsPenggunaNasabah = _userNasabah.map((category) {
       return NasbahRowModel(
-        createdAt: DateTime.parse(category['createdAt']),
-        kodeNasabah: category['kode_nasabah'],
-        namaNasabah: category['nama_nasabah'],
-        alamat: category['alamat'],
-        noTelp: category['no_telp'],
-        berat: category['DetailSampahNasabahs'][0]['berat'],
-        saldo: category['DetailSampahNasabahs'][0]['saldo']
-      );
+          createdAt: DateTime.parse(category['createdAt']),
+          kodeNasabah: category['kode_nasabah'],
+          namaNasabah: category['nama_nasabah'],
+          alamat: category['alamat'],
+          noTelp: category['no_telp'],
+          berat: category['DetailSampahNasabahs'][0]['berat'],
+          saldo: category['DetailSampahNasabahs'][0]['saldo']);
     }).toList();
 
     List<SusutSampahAdminModel> itemsPenjualanSampahInduk =
@@ -169,7 +172,7 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
         kodeSusutSampahBs: category["kode_susut_sampah_bs"],
         admin: category["Admin"]["nama_bs"],
         barang: category['JenisBarang']['jenis_barang'],
-        berat: category["berat"] ,
+        berat: category["berat"],
         harga: category["harga"],
       );
     }).toList();
@@ -178,39 +181,59 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
         _penarikanDanaAdmin.map((category) {
       return PenarikanDanaAdminModel(
         createdAt: DateTime.parse(category['createdAt']),
-        nomorInvoice : category["nomor_invoice"],
-        jumlahPenarikan : category["jumlah_penarikan"],
-        namaAdmin: category["Admin"]["nama_bs"]
+        nomorInvoice: category["nomor_invoice"],
+        jumlahPenarikan: category["jumlah_penarikan"],
+        namaAdmin: category["Admin"]["nama_bs"],
       );
     }).toList();
     List<PenarikanDanaNasabahModel> itemspenarikanDanaNasabah =
         _penarikanDanaNasabah.map((category) {
       return PenarikanDanaNasabahModel(
         createdAt: DateTime.parse(category['createdAt']),
-        nomorInvoice : category["nomor_invoice"],
-        namaNasabah : category["Nasabah"]["nama_nasabah"],
-        namaAdmin:category["Admin"]["nama_bs"],
-        jumlahPenarikan : category["jumlah_penarikan"],
-        
+        nomorInvoice: category["nomor_invoice"],
+        namaNasabah: category["Nasabah"]["nama_nasabah"],
+        namaAdmin: category["Admin"]["nama_bs"],
+        jumlahPenarikan: category["jumlah_penarikan"],
       );
     }).toList();
 
-    List<TotalSampah> itemsTotalSampah=
-        _totalSampah.map((category) {
+    List<TotalSampah> itemsTotalSampah = _totalSampah.map((category) {
       return TotalSampah(
-        // createdAt: DateTime.parse(category['createdAt']),
-        // nomorInvoice : category["nomor_invoice"],
-        // namaNasabah : category["Nasabah"]["nama_nasabah"],
-        // namaAdmin:category["Admin"]["nama_bs"],
-        // jumlahPenarikan : category["jumlah_penarikan"],
-        
+          // createdAt: DateTime.parse(category['createdAt']),
+          // nomorInvoice : category["nomor_invoice"],
+          // namaNasabah : category["Nasabah"]["nama_nasabah"],
+          // namaAdmin:category["Admin"]["nama_bs"],
+          // jumlahPenarikan : category["jumlah_penarikan"],
+
+          );
+    }).toList();
+
+    List<CatatPengeluaranModel> itemsCatatPengeluaran =
+        _catatPengeluaranSuperAdmin.map((category) {
+      return CatatPengeluaranModel(
+        createdAt: DateTime.parse(category['createdAt']),
+        kodePengeluaran: category["kode_pengeluaran"],
+        namaPengeluaran: category["nama_pengeluaran"],
+        harga: category["harga"],
+        catatan: category["catatan"],
+      );
+    }).toList();
+
+    List<TarikKeuntunganAdmin> itemsPenarikanKeuntungan =
+        _penarikanKeuntunganAdmin.map((category) {
+      return TarikKeuntunganAdmin(
+        createdAt: DateTime.parse(category['createdAt']),
+        nomorInvoice: category["nomor_invoice"],
+        jumlahPenarikan: category["jumlah_penarikan"],
+        kodeAdmin: category["kode_admin"],
       );
     }).toList();
 
     final laporan = LaporanAdmin(
       userModel: UsersSuperAdmin(
-          namaSuperAdmin:  _users.length > 0 ? _users[0]["nama_bs"] : '',
-          alamat:  'Rt ${_users.length > 0 ? _users[0]["rt"] : ''}  Rw ${_users.length > 0 ? _users[0]["rt"] : ''}'),
+          namaSuperAdmin: _users.length > 0 ? _users[0]["nama_bs"] : '',
+          alamat:
+              'Rt ${_users.length > 0 ? _users[0]["rt"] : ''}  Rw ${_users.length > 0 ? _users[0]["rt"] : ''}'),
       itemsAdmin: itemsPenggunaAdmin,
       itemsPenimbang: itemsPenggunaPenimbang,
       itemsNasabah: itemsPenggunaNasabah,
@@ -219,16 +242,17 @@ class _PDFLaporanAdminScreenState extends State<PDFLaporanAdminScreen> {
       itemsSusutSampahInduk: itemsPenjualanSampahInduk,
       itemspenarikanDanaAdmin: itemspenarikanDanaAdmin,
       itemspenarikanDanaNasabah: itemspenarikanDanaNasabah,
+      itemsCatatPengeluaran: itemsCatatPengeluaran,
+      itemstarikKeuntungan: itemsPenarikanKeuntungan,
       // itemsTotalSampah: itemsTotalSampah,
       all: Semua(
-          kas: widget.kas,
-          pemblihanbahan: widget.pemblihanbahan,
-          pengeluaran: widget.pengeluaran,
-          // totalhpp: 2929,
-          penjualan: widget.penjualan,
-          ),
+        kas: widget.kas,
+        pemblihanbahan: widget.pemblihanbahan,
+        pengeluaran: widget.pengeluaran,
+        // totalhpp: 2929,
+        penjualan: widget.penjualan,
+      ),
     );
-
 
     return Scaffold(
       appBar: AppBar(

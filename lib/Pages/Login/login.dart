@@ -2,12 +2,14 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Admin/Beranda.dart';
 import '../Nasabah/Home.dart';
 import '../Penimbang/Beranda.dart';
 import '../SuperAdmin/Beranda.dart';
+import 'controller/loginController.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -242,19 +244,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (context) {
-                            //       return Center(
-                            //         child: CircularProgressIndicator(),
-                            //       );
-                            //     });
-                            login(
-                              cUser.text,
-                              cPass.text,
-                            );
-                            // SharedPreferences prefs =
-                            //     await SharedPreferences.getInstance();
+                            try {
+                              final valUser = await LoginController()
+                                  .validasiUser(kode_reg: cUser.text);
+                              final valPass =
+                                  await LoginController().validasiPassword(
+                                kode_reg: cUser.text,
+                                password: cPass.text,
+                              );
+                              print(valPass);
+
+                              if (valUser["success"] && valPass["success"]) {
+                                login(
+                                  cUser.text,
+                                  cPass.text,
+                                );
+                              } else {
+                                Alert(
+                                  context: context,
+                                  type: AlertType.error,
+                                  title: "ERROR INPUT",
+                                  desc: "Masukan Kode User & Password Salah",
+                                ).show();
+                              }
+                            } catch (e) {
+                              // Handle exception
+                            }
+
+                            // try {
+                            //   final valUser = await LoginController()
+                            //       .validasiUser(kode_reg: cUser.text);
+                            //   final valPass = await LoginController()
+                            //       .validasiPassword(
+                            //           kode_reg: cUser.text,
+                            //           password: cPass.text);
+                            //     print(valPass);
+
+                            //   if (valUser["success"] && valPass["success"] == false) {
+                            //     Alert(
+                            //       context: context,
+                            //       type: AlertType.error,
+                            //       title: "ERROR INPUT",
+                            //       desc: "Masukan Kode User & Password Salah",
+                            //     ).show();
+                            //   } else {
+                            //     print("Masuk");
+                            //   }
+
+                            // } catch (e) {}
                           }
                         },
                         child: Padding(

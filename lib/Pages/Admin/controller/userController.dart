@@ -41,60 +41,21 @@ class UserControllerAdmin {
 
       // var kode_penimbang = data["kode_penimbang"];
       var kode_admin = data["kode_admin"];
+      var kode_super_admin = data["kode_super_admin"];
       var rw = data["rw"];
 
       // await prefs.setString('kodePenimbang', kode_penimbang);
       await prefs.setString('kodeAdmin', kode_admin);
       await prefs.setString('rw', rw);
+      await prefs.setString('kodeSuperAdmin', kode_super_admin);
       final responseData = response.data['payload']['row'];
-      print('Ini Response Data : $responseData');
-    return responseData;
 
-      // if (response.statusCode == 200) {
-      //   final Map<String, dynamic> jsonData = response.data["payload"];
-      //   return Admin.fromJson(jsonData);
-      // } else {
-      //   // Handle error here, e.g., throw an exception or return null
-      //   return null;
-      // }
+      return responseData;
     } catch (e) {
       // Handle exceptions here
       return [];
     }
   }
-  // Future<Admin?> getUser() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? kode_reg = await getKodeReg();
-
-  //   final datas = {
-  //     'kode_user': kode_reg,
-  //   };
-  //   try {
-  //     final response =
-  //         await Dio().get('http://' + _baseUrl + '/adminbyid', data: datas);
-  //     var data = response.data["payload"]["row"][0];
-
-  //     // var kode_penimbang = data["kode_penimbang"];
-  //     var kode_admin = data["kode_admin"];
-  //     var rw = data["rw"];
-
-  //     // await prefs.setString('kodePenimbang', kode_penimbang);
-  //     await prefs.setString('kodeAdmin', kode_admin);
-  //     await prefs.setString('rw', rw);
-
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> jsonData = response.data["payload"];
-  //       print('ini Dari APi : $jsonData');
-  //       return Admin.fromJson(jsonData);
-  //     } else {
-  //       // Handle error here, e.g., throw an exception or return null
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     // Handle exceptions here
-  //     return null;
-  //   }
-  // }
 
   Future<List> getUsers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -117,7 +78,6 @@ class UserControllerAdmin {
       await prefs.setString('rw', rw);
       print(response.data["payload"]["row"]);
       return response.data["payload"]["row"];
-
     } catch (e) {
       // Handle exceptions here
       return [];
@@ -157,6 +117,19 @@ class UserControllerAdmin {
     final response = await Dio()
         .get('http://' + _baseUrl + '/service/cek/admin', data: datas);
     final responseData = response.data['payload']['rows'];
+    print('Dari RESPONSE DATA $responseData');
+    return responseData;
+  }
+
+  Future<List<dynamic>> getKeuntunganBS() async {
+    String? kodeAdmin = await getDataLocal('kodeAdmin');
+
+    final datas = {
+      'kode_admin': kodeAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/service/keuntungan/admin', data: datas);
+    final responseData = response.data['payload']['rows'];
     return responseData;
   }
 
@@ -179,8 +152,8 @@ class UserControllerAdmin {
     final datas = {
       'kode_admin': kodeAdmin,
     };
-    final response =
-        await Dio().get('http://' + _baseUrl + '/setor/getsampah/admin', data: datas);
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/setor/getsampah/admin', data: datas);
     final responseData = response.data['payload']['row'];
     print(responseData);
     return responseData;
@@ -280,12 +253,53 @@ class UserControllerAdmin {
   Future tombol({required final tombol}) async {
     String? kodeAdmin = await getDataLocal('kodeAdmin');
 
-    final datas = {
-      "tombol1": tombol, 
-      "kode_admin": kodeAdmin
-      };
-        await Dio().post('http://' + _baseUrl + '/tombol/admin', data: datas);
+    final datas = {"tombol1": tombol, "kode_admin": kodeAdmin};
+    await Dio().post('http://' + _baseUrl + '/tombol/admin', data: datas);
+  }
 
-   
+  Future catatPengeluaran({
+    required String nama_pengeluaran,
+    required int harga,
+    required String catatan,
+  }) async {
+    try {
+      String? kodeAdmin = await getDataLocal('kodeAdmin');
+        String? kodeSuper = await getDataLocal('kodeSuperAdmin');
+
+      final datas = {
+        "nama_pengeluaran": nama_pengeluaran,
+        "harga": harga,
+        "catatan": catatan,
+        "kode_super_admin": kodeSuper,
+        "kode_admin": kodeAdmin
+      };
+      await Dio()
+          .post('http://' + _baseUrl + '/kas/pengeluaran/admin', data: datas);
+    } catch (e) {
+      // Handle exceptions here
+      print(e);
+      return null;
+    }
+  }
+
+  Future deleteKeuntunganAdmin({
+    required final kode_pengeluaran,
+    required final harga,
+  }) async {
+    try {
+      String? kodeAdmin = await getDataLocal('kodeAdmin');
+      String? kodeSuper = await getDataLocal('kodeSuperAdmin');
+      print(kodeAdmin);
+      final datas = {
+        "kode_pengeluaran": kode_pengeluaran,
+        "harga": harga,
+        "kode_super_admin": kodeSuper,
+        "kode_admin": kodeAdmin
+      };
+      await Dio()
+          .delete('http://' + _baseUrl + '/kas/pengeluaran/admin', data: datas);
+    } catch (e) {
+      return e;
+    }
   }
 }

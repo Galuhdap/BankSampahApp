@@ -217,8 +217,8 @@ class PdfLaporanAdmin {
   static Widget buildTabelPenggunaPenimbang(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
-      'Kode Penimbang',
-      'Nama Penimbang',
+      'Kode',
+      'Nama',
       'No Telp',
       'Alamat',
     ];
@@ -497,22 +497,22 @@ class PdfLaporanAdmin {
     );
   }
 
-  static Widget buildTabelPengeluaran(LaporanAdmin invoice) {
+ static Widget buildTabelPengeluaran(LaporanAdmin invoice) {
     final headers = [
       'Tanggal',
-      'Nomer Invoice',
-      'Nasabah',
-      'Admin',
-      'Jumlah Penarikan',
+      'Kode ',
+      'Nama',
+      'Uang Keluar',
+      'Catatan',
     ];
-    final data = invoice.itemspenarikanDanaNasabah.map((item) {
+    final data = invoice.itemsCatatPengeluaran.map((item) {
       return [
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
-        item.nomorInvoice,
-        item.namaNasabah,
-        item.namaAdmin,
-        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
+        item.kodePengeluaran,
+        item.namaPengeluaran,
+        CurrencyFormat.convertToIdr(item.harga, 0),
+         item.catatan,
         //   item.detailSampahBs![0].saldo,
       ];
     }).toList();
@@ -538,17 +538,15 @@ class PdfLaporanAdmin {
     final headers = [
       'Tanggal',
       'Nomer Invoice',
-      'Nasabah',
       'Admin',
       'Jumlah Penarikan',
     ];
-    final data = invoice.itemspenarikanDanaNasabah.map((item) {
+    final data = invoice.itemstarikKeuntungan.map((item) {
       return [
         DateFormat(' dd MMMM yyyy', 'id_ID')
             .format(DateTime.parse(item.createdAt.toString())),
         item.nomorInvoice,
-        item.namaNasabah,
-        item.namaAdmin,
+        item.kodeAdmin,
         CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
         //   item.detailSampahBs![0].saldo,
       ];
