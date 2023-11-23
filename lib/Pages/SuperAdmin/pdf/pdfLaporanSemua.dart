@@ -10,12 +10,14 @@ import '../../Penimbang/Models/UsersModel.dart';
 import '../Controllers/pdf/pdf_laporansemua.dart';
 import '../Controllers/sampahController.dart';
 import '../Controllers/user_controller.dart';
+import '../Models/CatatanPengluaranSuperAdmin.dart';
 import '../Models/LaporanSemuaModel.dart';
 import '../Models/PenarikanDanaAdminModel.dart';
 import '../Models/PenarikanDanaNasabahModel.dart';
 import '../Models/SetorSampahBs.dart';
 import '../Models/SetorSampahModel.dart';
 import '../Models/SusutSampahAdminModel.dart';
+import '../Models/TarikKeuntunganAdminModel.dart';
 import '../Models/TotalSampahModel.dart';
 import '../Models/UsersSuperAdminModel.dart';
 
@@ -24,12 +26,14 @@ import 'package:pdf/widgets.dart' as pw;
 
 class PDFLaporanSemuaScreen extends StatefulWidget {
   final int kas;
+  final int saldoPenjualan;
   final int pemblihanbahan;
   final int pengeluaran;
   final int penjualan;
   const PDFLaporanSemuaScreen({
     super.key,
     required this.kas,
+    required this.saldoPenjualan,
     required this.pemblihanbahan,
     required this.pengeluaran,
     required this.penjualan,
@@ -59,6 +63,8 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
   List _getSusutSampahAdmin = [];
   List _penarikanDanaAdmin = [];
   List _penarikanDanaNasabah = [];
+  List _catatPengeluaranSuperAdmin = [];
+  List _penarikanKeuntunganAdmin = [];
   List _totalSampah = [];
 
   Future getDatas() async {
@@ -75,6 +81,10 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
         await SampahSuperAdminController().getPenarikanAdmin();
     List penarikanDanaNasabah =
         await SampahSuperAdminController().getPenarikanNasabah();
+    List catatPengeluaranSuperAdmin =
+        await SampahSuperAdminController().getCatatPengeluaran();
+    List penarikanKeuntunganAdmin =
+        await SampahSuperAdminController().getKeuntunganAdmin();
     // List totalSampah = await SampahSuperAdminController().totalSampah();
     setState(() {
       _users = users;
@@ -86,6 +96,8 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
       _getSusutSampahAdmin = getSusutSampahAdmin;
       _penarikanDanaAdmin = penarikanDanaAdmin;
       _penarikanDanaNasabah = penarikanDanaNasabah;
+      _catatPengeluaranSuperAdmin = catatPengeluaranSuperAdmin;
+      _penarikanKeuntunganAdmin = penarikanKeuntunganAdmin;
       // _totalSampah = totalSampah;
     });
   }
@@ -180,6 +192,7 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
         namaAdmin: category["Admin"]["nama_bs"]
       );
     }).toList();
+
     List<PenarikanDanaNasabahModel> itemspenarikanDanaNasabah =
         _penarikanDanaNasabah.map((category) {
       return PenarikanDanaNasabahModel(
@@ -189,6 +202,27 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
         namaAdmin:category["Admin"]["nama_bs"],
         jumlahPenarikan : category["jumlah_penarikan"],
         
+      );
+    }).toList();
+
+    List<CatatPengeluaranModel> itemsCatatPengeluaran =
+        _catatPengeluaranSuperAdmin.map((category) {
+      return CatatPengeluaranModel(
+        createdAt: DateTime.parse(category['createdAt']),
+        kodePengeluaran : category["kode_pengeluaran"],
+        namaPengeluaran : category["nama_pengeluaran"],
+        harga:category["harga"],  
+        catatan:category["catatan"],  
+      );
+    }).toList();
+
+    List<TarikKeuntunganAdmin> itemsPenarikanKeuntungan =
+        _penarikanKeuntunganAdmin.map((category) {
+      return TarikKeuntunganAdmin(
+        createdAt: DateTime.parse(category['createdAt']),
+        nomorInvoice : category["nomor_invoice"],
+        jumlahPenarikan : category["jumlah_penarikan"],
+        kodeAdmin:category["kode_admin"],  
       );
     }).toList();
 
@@ -217,9 +251,12 @@ class _PDFLaporanSemuaScreenState extends State<PDFLaporanSemuaScreen> {
       itemsSusutSampahInduk: itemsPenjualanSampahInduk,
       itemspenarikanDanaAdmin: itemspenarikanDanaAdmin,
       itemspenarikanDanaNasabah: itemspenarikanDanaNasabah,
+      itemsCatatPengeluaran: itemsCatatPengeluaran,
+      itemstarikKeuntungan: itemsPenarikanKeuntungan,
       // itemsTotalSampah: itemsTotalSampah,
       all: Alls(
           kas: widget.kas,
+          saldo_penjualan: widget.saldoPenjualan,
           pemblihanbahan: widget.pemblihanbahan,
           pengeluaran: widget.pengeluaran,
           // totalhpp: 2929,

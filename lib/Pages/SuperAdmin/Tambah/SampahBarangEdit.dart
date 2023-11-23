@@ -18,6 +18,7 @@ class BarangSampahEditScreen extends StatefulWidget {
     required this.namaBarang,
     required this.hargaPertama,
     required this.hargaKedua,
+
     required this.kodeBarang,
   });
 
@@ -35,9 +36,15 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
   TextEditingController satuanController = TextEditingController();
   TextEditingController hargaNasabahController = TextEditingController();
   TextEditingController hargaAdminController = TextEditingController();
+  TextEditingController hargaKeuntunganNasabahController =
+      TextEditingController();
+  TextEditingController hargaKeuntunganAdminController =
+      TextEditingController();
 
   int _hargaNasabah = 0;
   int _hargaAdmin = 0;
+  int _keuntunganAdmin = 0;
+  int _keuntunganSuperAdmin = 0;
 
   var _data;
   Future getdatas() async {
@@ -68,7 +75,9 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              appbar3(context, size, 'Edit Sampah Barang',(){}),
+              appbar3(context, size, 'Edit Sampah Barang', () {
+                Navigator.pop(context);
+              }),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -106,7 +115,7 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
                                       padding: const EdgeInsets.only(
                                           left: 10, bottom: 5),
                                       child: Text(
-                                        'Harga Nasabah',
+                                        'Harga Nasabah ',
                                         style: TextStyle(
                                           color: Color(0xFF333333),
                                           fontSize: 13,
@@ -163,7 +172,7 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
                                       padding: const EdgeInsets.only(
                                           left: 10, bottom: 5),
                                       child: Text(
-                                        'Harga Admin Bs',
+                                        'Harga Admin Bs ',
                                         style: TextStyle(
                                           color: Color(0xFF333333),
                                           fontSize: 13,
@@ -211,6 +220,7 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
                                   ],
                                 ),
                               ),
+                              
                             ],
                           ),
                         ),
@@ -224,23 +234,23 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
                   String hargaText = hargaNasabahController.text
                       .replaceAll('Rp ', '')
                       .replaceAll('.', '');
-              
+
                   int parsedHarga = int.tryParse(hargaText) ?? 0;
-              
+
                   setState(() {
                     _hargaNasabah = parsedHarga;
                   });
-              
+
                   String _hargaText = hargaAdminController.text
                       .replaceAll('Rp ', '')
                       .replaceAll('.', '');
-              
+
                   int _parsedHarga = int.tryParse(_hargaText) ?? 0;
-              
+
                   setState(() {
                     _hargaAdmin = _parsedHarga;
                   });
-              
+
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -270,7 +280,7 @@ class _BarangSampahEditScreenState extends State<BarangSampahEditScreen> {
     );
   }
 
-  Padding continer(Size size,txt, clr, ontp) {
+  Padding continer(Size size, txt, clr, ontp) {
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,

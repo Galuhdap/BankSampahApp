@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
+import '../ListNasabah.dart';
 
 class DetailNasabahScreen extends StatefulWidget {
-final  String?  nama_nasabah, rt, rw, no_telp, alamat, pin, password;
+  final String? nama_nasabah, rt, rw, no_telp, alamat, pin, password;
   DetailNasabahScreen({
     super.key,
     required this.nama_nasabah,
@@ -15,7 +16,6 @@ final  String?  nama_nasabah, rt, rw, no_telp, alamat, pin, password;
     required this.alamat,
     required this.pin,
     required this.password,
-
   });
 
   @override
@@ -85,31 +85,39 @@ class _DetailNasabahScreenState extends State<DetailNasabahScreen> {
                             //     size, 'Kode Nasabah', true),
                             fieldText1(size, 'Nama Nasabah', true,
                                 namaNasabahController, TextInputType.name),
-                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController,
+                                TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', true, rwController, TextInputType.number),
+                                  child: fieldText2(size, 'RW', true,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController, TextInputType.number),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController, TextInputType.phone),
-                            fieldText1(size, 'PIN', true, pinController, TextInputType.name),
-                            fieldText1(
-                                size, 'Password', true, passwordController, TextInputType.name),
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
+                            fieldText1(size, 'PIN', true, pinController,
+                                TextInputType.name),
+                            fieldText1(size, 'Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('Selesai', Color(0xFF4CAF50), () {
-                      Navigator.pop(context); 
-                      Navigator.pop(context); 
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListNasabahScreen();
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ),

@@ -425,7 +425,27 @@ class _LaporanAdminScreenState extends State<LaporanAdminScreen> {
                                       ['DetailSampahBs'][0]['saldo'];
                                   return contText(
                                     size,
-                                    "Saldo",
+                                    "Saldo Nasabah",
+                                    CurrencyFormat.convertToIdr(saldo, 0),
+                                  );
+                                }
+                              }),
+                          FutureBuilder<List<dynamic>>(
+                              future: UserControllerAdmin().getUser(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else {
+                                  // var admin = snapshot.data!.['nama_bs'];
+                                  final List<dynamic> filteredData =
+                                      snapshot.data!;
+                                  final saldo = filteredData[0]
+                                      ['DetailSampahBs'][0]['saldo_sekarang'];
+                                  return contText(
+                                    size,
+                                    "Saldo Keuntungan",
                                     CurrencyFormat.convertToIdr(saldo, 0),
                                   );
                                 }

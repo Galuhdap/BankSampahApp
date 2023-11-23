@@ -4,7 +4,7 @@
 // import 'local_data_service/local_data_service.dart';
 
 // class AuthService {
-//   final _baseUrl = '154.56.60.253:4009';
+//   final _baseUrl = '82.180.130.233:4009';
 //   login({
 //     required String kode_reg,
 //     required String password,

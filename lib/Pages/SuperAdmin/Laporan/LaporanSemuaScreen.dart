@@ -30,10 +30,12 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
   int saldoMasuk = 0;
   int saldoKeluar = 0;
   int saldo = 0;
+  int saldoPenjualan = 0;
 
   Future fetchData() async {
     saldoMasuk = await LaporanSuperAdminController().getsaldoMasuk();
     saldo = await UsersSuperAdminController().totalSaldo();
+    saldoPenjualan = await UsersSuperAdminController().totalSaldoPenjualan();
     saldoKeluar = await LaporanSuperAdminController().getsaldoKeluar();
     totals = await LaporanSuperAdminController().totalSamapah();
     totalSampahInduk =
@@ -173,6 +175,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                         MaterialPageRoute(builder: (context) {
                                       return PDFLaporanSemuaScreen(
                                         kas: saldo,
+                                        saldoPenjualan: saldoPenjualan,
                                         pengeluaran: totalSampahInduk,
                                         penjualan: totalSampahMasuk,
                                         pemblihanbahan: totals,
@@ -412,8 +415,8 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                               ],
                             ),
                           ),
-                          FutureBuilder<SuperAdmin?>(
-                            future: UsersSuperAdminController().getUserss(),
+                          FutureBuilder<List<dynamic>>(
+                            future: UsersSuperAdminController().getUser(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -421,12 +424,32 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                     child: CircularProgressIndicator());
                               } else {
                                 final superAdmin = snapshot.data!;
-                                final saldo = superAdmin
-                                    .row[0].detailSampahSuperAdmins![0].saldo;
+                                final saldo = superAdmin[0]
+                                    ['DetailSampahSuperAdmins'][0]['saldo'];
                                 return contText(
                                   size,
-                                  "Saldo",
+                                  "Saldo Keuntungan",
                                   CurrencyFormat.convertToIdr(saldo, 0),
+                                );
+                              }
+                            },
+                          ),
+                          FutureBuilder<List<dynamic>>(
+                            future: UsersSuperAdminController().getUser(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                final superAdmin = snapshot.data!;
+                                final saldoPenjualan = superAdmin[0]
+                                        ['DetailSampahSuperAdmins'][0]
+                                    ['saldo_penjualan'];
+                                return contText(
+                                  size,
+                                  "Saldo Penjualan",
+                                  CurrencyFormat.convertToIdr(saldoPenjualan, 0),
                                 );
                               }
                             },
@@ -442,7 +465,7 @@ class _LaporansemuaScreenState extends State<LaporansemuaScreen> {
                                 return contText(
                                   size,
                                   "Total Penjualan Sampah Ke Pihak Luar",
-                                  '${snapshot.data} Kg',
+                                  '${snapshot.data ?? 0} Kg',
                                 );
                               }
                             },

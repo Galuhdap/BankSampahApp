@@ -8,15 +8,13 @@ import 'PenarikanDanaNasabahModel.dart';
 import 'SetorSampahBs.dart';
 import 'SetorSampahModel.dart';
 import 'SusutSampahAdminModel.dart';
+import 'TarikKeuntunganAdminModel.dart';
 import 'TotalSampahModel.dart';
 import 'UsersSuperAdminModel.dart';
 
 class LaporanSemua {
 
   final UsersSuperAdmin userModel;
-  // final List<PembelianModel> setorSampahAdmin;
-  // final List<PenjualanModel> itemsPenjualan;
-  // final List<PenjualanModel> itemsHutangPenjualan;
   final List<UserAdminModel> itemsAdmin;
   final List<UsersModel> itemsPenimbang;
   final List<NasbahRowModel> itemsNasabah;
@@ -25,7 +23,8 @@ class LaporanSemua {
   final List<SusutSampahAdminModel> itemsSusutSampahInduk;
   final List<PenarikanDanaAdminModel> itemspenarikanDanaAdmin;
   final List<PenarikanDanaNasabahModel> itemspenarikanDanaNasabah;
-  // final List<TotalSampah> itemsTotalSampah;
+  final List<TarikKeuntunganAdmin> itemstarikKeuntungan;
+  final List<CatatPengeluaranModel> itemsCatatPengeluaran;
   final Alls all;
 
 
@@ -40,6 +39,8 @@ class LaporanSemua {
     required this.itemsSusutSampahInduk,
     required this.itemspenarikanDanaAdmin,
     required this.itemspenarikanDanaNasabah,
+    required this.itemstarikKeuntungan,
+    required this.itemsCatatPengeluaran,
     // required this.itemsTotalSampah,
     required this.all,
   });
@@ -48,6 +49,7 @@ class LaporanSemua {
 
 class Alls {
   final int kas;
+  final int saldo_penjualan;
   final int pemblihanbahan;
   final int pengeluaran;
   final int penjualan;
@@ -55,6 +57,7 @@ class Alls {
 
   const Alls({
     required this.kas,
+    required this.saldo_penjualan,
     required this.pemblihanbahan,
     required this.pengeluaran,
     required this.penjualan,

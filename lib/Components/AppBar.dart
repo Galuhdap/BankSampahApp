@@ -178,7 +178,7 @@ Padding appbar4(BuildContext context, Size size, ttl) {
       padding: const EdgeInsets.only(bottom: 20),
       child: Container(
         width: size.width,
-        height: 70,
+        height: 80,
         decoration: BoxDecoration(
           color: Colors.green,
           boxShadow: [
@@ -191,7 +191,7 @@ Padding appbar4(BuildContext context, Size size, ttl) {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

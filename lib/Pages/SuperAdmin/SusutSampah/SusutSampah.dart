@@ -2,6 +2,7 @@ import 'package:banksampah_application/Components/AppBar.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/SusutSampah/SusutSampahAdd.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../Components/CardRiwayat.dart';
 import '../../../Data/curentFormat.dart';
@@ -240,25 +241,34 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
                         itemBuilder: (BuildContext context, index) {
                           return listPenimbang(
                             size,
-                              filteredData[index]["kode_susut_induk"],
-                              filteredData[index]["nama_pembeli"].toString(),
-                              '${filteredData[index]["berat"]}',
-                              filteredData[index]["JenisSampahKering"]
-                              ["jenis_sampah"],
-                           filteredData[index]["JenisBarang"]["jenis_barang"],
-                              CurrencyFormat.convertToIdr(
-                                  filteredData[index]["harga"], 0),
-                              CurrencyFormat.convertToIdr(
-                                  filteredData[index]["total"], 0),
-                              () async {},
-                              (){}
+                            filteredData[index]["kode_susut_induk"],
+                            filteredData[index]["nama_pembeli"].toString(),
+                            '${filteredData[index]["berat"]}',
+                            filteredData[index]["JenisSampahKering"]
+                                ["jenis_sampah"],
+                            filteredData[index]["JenisBarang"]["jenis_barang"],
+                            CurrencyFormat.convertToIdr(
+                                filteredData[index]["harga"], 0),
+                            CurrencyFormat.convertToIdr(
+                                filteredData[index]["total"], 0),
+                            () async {
+                              await SampahSuperAdminController()
+                                  .deleteSusutSuperAdmin(
+                                kode_susut_induk: filteredData[index]
+                                    ["kode_susut_induk"],
+                                berat: filteredData[index]["berat"],
+                                harga: filteredData[index]["harga"],
+                                kode_barang: filteredData[index]["JenisBarang"]
+                                    ["kode_barang"],
                               );
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                       ),
                     ),
                   );
                 } else {
-                  print(snapshot.error);
                   return Center(
                     child: CircularProgressIndicator(
                       color: Colors.blue,
@@ -271,11 +281,10 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
         ),
       ),
     );
-
-    
   }
-   Padding listPenimbang(
-      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, edit, hapus) {
+
+  Padding listPenimbang(
+      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(
@@ -361,7 +370,7 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
                       height: 0,
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: size.height * 0.008,
                   ),
                   Row(
@@ -393,68 +402,67 @@ class _SusutSampahScreenState extends State<SusutSampahScreen> {
               ),
             ),
           ),
-          // Positioned(
-          //   left: size.width * 0.73,
-          //   top: size.height * 0.01,
-          //   child: PopupMenuButton(
-          //     onSelected: edit,
-          //     itemBuilder: (context) => [
-          //       PopupMenuItem(
-          //         value: 'editAdmin',
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
-          //           child: Text(
-          //             "Edit Penimbang",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       PopupMenuItem(
-          //         value: 'gantipassword',
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
-          //           child: Text(
-          //             "Ganti Password",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       PopupMenuItem(
-          //         onTap: hapus,
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7),
-          //           child: Text(
-          //             "Hapus",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //     child: Icon(
-          //       Icons.more_vert,
-          //       size: 20,
-          //       color: Colors.grey,
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            left: size.width * 0.73,
+            top: size.height * 0.01,
+            child: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  onTap: () {
+                    Future.delayed(Duration.zero).then((value) {
+                      Alert(
+                        context: context,
+                        type: AlertType.warning,
+                        title: "HAPUS",
+                        desc: "Anda yakin untuk menghapus ?",
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "BATAL",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                            color: Color.fromRGBO(0, 179, 134, 1.0),
+                          ),
+                          DialogButton(
+                            child: Text(
+                              "HAPUS",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: hapus,
+                            gradient: LinearGradient(colors: [
+                              Color.fromRGBO(116, 116, 191, 1.0),
+                              Color.fromRGBO(52, 138, 199, 1.0)
+                            ]),
+                          )
+                        ],
+                      ).show();
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      "Hapus",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              child: Icon(
+                Icons.more_vert,
+                size: 20,
+                color: Colors.grey,
+              ),
+            ),
+          ),
         ],
       ),
     );

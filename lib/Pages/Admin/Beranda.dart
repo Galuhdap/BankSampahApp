@@ -1,11 +1,10 @@
-import 'package:banksampah_application/Pages/Admin/Kas/Kas.dart';
+
 import 'package:banksampah_application/Pages/Admin/ListNasabah.dart';
 import 'package:banksampah_application/Pages/Admin/ListPengepul.dart';
 import 'package:banksampah_application/Pages/Admin/Models/AdminModel.dart';
 import 'package:banksampah_application/Pages/Login/login.dart';
 import 'package:banksampah_application/Pages/Penimbang/Setor_Sampah.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/JualSampah/SelectJual.dart';
-import 'package:banksampah_application/Pages/SuperAdmin/Kas/Kas.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/SusutSampah/SusutSampah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -17,7 +16,9 @@ import '../../Components/AppBar.dart';
 import '../../Components/MenuKategori.dart';
 import '../../Components/PointCard.dart';
 import '../../Data/curentFormat.dart';
+import 'Kas/CatatanPengeluaran.dart';
 import 'Laporan/LaporanScreen.dart';
+import 'ListPenarikanKeuntungan.dart';
 import 'ListPenarikanSaldo.dart';
 import 'ListPenarikanSaldoBS.dart';
 import 'ListPenjualanSampah.dart';
@@ -62,7 +63,7 @@ class _BerandaAdminState extends State<BerandaAdmin> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 0),
+          padding: const EdgeInsets.only(bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,16 +84,25 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                           filteredData[0]['DetailSampahBs'][0]['berat'];
                       final saldo =
                           filteredData[0]['DetailSampahBs'][0]['saldo'];
-                      final saldos = filteredData[0]['DetailSampahBs'][0]['saldo_sekarang'];
-                      return PoinCard3(
-                        size,
-                        'Hi, $namaAdmin',
-                        'Kode Admin : ${kodeAdmin}',
-                        '$totalsampah Kg',
-                        CurrencyFormat.convertToIdr(saldo, 0),
-                        saldos.toString(),
-                        // CurrencyFormat.convertToIdr(saldos, 0),
-                      );
+                      final saldos = filteredData[0]['DetailSampahBs'][0]
+                          ['saldo_sekarang'];
+                      final saldoKeuntungan = filteredData[0]['DetailSampahBs'][0]
+                          ['keuntungan_cash'];
+                      final saldoCash = filteredData[0]['DetailSampahBs'][0]
+                          ['saldo_cash'];
+                      return PoinCard4(
+                          size,
+                          'Hi, $namaAdmin',
+                          'Kode Admin : ${kodeAdmin}',
+                          '$totalsampah Kg',
+                          CurrencyFormat.convertToIdr(saldo, 0),
+                          CurrencyFormat.convertToIdr(saldoKeuntungan, 0),
+                          'Saldo Keuntungan',
+                          'Keuntungan Cash',
+                          'Saldo Penjualan',
+                          CurrencyFormat.convertToIdr(saldos, 0),
+                          'Saldo Penjualan Cash',
+                           CurrencyFormat.convertToIdr(saldoCash, 0));
                     }
                   }),
               Padding(
@@ -220,6 +230,36 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                     ),
                     menuKategori(
                       [
+                        subMenu(size, 'assets/img/rupiah.png', 'LIST PENARIKAN KEUNTUNGAN',
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return ListPenarikanKeuntunganScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                        subMenu(size, 'assets/img/ceklist.png', 'CATAT PENGELUARAN',
+                            () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return CatatanPengeluaranAdminScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                      ],
+                    ),
+                    menuKategori(
+                      [
                         subMenu(size, 'assets/img/gram.png', 'SAMPAH TERJUAL',
                             () {
                           Navigator.push(
@@ -233,8 +273,8 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                          subMenu(size, 'assets/img/books.png',
-                            'LAPORAN', () async {
+                        subMenu(size, 'assets/img/books.png', 'LAPORAN',
+                            () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -246,7 +286,6 @@ class _BerandaAdminState extends State<BerandaAdmin> {
                             setState(() {});
                           });
                         }),
-                        
                       ],
                     ),
                     const SizedBox(height: 15.0)

@@ -1,11 +1,10 @@
-
 import 'package:banksampah_application/Pages/Admin/controller/userController.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/gantiPassword.dart';
 import 'package:flutter/material.dart';
 
-
 import '../../Components/AppBar.dart';
 import '../../Data/curentFormat.dart';
+import 'Beranda.dart';
 import 'Controllers/sampahController.dart';
 import 'Controllers/user_controller.dart';
 import 'EditListAdmin.dart';
@@ -36,7 +35,16 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Admin',(){Navigator.pop(context);}),
+          appbar3(context, size, 'List Admin', () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (builde) {
+                  return BerandaSuperAdmin();
+                },
+              ),
+            );
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -79,7 +87,7 @@ class _ListAdminSuperAdminScreenState extends State<ListAdminSuperAdminScreen> {
               if (snapshot.hasData) {
                 if (snapshot.data!.length == 0) {
                   return Padding(
-                    padding: EdgeInsets.only(top: 400, bottom: 300),
+                    padding: EdgeInsets.only(top: 250, bottom: 250),
                     child: Center(
                       child: Text("DATA KOSONG"),
                     ),

@@ -26,7 +26,6 @@ class PdfLaporanAdmin {
         buildTabelSetorAdmin(invoice),
         Divider(),
 
-
         SizedBox(height: 2 * PdfPageFormat.cm),
         buildTitle('Laporan Tarik Saldo Nasabah'),
         buildTabelTarikDanaNasabah(invoice),
@@ -46,6 +45,15 @@ class PdfLaporanAdmin {
         buildTabelPenggunaPenimbang(invoice),
         Divider(),
 
+        SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Tarik Keuntungan'),
+        buildTabelTarikKeuntungan(invoice),
+        Divider(),
+
+        SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Catatan Pengeluaran'),
+        buildTabelPengeluaran(invoice),
+        Divider(),
 
         SizedBox(height: 2 * PdfPageFormat.cm),
         SizedBox(height: 2 * PdfPageFormat.cm),
@@ -489,6 +497,80 @@ class PdfLaporanAdmin {
     );
   }
 
+  static Widget buildTabelPengeluaran(LaporanAdmin invoice) {
+    final headers = [
+      'Tanggal',
+      'Nomer Invoice',
+      'Nasabah',
+      'Admin',
+      'Jumlah Penarikan',
+    ];
+    final data = invoice.itemspenarikanDanaNasabah.map((item) {
+      return [
+        DateFormat(' dd MMMM yyyy', 'id_ID')
+            .format(DateTime.parse(item.createdAt.toString())),
+        item.nomorInvoice,
+        item.namaNasabah,
+        item.namaAdmin,
+        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
+        //   item.detailSampahBs![0].saldo,
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildTabelTarikKeuntungan(LaporanAdmin invoice) {
+    final headers = [
+      'Tanggal',
+      'Nomer Invoice',
+      'Nasabah',
+      'Admin',
+      'Jumlah Penarikan',
+    ];
+    final data = invoice.itemspenarikanDanaNasabah.map((item) {
+      return [
+        DateFormat(' dd MMMM yyyy', 'id_ID')
+            .format(DateTime.parse(item.createdAt.toString())),
+        item.nomorInvoice,
+        item.namaNasabah,
+        item.namaAdmin,
+        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
+        //   item.detailSampahBs![0].saldo,
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+      },
+    );
+  }
+
 // //ini untuk kaki
 //   static Widget buildFooter(LaporanAdmin invoice) => Column(
 //         crossAxisAlignment: CrossAxisAlignment.center,
@@ -529,7 +611,12 @@ class PdfLaporanAdmin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildText(
-                  title: 'Saldo',
+                  title: 'Saldo Nasabah',
+                  value: CurrencyFormat.convertToIdr(invoice.all.kas, 0),
+                  unite: true,
+                ),
+                buildText(
+                  title: 'Saldo Keuntungan',
                   value: CurrencyFormat.convertToIdr(invoice.all.kas, 0),
                   unite: true,
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-Padding cardRiwayat(Size size, clr1, ttl,status, date, number, clr2 , ontp) {
+Padding cardRiwayat(Size size, clr1, ttl, status, date, number, clr2, ontp) {
   return Padding(
     padding: const EdgeInsets.only(top: 10),
     child: InkWell(
@@ -102,7 +103,7 @@ Padding cardRiwayat(Size size, clr1, ttl,status, date, number, clr2 , ontp) {
   );
 }
 
-Padding cardRiwayatSampah(Size size, clr1, ttl,status, date, number, clr2) {
+Padding cardRiwayatSampah(Size size, clr1, ttl, status, date, number, clr2) {
   return Padding(
     padding: const EdgeInsets.only(top: 10),
     child: Stack(
@@ -193,7 +194,6 @@ Padding cardRiwayatSampah(Size size, clr1, ttl,status, date, number, clr2) {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-             
             ],
           ),
         ),
@@ -304,8 +304,8 @@ Padding transactionCard(ttl, tgl, rp, hapus, Size size) {
   );
 }
 
-
-Padding transactionCard2(ttl,ttl2, hrg, tgl, rp, hapus, Size size) {
+Padding transactionCard2(ttl, ttl2, hrg, tgl, rp, hapus, Size size) {
+ 
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: Stack(
@@ -333,15 +333,19 @@ Padding transactionCard2(ttl,ttl2, hrg, tgl, rp, hapus, Size size) {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    ttl,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 14,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      height: 1.15,
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        ttl,
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 14,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          height: 1.15,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -374,15 +378,15 @@ Padding transactionCard2(ttl,ttl2, hrg, tgl, rp, hapus, Size size) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                    tgl,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      height: 1.15,
+                      tgl,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        height: 1.15,
+                      ),
                     ),
-                  ),
                     Text(
                       rp,
                       textAlign: TextAlign.right,
@@ -397,6 +401,65 @@ Padding transactionCard2(ttl,ttl2, hrg, tgl, rp, hapus, Size size) {
                   ],
                 )
               ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: size.width * 0.73,
+          top: size.height * 0.01,
+          child: PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                onTap: () {
+                  Future.delayed(Duration.zero).then((value) {
+                    Alert(
+                      context: context,
+                      type: AlertType.warning,
+                      title: "HAPUS",
+                      desc: "Anda yakin untuk menghapus ?",
+                      buttons: [
+                        DialogButton(
+                          child: Text(
+                            "BATAL",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          color: Color.fromRGBO(0, 179, 134, 1.0),
+                        ),
+                        DialogButton(
+                          child: Text(
+                            "HAPUS",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: hapus,
+                          gradient: LinearGradient(colors: [
+                            Color.fromRGBO(116, 116, 191, 1.0),
+                            Color.fromRGBO(52, 138, 199, 1.0)
+                          ]),
+                        )
+                      ],
+                    ).show();
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: Text(
+                    "Hapus",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            child: Icon(
+              Icons.more_vert,
+              size: 20,
+              color: Colors.grey,
             ),
           ),
         ),

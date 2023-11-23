@@ -9,36 +9,33 @@ import '../../Data/curentFormat.dart';
 import 'DetailPenarikasnSaldo.dart';
 import 'Models/detailsampahnasabah.dart';
 
-class ListPenarikanSaldoScreen extends StatefulWidget {
-  const ListPenarikanSaldoScreen({super.key});
+class ListPenarikanKeuntunganScreen extends StatefulWidget {
+  const ListPenarikanKeuntunganScreen({super.key});
 
   @override
-  State<ListPenarikanSaldoScreen> createState() =>
-      _ListPenarikanSaldoScreenState();
+  State<ListPenarikanKeuntunganScreen> createState() =>
+      _ListPenarikanKeuntunganScreenState();
 }
 
-class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
+class _ListPenarikanKeuntunganScreenState
+    extends State<ListPenarikanKeuntunganScreen> {
   UserControllerAdmin userController = UserControllerAdmin();
   Future<List<dynamic>>? _futureData;
   String query = "";
-  var isToggled;
-  bool _tmbl = false;
+  bool isToggled = false;
 
   var cek;
   Future datas() async {
     var _cek = await UserControllerAdmin().cekTombol();
-    var _isToggled = await UserControllerAdmin().cekTombol();
     setState(() {
       cek = _cek;
-      isToggled = _isToggled;
     });
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    _futureData = UserControllerAdmin().getPenarikanSaldo();
-    datas();
+    _futureData = UserControllerAdmin().getPenarikanSaldoBS();
     super.initState();
   }
 
@@ -46,33 +43,12 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penarikan Saldo', () {
-            Navigator.pop(context);
-          }),
-          FutureBuilder(
-            future: UserControllerAdmin().cekTombol(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return pilihanReg(
-                    size, 'assets/img/tapeng.png', 'Aktifkan\nPenarikan\nSaldo',
-                    () async {
-                      //IKI EROORRRRRR ASUUUUUUUU
-                  setState(() {
-                    _tmbl = !_tmbl; // Mengubah nilai menjadi sebaliknya
-                  });
-                  print('ini tombol ${_tmbl}');
-                  await UserControllerAdmin().tombol(tombol: _tmbl);
-                  // print(_tmbl);
-                }, isToggled);
-              }
-            },
-          ),
+          appbar3(context, size, 'List Penarikan Saldo BS',(){Navigator.pop(context);}),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 20),
             child: Container(
               width: size.width * 0.8,
               height: 40,
@@ -125,11 +101,13 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
                         .toLowerCase()
                         .contains(query.toLowerCase()))
                     .toList();
+                // final nasabah = snapshot.data!;
+
                 return Padding(
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: Container(
                     width: size.width * 0.9,
-                    height: size.height * 0.7,
+                    height: size.height * 0.8,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: 10),
@@ -137,39 +115,35 @@ class _ListPenarikanSaldoScreenState extends State<ListPenarikanSaldoScreen> {
                       itemBuilder: (BuildContext context, index) {
                         String statusText = "";
                         if (filteredData[index]["status"] == false) {
-                          statusText = "Belum Dibayar";
-                        } else {
                           statusText = "Sudah Dibayar";
                         }
                         return listNasabahSampah(
                           size,
                           filteredData[index]["nomor_invoice"],
-                          filteredData[index]["kode_nasabah"],
+                          filteredData[index]["kode_super_admin"],
                           statusText,
                           CurrencyFormat.convertToIdr(
                               filteredData[index]["jumlah_penarikan"], 0),
                           () {
-                            if (filteredData[index]["status"] == false) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (builde) {
-                                    return DetailPenarikanSaldoScreen(
-                                      kode_invoice: filteredData[index]
-                                          ["nomor_invoice"],
-                                      jumlah_penarikan: filteredData[index]
-                                          ["jumlah_penarikan"],
-                                      kode_nasabah: filteredData[index]
-                                          ["kode_nasabah"],
-                                      kode_admin: filteredData[index]
-                                          ["kode_admin"],
-                                    );
-                                  },
-                                ),
-                              ).then((value) {
-                                setState(() {});
-                              });
-                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builde) {
+                                  return DetailPenarikanSaldoScreen(
+                                    kode_invoice: snapshot.data![index]
+                                        ["nomor_invoice"],
+                                    jumlah_penarikan: snapshot.data![index]
+                                        ["jumlah_penarikan"],
+                                    kode_nasabah: snapshot.data![index]
+                                        ["kode_nasabah"],
+                                    kode_admin: snapshot.data![index]
+                                        ["kode_admin"],
+                                  );
+                                },
+                              ),
+                            ).then((value) {
+                              setState(() {});
+                            });
                           },
                         );
                       },
@@ -290,7 +264,7 @@ Padding pilihanReg(Size size, img, txt, ontp, isToggled) {
         width: size.width * 0.3,
         height: 40,
         decoration: ShapeDecoration(
-          color: isToggled == 1 ? Colors.grey : Color(0xFF4CAF50),
+          color: !isToggled ? Colors.grey : Color(0xFF4CAF50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -307,9 +281,9 @@ Padding pilihanReg(Size size, img, txt, ontp, isToggled) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              isToggled == 1 ? "MATI" : "MENYALA",
+              !isToggled ? "MATI" : "MENAYALA",
               style: TextStyle(
-                color: isToggled == 1
+                color: !isToggled
                     ? Color.fromARGB(255, 255, 255, 255)
                     : Colors.white,
                 fontSize: 10,

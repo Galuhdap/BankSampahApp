@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Models/JenisSampahModel.dart';
 import '../Models/SuperAdminModels.dart';
 
 class UsersSuperAdminController {
-  final _baseUrl = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
 
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,19 +33,9 @@ class UsersSuperAdminController {
       var data = response.data["payload"]["row"][0];
 
       var kode_super_admin = data["kode_super_admin"];
-
-      // await prefs.setString('kodePenimbang', kode_penimbang);
       await prefs.setString('kodeSuperAdmin', kode_super_admin);
       final responseData = response.data['payload']['row'];
-      print('Ini Response Data : $responseData');
       return responseData;
-      // if (response.statusCode == 200) {
-      //   final Map<String, dynamic> jsonData = response.data["payload"];
-      //   return SuperAdmin.fromJson(jsonData);
-      // } else {
-      //   // Handle error here, e.g., throw an exception or return null
-      //   return null;
-      // }
     } catch (e) {
       // Handle exceptions here
       return [];
@@ -94,6 +83,26 @@ class UsersSuperAdminController {
           await Dio().get('http://' + _baseUrl + '/suadminbyid', data: datas);
       var data = response.data["payload"]["row"][0]['DetailSampahSuperAdmins']
           [0]['saldo'];
+      print(data);
+      return data;
+    } catch (e) {
+      // Handle exceptions here
+      return 0;
+    }
+  }
+
+  Future<int> totalSaldoPenjualan() async {
+    String? kode_reg = await getKodeReg();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final datas = {
+      'kode_user': kode_reg,
+    };
+
+    try {
+      final response =
+          await Dio().get('http://' + _baseUrl + '/suadminbyid', data: datas);
+      var data = response.data["payload"]["row"][0]['DetailSampahSuperAdmins']
+          [0]['saldo_penjualan'];
       print(data);
       return data;
     } catch (e) {
@@ -311,6 +320,52 @@ class UsersSuperAdminController {
     try {
       await Dio()
           .post('http://' + _baseUrl + '/service/saldo/admin', data: datas);
+    } catch (e) {
+      // Handle exceptions here
+      print(e);
+      return null;
+    }
+  }
+
+  Future catatPengeluaran({
+    required String nama_pengeluaran,
+    required int harga,
+    required String catatan,
+  }) async {
+    try {
+          String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    final datas = {
+      "nama_pengeluaran": nama_pengeluaran,
+      "harga": harga,
+      "catatan": catatan,
+      "kode_super_admin": kodeSuperAdmin
+    };
+      await Dio()
+          .post('http://' + _baseUrl + '/kas/pengeluaran/induk', data: datas);
+    } catch (e) {
+      // Handle exceptions here
+      print(e);
+      return null;
+    }
+  }
+
+  Future penarikanKeuntunganAdmin(
+      {required int jumlah_penarikan,
+      required String kode_admin,
+      required String kode_invoice}) async {
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    final datas = {
+      "nomor_invoice": kode_invoice,
+      "jumlah_penarikan": jumlah_penarikan,
+      "kode_admin": kode_admin,
+      "kode_super_admin": kodeSuperAdmin
+    };
+
+    try {
+      await Dio()
+          .post('http://' + _baseUrl + '/service/keuntungan', data: datas);
     } catch (e) {
       // Handle exceptions here
       print(e);

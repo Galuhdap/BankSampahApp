@@ -16,7 +16,7 @@ class ListSetorSampahScreen extends StatefulWidget {
 }
 
 class _ListSetorSampahScreenState extends State<ListSetorSampahScreen> {
-  final _baseUrl = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? _data = await prefs.getString(data);

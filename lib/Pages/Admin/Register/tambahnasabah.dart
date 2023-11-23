@@ -26,8 +26,6 @@ class _TambahNasabahState extends State<TambahNasabah> {
   TextEditingController pinController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +45,9 @@ class _TambahNasabahState extends State<TambahNasabah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Nasabah',(){}),
+            appbar3(context, size, 'Register Nasabah', () {
+              Navigator.pop(context);
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -78,29 +78,38 @@ class _TambahNasabahState extends State<TambahNasabah> {
                             //     size, 'Kode Nasabah', true),
                             fieldText1(size, 'Nama Nasabah', true,
                                 namaNasabahController, TextInputType.name),
-                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController,
+                                TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', false, rwController, TextInputType.number),
+                                  child: fieldText2(size, 'RW', false,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController, TextInputType.number),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController, TextInputType.phone),
-                            fieldText1(size, 'PIN', true, pinController, TextInputType.name),
-                            fieldText1(
-                                size, 'Password', true, passwordController, TextInputType.name),
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
+                            fieldText1(size, 'PIN', true, pinController,
+                                TextInputType.name),
+                            fieldText1(size, 'Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('REGISTER', Color(0xFF4CAF50), () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
                       await userController.registerNasabah(
                           nama_nasabah: namaNasabahController.text,
                           rw: rwController.text,

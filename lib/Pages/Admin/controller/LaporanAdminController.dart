@@ -3,8 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LaporanAdminController {
-  final _baseUrl = '154.56.60.253:4009';
-  final Ip = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
+  final Ip = '82.180.130.233:4009';
 
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -125,6 +125,19 @@ class LaporanAdminController {
     };
     final response =
         await Dio().get('http://' + _baseUrl + '/laporan/sampah/admin', data: datas);
+    final responseData = response.data['payload'];
+    print(responseData);
+    return responseData;
+  }
+
+  Future<List<dynamic>> getCatatPengeluaran() async {
+     String? kodeAdmin = await getDataLocal('kodeAdmin');
+
+    final datas = {
+      'kode_admin': kodeAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/kas/pengeluaran/admin', data: datas);
     final responseData = response.data['payload'];
     print(responseData);
     return responseData;

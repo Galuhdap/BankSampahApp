@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
 import '../../Data/curentFormat.dart';
+import 'Beranda.dart';
 import 'Models/detailsampahnasabah.dart';
 
 class ListNasabahScreen extends StatefulWidget {
@@ -36,7 +37,14 @@ class _ListNasabahScreenState extends State<ListNasabahScreen> {
       body: Column(
         children: [
           appbar3(context, size, 'List Nasabah', () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (builde) {
+                  return BerandaAdmin();
+                },
+              ),
+            );
           }),
           Padding(
             padding: const EdgeInsets.only(top: 10),

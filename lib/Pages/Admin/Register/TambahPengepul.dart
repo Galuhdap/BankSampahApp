@@ -28,6 +28,7 @@ class _TambahPengepulState extends State<TambahPengepul> {
     rwController.text = widget.rw;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -38,7 +39,9 @@ class _TambahPengepulState extends State<TambahPengepul> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            appbar3(context, size, 'Register Penimbang',(){}),
+            appbar3(context, size, 'Register Penimbang', () {
+              Navigator.pop(context);
+            }),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -67,47 +70,54 @@ class _TambahPengepulState extends State<TambahPengepul> {
                           children: [
                             fieldText1(size, 'Nama Penimbang', true,
                                 namaPengepulController, TextInputType.name),
-                            fieldText1(size, 'Alamat', true, alamatController, TextInputType.name),
+                            fieldText1(size, 'Alamat', true, alamatController,
+                                TextInputType.name),
                             Row(
                               children: [
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RW', false, rwController, TextInputType.number),
+                                  child: fieldText2(size, 'RW', false,
+                                      rwController, TextInputType.number),
                                 ),
                                 Expanded(
-                                  child: fieldText2(
-                                      size, 'RT', true, rtController,TextInputType.number),
+                                  child: fieldText2(size, 'RT', true,
+                                      rtController, TextInputType.number),
                                 ),
                               ],
                             ),
-                            fieldText1(
-                                size, 'No telepon', true, noTelpController, TextInputType.phone),
-                            fieldText1(
-                                size, 'Password', true, passwordController, TextInputType.name),
+                            fieldText1(size, 'No telepon', true,
+                                noTelpController, TextInputType.phone),
+                            fieldText1(size, 'Password', true,
+                                passwordController, TextInputType.name),
                           ],
                         ),
                       ),
                     ),
                     continer('REGISTER', Color(0xFF4CAF50), () async {
-                     await UserControllerAdmin().registerPenimbang(
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                      await UserControllerAdmin().registerPenimbang(
                           nama_penimbang: namaPengepulController.text,
                           rw: rwController.text,
                           rt: rtController.text,
                           no_telp: noTelpController.text,
                           alamat: alamatController.text,
                           password: passwordController.text);
-                           Navigator.push(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (builde) {
                             return DetailPenimbangScreen(
-                              nama_pengepul: namaPengepulController.text,
-                              rw: rwController.text,
-                              rt: rtController.text,
-                              no_telp: noTelpController.text,
-                              alamat: alamatController.text,
-                              password:passwordController.text
-                            );
+                                nama_pengepul: namaPengepulController.text,
+                                rw: rwController.text,
+                                rt: rtController.text,
+                                no_telp: noTelpController.text,
+                                alamat: alamatController.text,
+                                password: passwordController.text);
                           },
                         ),
                       ).then((value) {

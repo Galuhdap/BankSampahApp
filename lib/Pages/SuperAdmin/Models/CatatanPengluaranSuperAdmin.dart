@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final catatPengeluaranModel = catatPengeluaranModelFromJson(jsonString);
+//     final totalSampah = totalSampahFromJson(jsonString);
 
 import 'dart:convert';
 
-CatatPengeluaranModel catatPengeluaranModelFromJson(String str) => CatatPengeluaranModel.fromJson(json.decode(str));
+TotalSampah totalSampahFromJson(String str) => TotalSampah.fromJson(json.decode(str));
 
-String catatPengeluaranModelToJson(CatatPengeluaranModel data) => json.encode(data.toJson());
+String totalSampahToJson(TotalSampah data) => json.encode(data.toJson());
 
-class CatatPengeluaranModel {
+class TotalSampah {
     String? kodePengeluaran;
     String? namaPengeluaran;
     int? harga;
@@ -17,7 +17,7 @@ class CatatPengeluaranModel {
     DateTime? createdAt;
     DateTime? updatedAt;
 
-    CatatPengeluaranModel({
+    TotalSampah({
         this.kodePengeluaran,
         this.namaPengeluaran,
         this.harga,
@@ -27,7 +27,7 @@ class CatatPengeluaranModel {
         this.updatedAt,
     });
 
-    factory CatatPengeluaranModel.fromJson(Map<String, dynamic> json) => CatatPengeluaranModel(
+    factory TotalSampah.fromJson(Map<String, dynamic> json) => TotalSampah(
         kodePengeluaran: json["kode_pengeluaran"],
         namaPengeluaran: json["nama_pengeluaran"],
         harga: json["harga"],

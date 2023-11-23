@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return role;
   }
 
-  final _baseUrl = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
 
   static final Dio _dio = Dio();
   bool isLoading = false;

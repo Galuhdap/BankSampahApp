@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../Components/AppBar.dart';
 import '../../Data/curentFormat.dart';
 import 'Controllers/sampahController.dart';
+import 'Tambah/SampahAdmin.dart';
 import 'Tambah/SampahBarangEdit.dart';
 
 class ListSampahSuperAdminScreen extends StatefulWidget {
@@ -33,7 +34,9 @@ class _ListSampahSuperAdminScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Sampah',(){Navigator.pop(context);}),
+          appbar3(context, size, 'List Sampah', () {
+            Navigator.pop(context);
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -84,7 +87,7 @@ class _ListSampahSuperAdminScreenState
                   );
                 }
                 final List<dynamic> filteredData = snapshot.data!
-                    .where((item) => item["JenisBarangs"][0]["jenis_barang"]
+                    .where((item) => item["jenis_barang"]
                         .toLowerCase()
                         .contains(query.toLowerCase()))
                     .toList();
@@ -100,33 +103,28 @@ class _ListSampahSuperAdminScreenState
                       itemBuilder: (BuildContext context, index) {
                         return listNasabahSampah(
                             size,
-                            snapshot.data![index]["jenis_sampah"] ?? '',
-                            snapshot.data![index]["JenisBarangs"][0]
-                                ["jenis_barang"] ?? '',
-                            snapshot.data![index]["JenisBarangs"][0]
-                                ["kode_barang"] ?? '',
+                            '',
+                            filteredData[index]["jenis_barang"] ?? '',
+                            filteredData[index]["kode_barang"] ?? '',
                             CurrencyFormat.convertToIdr(
-                                snapshot.data![index]["JenisBarangs"][0]
-                                    ["harga_pertama"] ?? 0,
-                                0),
+                                filteredData[index]["harga_pertama"] ?? 0, 0),
                             CurrencyFormat.convertToIdr(
-                                snapshot.data![index]["JenisBarangs"][0]
-                                    ["harga_kedua"] ?? 0,
-                                0), (value) {
+                                filteredData[index]["harga_kedua"] ?? 0, 0),
+                            (value) {
                           if (value == 'edit') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (builde) {
                                   return BarangSampahEditScreen(
-                                    namaBarang: snapshot.data![index]
-                                        ["JenisBarangs"][0]["jenis_barang"],
-                                    hargaPertama: snapshot.data![index]
-                                        ["JenisBarangs"][0]["harga_pertama"],
-                                    hargaKedua: snapshot.data![index]
-                                        ["JenisBarangs"][0]["harga_kedua"],
-                                    kodeBarang: snapshot.data![index]
-                                        ["JenisBarangs"][0]["kode_barang"],
+                                    namaBarang: filteredData[index]
+                                        ["jenis_barang"],
+                                    hargaPertama: filteredData[index]
+                                        ["harga_pertama"],
+                                    hargaKedua: filteredData[index]
+                                        ["harga_kedua"],
+                                    kodeBarang: filteredData[index]
+                                        ["kode_barang"],
                                   );
                                 },
                               ),
@@ -134,13 +132,20 @@ class _ListSampahSuperAdminScreenState
                               setState(() {});
                             });
                           }
-                        }, () {});
+                        }, () async {
+                          await SampahSuperAdminController().deleteSampah(
+                              kode_barang: filteredData[index]["kode_barang"]);
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (builde) {
+                              return SampahSuperAdminScreen();
+                            },
+                          ));
+                        });
                       },
                     ),
                   ),
                 );
               } else {
-                print(snapshot.error);
                 return Center(
                   child: CircularProgressIndicator(
                     color: Colors.blue,

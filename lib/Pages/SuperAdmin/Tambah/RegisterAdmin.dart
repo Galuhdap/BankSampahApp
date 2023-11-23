@@ -5,6 +5,7 @@ import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
 import '../Beranda.dart';
 import '../Controllers/user_controller.dart';
+import '../ListAdmin.dart';
 
 class TambahAdminScreen extends StatefulWidget {
   const TambahAdminScreen({Key? key}) : super(key: key);
@@ -116,11 +117,12 @@ class _TambahAdminScreenState extends State<TambahAdminScreen> {
                               rt: rtController.text,
                               no_telp: noTelpController.text,
                               password: passwordController.text);
+                          
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (builde) {
-                                return BerandaSuperAdmin();
+                                return ListAdminSuperAdminScreen();
                               },
                             ),
                           );

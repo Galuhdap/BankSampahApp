@@ -10,7 +10,7 @@ import '../Models/RowSampahModel.dart';
 import '../Models/SetorSampahModel.dart';
 
 class SampahPenimbangController {
-  final _baseUrl = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? _data = await prefs.getString(data);
@@ -23,7 +23,7 @@ class SampahPenimbangController {
     try {
       final datas = {"kode_super_induk": kodeSuperAdmin};
       final response = await Dio()
-          .get('http://' + _baseUrl + '/product/sampah/admin', data: datas);
+          .get('http://' + _baseUrl + '/product/sampah/admins', data: datas);
 
       return response.data["payload"];
     } catch (e) {

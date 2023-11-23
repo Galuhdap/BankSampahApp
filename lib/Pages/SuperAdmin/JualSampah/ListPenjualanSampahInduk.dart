@@ -2,6 +2,7 @@ import 'package:banksampah_application/Pages/Admin/controller/userController.dar
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Data/curentFormat.dart';
@@ -35,7 +36,9 @@ class _ListPenjualanSuperAdminScreenState
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penjualan Bank Induk', () {Navigator.pop(context);}),
+          appbar3(context, size, 'List Penjualan Sampah Induk', () {
+            Navigator.pop(context);
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
@@ -101,61 +104,25 @@ class _ListPenjualanSuperAdminScreenState
                       itemCount: filteredData.length,
                       itemBuilder: (BuildContext context, index) {
                         return listPenimbang(
-                            size,
-                            filteredData[index]["kode_penjualan_induk"],
-                            filteredData[index]["nama_pembeli"].toString(),
-                             
-                            filteredData[index]["berat"],
-                            filteredData[index]["JenisSampahKering"]
+                          size,
+                          filteredData[index]["kode_penjualan_induk"],
+                          filteredData[index]["nama_pembeli"].toString(),
+                          filteredData[index]["berat"],
+                          filteredData[index]["JenisSampahKering"]
                               ["jenis_sampah"],
-                           filteredData[index]["JenisBarang"]["jenis_barang"],
-                           CurrencyFormat.convertToIdr(
+                          filteredData[index]["JenisBarang"]["jenis_barang"],
+                          CurrencyFormat.convertToIdr(
                               filteredData[index]["harga"], 0),
-                            CurrencyFormat.convertToIdr(
+                          CurrencyFormat.convertToIdr(
                               filteredData[index]["total"], 0),
-                            
-                            
-                            (value) {
-                          // if (value == 'editAdmin') {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (builde) {
-                          //         return EditPenimbangScreen(
-                          //           kode_penimbang: snapshot.data![index]["kode_penimbang"],
-                          //           nama_penimbang: snapshot.data![index]["nama_penimbang"],
-                          //           alamat: snapshot.data![index]["alamat"],
-                          //           no_telp: snapshot.data![index]["no_telp"],
-                          //           rw: snapshot.data![index]["rw"],
-                          //           rt: snapshot.data![index]["rt"],
-
-                          //         );
-                          //       },
-                          //     ),
-                          //   ).then((value) {
-                          //     setState(() {});
-                          //   });
-                          // } else if (value == 'gantipassword') {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (builde) {
-                          //         return GantiPasswordPenimbangScreen(
-                          //             kode_reg: snapshot.data![index]
-                          //                 ["kode_user"]);
-                          //       },
-                          //     ),
-                          //   ).then((value) {
-                          //     setState(() {});
-                          //   });
-                          // }
-                        }, () async {
-                          // await UsersSuperAdminController().deletePenimbang(
-                          //     kode_reg: snapshot.data![index]["kode_user"],
-                          //    kode_penimbang: snapshot.data![index]["kode_penimbang"],
-                          //     );
-                          // Navigator.pop(context);
-                        });
+                          ()async {
+                           await SampahSuperAdminController()
+                                .deletePenjualanSuperAdmin(
+                                    kode_penjualan_induk: filteredData[index]
+                                        ["kode_penjualan_induk"]);
+                            Navigator.pop(context);
+                          },
+                        );
                       },
                     ),
                   ),
@@ -176,7 +143,7 @@ class _ListPenjualanSuperAdminScreenState
   }
 
   Padding listPenimbang(
-      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, edit, hapus) {
+      Size size, ttl, ttl1, alamat, sampah, kode, notelp, reg, hapus) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Stack(
@@ -262,7 +229,7 @@ class _ListPenjualanSuperAdminScreenState
                       height: 0,
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: size.height * 0.008,
                   ),
                   Row(
@@ -294,68 +261,67 @@ class _ListPenjualanSuperAdminScreenState
               ),
             ),
           ),
-          // Positioned(
-          //   left: size.width * 0.73,
-          //   top: size.height * 0.01,
-          //   child: PopupMenuButton(
-          //     onSelected: edit,
-          //     itemBuilder: (context) => [
-          //       PopupMenuItem(
-          //         value: 'editAdmin',
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
-          //           child: Text(
-          //             "Edit Penimbang",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       PopupMenuItem(
-          //         value: 'gantipassword',
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7, top: 7),
-          //           child: Text(
-          //             "Ganti Password",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       PopupMenuItem(
-          //         onTap: hapus,
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 7),
-          //           child: Text(
-          //             "Hapus",
-          //             textAlign: TextAlign.right,
-          //             style: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 15,
-          //               fontFamily: 'Poppins',
-          //               fontWeight: FontWeight.w500,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //     child: Icon(
-          //       Icons.more_vert,
-          //       size: 20,
-          //       color: Colors.grey,
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            left: size.width * 0.73,
+            top: size.height * 0.01,
+            child: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  onTap: () {
+                    Future.delayed(Duration.zero).then((value) {
+                      Alert(
+                        context: context,
+                        type: AlertType.warning,
+                        title: "HAPUS",
+                        desc: "Anda yakin untuk menghapus ?",
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "BATAL",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                            color: Color.fromRGBO(0, 179, 134, 1.0),
+                          ),
+                          DialogButton(
+                            child: Text(
+                              "HAPUS",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: hapus,
+                            gradient: LinearGradient(colors: [
+                              Color.fromRGBO(116, 116, 191, 1.0),
+                              Color.fromRGBO(52, 138, 199, 1.0)
+                            ]),
+                          )
+                        ],
+                      ).show();
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      "Hapus",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              child: Icon(
+                Icons.more_vert,
+                size: 20,
+                color: Colors.grey,
+              ),
+            ),
+          ),
         ],
       ),
     );

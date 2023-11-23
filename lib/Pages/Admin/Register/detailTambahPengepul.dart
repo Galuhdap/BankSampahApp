@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../Components/AppBar.dart';
 import '../../../Components/TextField.dart';
+import '../ListPengepul.dart';
 
 class DetailPenimbangScreen extends StatefulWidget {
 final  String?  nama_pengepul, rt, rw, no_telp, alamat, password;
@@ -106,8 +107,14 @@ class _DetailPenimbangScreenState extends State<DetailPenimbangScreen> {
                       ),
                     ),
                     continer('Selesai', Color(0xFF4CAF50), () {
-                      Navigator.pop(context); 
-                      Navigator.pop(context); 
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builde) {
+                            return ListPenimbangScreen();
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ),

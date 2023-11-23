@@ -9,11 +9,13 @@ import '../../Components/PointCard.dart';
 import '../../Data/curentFormat.dart';
 import '../Login/login.dart';
 import 'Controllers/user_controller.dart';
+import 'Kas/CatatanPengeluaran.dart';
 import 'Laporan/LaporanSemuaScreen.dart';
 import 'ListAdmin.dart';
 import 'ListNasabah.dart';
 import 'ListPenimbang.dart';
 import 'PenarikanDana/PenarikanDanaAdmin.dart';
+import 'PenarikanDana/PenarikanKeuntungan.dart';
 import 'SusutSampah/SusutSampah.dart';
 import 'Tambah/RegisterAdmin.dart';
 import 'Tambah/SampahAdmin.dart';
@@ -74,12 +76,17 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                         superAdmin[0]['DetailSampahSuperAdmins'][0]['berat'];
                     final saldo =
                         superAdmin[0]['DetailSampahSuperAdmins'][0]['saldo'];
-                    return PoinCard2(
+                    final saldoPenjualan =
+                        superAdmin[0]['DetailSampahSuperAdmins'][0]['saldo_penjualan'];
+                    return PoinCard3(
                       size,
                       'Hi, $namaSuperAdmin',
                       'Kode Super Admin : ${kodeSuperAdmin}',
                       '$totalsampah Kg',
                       CurrencyFormat.convertToIdr(saldo, 0),
+                      CurrencyFormat.convertToIdr(saldoPenjualan, 0),
+                      'Saldo Keuntungan',
+                      'Saldo Penjualan'
                     );
                   }
                 },
@@ -97,7 +104,7 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 35, top: 15, right: 35),
+                padding: const EdgeInsets.only(left: 35, top: 15, right: 35, bottom: 30),
                 child: Column(
                   children: [
                     menuKategori(
@@ -225,37 +232,37 @@ class _BerandaSuperAdminState extends State<BerandaSuperAdmin> {
                         }),
                       ],
                     ),
-                    // menuKategori(
-                    //   [
-                    //     subMenu(size, 'assets/img/truck.png', 'Sampah',
-                    //         () {
-                    //       Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (builde) {
-                    //             return SampahSuperAdminScreen();
-                    //           },
-                    //         ),
-                    //       ).then((value) {
-                    //         setState(() {});
-                    //       });
-                    //     }),
-                    //     subMenu(
-                    //         size, 'assets/img/books.png', 'Lihat LAPORAN',
-                    //         () {
-                    //       // Navigator.push(
-                    //       //   context,
-                    //       //   MaterialPageRoute(
-                    //       //     builder: (builde) {
-                    //       //       return ListSetorSampahScreen();
-                    //       //     },
-                    //       //   ),
-                    //       // ).then((value) {
-                    //       //   setState(() {});
-                    //       // });
-                    //     }),
-                    //   ],
-                    // ),
+                    menuKategori(
+                      [
+                        subMenu(size, 'assets/img/rupiah.png', 'PENARIKAN KEUNTUNGAN',
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return PenarikanKeuntunganScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                        subMenu(
+                            size, 'assets/img/money.png', 'CATATAN PENGELUARAN',
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builde) {
+                                return CatatanPengeluaranSAdminScreen();
+                              },
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }),
+                      ],
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 20),
                       child: InkWell(

@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Models/JenisSampahModel.dart';
 
 class SampahSuperAdminController {
-  final _baseUrl = '154.56.60.253:4009';
-  final Ip = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
+  final Ip = '82.180.130.233:4009';
 
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -96,7 +96,7 @@ class SampahSuperAdminController {
         "harga_pertama": hargaNasabah,
         "harga_kedua": hargaAdmin,
         "kode_sampah": kode_sampah,
-        "kodeSuperAdmin": kodeSuperAdmin,
+        "kode_super_induk": kodeSuperAdmin,
       };
       await Dio().post('http://' + _baseUrl + '/product/jenis', data: datas);
     } catch (e) {
@@ -106,10 +106,10 @@ class SampahSuperAdminController {
   }
 
   Future updateSampahBarang({
+    required final kode_barang,
     required final jenis_barang,
     required final hargaNasabah,
     required final hargaAdmin,
-    required final kode_barang,
   }) async {
     try {
       final datas = {
@@ -128,9 +128,10 @@ class SampahSuperAdminController {
   Future<List<dynamic>> listSampah() async {
     String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
     final datas = {"kode_super_induk": kodeSuperAdmin};
-    final response =
-        await Dio().get('http://' + _baseUrl + '/product/sampah/admin', data: datas);
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/product/sampah/admin', data: datas);
     final responseData = response.data['payload'];
+    // print(responseData);
     return responseData;
   }
 
@@ -269,6 +270,32 @@ class SampahSuperAdminController {
     return responseData;
   }
 
+  Future<List<dynamic>> getKeuntunganAdmin() async {
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    final datas = {
+      'kode_super_admin': kodeSuperAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/service/keuntungan/induk', data: datas);
+    final responseData = response.data['payload']['rows'];
+    print(responseData);
+    return responseData;
+  }
+
+  Future<List<dynamic>> getCatatPengeluaran() async {
+    String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+
+    final datas = {
+      'kode_super_admin': kodeSuperAdmin,
+    };
+    final response = await Dio()
+        .get('http://' + _baseUrl + '/kas/pengeluaran/induk', data: datas);
+    final responseData = response.data['payload'];
+    print(responseData);
+    return responseData;
+  }
+
   Future<List<dynamic>> getPenarikanNasabah() async {
     String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
 
@@ -302,7 +329,139 @@ class SampahSuperAdminController {
     final response = await Dio()
         .get('http://' + _baseUrl + '/laporan/totalsampah', data: datas);
     final responseData = response.data['payload'];
-    print(responseData);
     return responseData;
+  }
+
+  Future deleteSampah({
+    required final kode_barang,
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+        "kode_barang": kode_barang,
+        "kode_super_induk": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/product/hapus', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  Future deleteKeuntunganSuperAdmin({
+    required final kode_pengeluaran,
+    required final harga,
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+         "kode_pengeluaran":kode_pengeluaran,
+         "harga": harga,
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/kas/pengeluaran/induk', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  Future deletePenjualanSuperAdmin({
+    required final kode_penjualan_induk,
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+         "kode_penjualan_induk": kode_penjualan_induk, 
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/transaksi/sampah/induk', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  Future deleteSusutSuperAdmin({
+    required final kode_susut_induk,
+    required final berat,
+    required final harga,
+    required final kode_barang
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+        "kode_susut_induk": kode_susut_induk,
+        "berat": berat,
+        "harga": harga,
+        "kode_barang": kode_barang,
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/transaksi/sampah/susut', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  Future deleteKeuntunganAdmin({
+    required final kode_tariksaldo,
+    required final jumlah_penarikan,
+    required final kode_admin,
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+        "kode_tariksaldo": kode_tariksaldo, 
+        "jumlah_penarikan":jumlah_penarikan, 
+        "kode_admin": kode_admin,
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/service/keuntungan', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  Future deletePenjualanAdmin({
+    required final kode_susut_sampah_bs,
+    required final kode_barang,
+    required final berat,
+    required final kode_admin,
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+        "kode_susut_sampah_bs":kode_susut_sampah_bs,
+        "kode_barang": kode_barang,
+        "berat":berat,
+        "kode_admin":kode_admin,
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/setor/sampah/susut', data: datas);
+    } catch (e) {
+      return e;
+    }
+  }
+  
+  Future deleteTarikSaldoAdmin({
+    required final kode_tariksaldo,
+    required final jumlah_penarikan,
+    required final kode_admin,
+
+  }) async {
+    try {
+      String? kodeSuperAdmin = await getDataLocal('kodeSuperAdmin');
+      final datas = {
+        "kode_tariksaldo": kode_tariksaldo, 
+        "jumlah_penarikan": jumlah_penarikan, 
+        "kode_admin":kode_admin,
+        "kode_super_admin": kodeSuperAdmin
+      };
+      await Dio().delete('http://' + _baseUrl + '/service/saldo/admin', data: datas);
+    } catch (e) {
+      return e;
+    }
   }
 }

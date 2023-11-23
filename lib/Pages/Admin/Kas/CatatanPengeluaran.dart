@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:banksampah_application/Components/AppBar.dart';
+import 'package:banksampah_application/Pages/SuperAdmin/Beranda.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/Controllers/user_controller.dart';
 import 'package:banksampah_application/Pages/SuperAdmin/SusutSampah/SusutSampahAdd.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
@@ -12,18 +13,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Components/CardRiwayat.dart';
 import '../../../Data/curentFormat.dart';
 import '../../Nasabah/Controllers/user_controller.dart';
-import '../Controllers/sampahController.dart';
-import 'SuccesDana.dart';
+import '../../SuperAdmin/Controllers/sampahController.dart';
+import '../controller/LaporanAdminController.dart';
 
-class PenarikanDanaAdminScreen extends StatefulWidget {
-  const PenarikanDanaAdminScreen({super.key});
+
+class CatatanPengeluaranAdminScreen extends StatefulWidget {
+  const CatatanPengeluaranAdminScreen({super.key});
 
   @override
-  State<PenarikanDanaAdminScreen> createState() =>
-      _PenarikanDanaAdminScreenState();
+  State<CatatanPengeluaranAdminScreen> createState() =>
+      _CatatanPengeluaranAdminScreenState();
 }
 
-class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
+class _CatatanPengeluaranAdminScreenState
+    extends State<CatatanPengeluaranAdminScreen> {
   CurrencyTextInputFormatter _currencyFormatter =
       CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
   String query = "";
@@ -31,7 +34,8 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
   final _formState = GlobalKey<FormState>();
 
   TextEditingController hargaController = TextEditingController();
-  TextEditingController kodeAdminController = TextEditingController();
+  TextEditingController namaPengeluaranController = TextEditingController();
+  TextEditingController catatPengeluaranController = TextEditingController();
   int harga = 0;
   DateTime? selectedDate;
   var data;
@@ -48,7 +52,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
   void initState() {
     // TODO: implement initState
     _data();
-    _futureData = SampahSuperAdminController().getPenarikanAdmin();
+    _futureData = LaporanAdminController().getCatatPengeluaran();
     super.initState();
   }
 
@@ -79,7 +83,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                 ),
                 child: Stack(
                   children: [
-                    appbar3(context, size, 'Penarikan Dana ', () {
+                    appbar3(context, size, 'Catatan Pengularan', () {
                       Navigator.pop(context);
                     }),
                     Padding(
@@ -132,7 +136,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Text(
-                              "Penarikan Dana BS Admin",
+                              "Catatan Pengularan Super Admin",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF333333),
@@ -157,7 +161,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                 add(size);
                               },
                               child: Text(
-                                "Tarik Dana",
+                                "Catat Pengeluaran",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -225,11 +229,11 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                       ),
                     );
                   }
-                  final List<dynamic> filteredData = snapshot.data!
-                      .where((item) => item["kode_admin"]
-                          .toLowerCase()
-                          .contains(query.toLowerCase()))
-                      .toList();
+                  // final List<dynamic> filteredData = snapshot.data!
+                  //     .where((item) => item["kode_admin"]
+                  //         .toLowerCase()
+                  //         .contains(query.toLowerCase()))
+                  //     .toList();
                   return Padding(
                     padding: const EdgeInsets.only(left: 35, right: 35),
                     child: Container(
@@ -238,28 +242,27 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.only(top: 10),
-                        itemCount: filteredData.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (BuildContext context, index) {
                           return transactionCard2(
-                              filteredData[index]["nomor_invoice"],
-                              filteredData[index]["kode_admin"].toString(),
-                              DateFormat(' dd MMMM yyyy', 'id_ID').format(
-                                  DateTime.parse(filteredData[index]
-                                          ["createdAt"]
-                                      .toString())),
-                              'Biaya Admin ${CurrencyFormat.convertToIdr(filteredData[index]["BiayaAdmin"]["harga"], 0)}',
-                              CurrencyFormat.convertToIdr(
-                                  filteredData[index]["jumlah_penarikan"], 0),
-                              () async {
-                            await SampahSuperAdminController()
-                                .deleteTarikSaldoAdmin(
-                              kode_tariksaldo: filteredData[index]
-                                  ["kode_tariksaldo"],
-                              jumlah_penarikan: filteredData[index]
-                                  ["jumlah_penarikan"],
-                              kode_admin: filteredData[index]["kode_admin"],
-                            );
-                          }, size);
+                              '',
+                              '',
+                              ',',
+                              '',
+                              '',
+                              ',',
+
+                              // filteredData[index]["nomor_invoice"],
+                              // filteredData[index]["kode_admin"].toString(),
+                              // DateFormat(' dd MMMM yyyy', 'id_ID').format(
+                              //     DateTime.parse(filteredData[index]
+                              //             ["createdAt"]
+                              //         .toString())),
+                              // 'Biaya Admin ${CurrencyFormat.convertToIdr(filteredData[index]["BiayaAdmin"]["harga"], 0)}',
+                              // CurrencyFormat.convertToIdr(
+                              //     filteredData[index]["jumlah_penarikan"], 0),
+                              // () async {},
+                              size);
                         },
                       ),
                     ),
@@ -329,7 +332,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "Masukan Kode Admin BS",
+                              "Masukan Pengeluaran",
                               style: TextStyle(
                                 color: Color(0xFF333333),
                                 fontSize: 12,
@@ -346,7 +349,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                 }
                                 return null;
                               },
-                              controller: kodeAdminController,
+                              controller: namaPengeluaranController,
                               enabled: true,
                               style: TextStyle(
                                 fontSize: 13.0,
@@ -392,6 +395,42 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                 fillColor: Colors.white,
                                 isDense: true,
                               ),
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Catatan Pengeluaran",
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == '') {
+                                  return "Text Tidak Boleh Kosong";
+                                }
+                                return null;
+                              },
+                              controller: catatPengeluaranController,
+                              enabled: true,
                               style: TextStyle(
                                 fontSize: 13.0,
                                 color: Colors.black,
@@ -460,92 +499,42 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                     harga = parsedHarga;
                                   });
 
-                                  final valAdmin =
-                                      await UsersSuperAdminController()
-                                          .validasiAdmin(
-                                              kodeAdmin:
-                                                  kodeAdminController.text);
-                                  if (valAdmin["success"] == false) {
-                                    Alert(
+                                  // Alert(
+                                  //   context: context,
+                                  //   type: AlertType.error,
+                                  //   title: "ERROR INPUT",
+                                  //   desc: "Masukan Kode Nasabah Dengan Benar",
+                                  // ).show();
+
+                                  showDialog(
                                       context: context,
-                                      type: AlertType.error,
-                                      title: "ERROR INPUT",
-                                      desc: "Masukan Kode Nasabah Dengan Benar",
-                                    ).show();
-                                  } else {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        });
-                                    await UsersSuperAdminController()
-                                        .penarikanSaldoAdmin(
-                                      kode_invoice: invoice,
-                                      jumlah_penarikan: harga,
-                                      kode_admin: kodeAdminController.text,
-                                    );
+                                      builder: (context) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      });
+                                  await UsersSuperAdminController()
+                                      .catatPengeluaran(
+                                    nama_pengeluaran:
+                                        namaPengeluaranController.text,
+                                    harga: harga,
+                                    catatan: catatPengeluaranController.text,
+                                  );
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (builde) {
-                                          return SuccesDanaScreen(
-                                            kode_invoice: invoice,
-                                            jumlah_penarikan: harga,
-                                            biaya_admin: data,
-                                          );
-                                        },
-                                      ),
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
-                                  }
-
-                                  // if (pinController.text == pin) {
-                                  //   await UserControllerNasabah()
-                                  //       .penarikanSaldo(
-                                  //           kode_invoice: invoice,
-                                  //           jumlah_penarikan: harga,
-                                  //           pin: pinController.text);
-
-                                  //   Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (builde) {
-                                  //         return SuccesScreen(
-                                  //           kode_invoice: invoice,
-                                  //           jumlah_penarikan: harga,
-                                  //           biaya_admin: data,
-                                  //         );
-                                  //       },
-                                  //     ),
-                                  //   ).then((value) {
-                                  //     setState(() {});
-                                  //   });
-                                  // } else {
-                                  //   // PIN salah, tampilkan pesan kesalahan
-                                  //   showDialog(
-                                  //       context: context,
-                                  //       builder: (context) {
-                                  //         return StatefulBuilder(builder:
-                                  //             (context, setStateForDialog) {
-                                  //           return AlertDialog(
-                                  //               scrollable: true,
-                                  //               title: Center(
-                                  //                 child:
-                                  //                     Text("Pin Tidak Cocok"),
-                                  //               ));
-                                  //         });
-                                  //       });
-                                  // }
-
-                                  // setState(() {});
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (builde) {
+                                        return BerandaSuperAdmin();
+                                      },
+                                    ),
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
                                 } else {}
                               },
                               child: Text(
-                                "TARIK",
+                                "Catat",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,

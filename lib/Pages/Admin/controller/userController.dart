@@ -10,8 +10,8 @@ import '../Models/AdminModel.dart';
 import '../Models/detailsampahnasabah.dart';
 
 class UserControllerAdmin {
-  final _baseUrl = '154.56.60.253:4009';
-  final Ip = '154.56.60.253:4009';
+  final _baseUrl = '82.180.130.233:4009';
+  final Ip = '82.180.130.233:4009';
 
   static getDataLocal(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -263,7 +263,7 @@ class UserControllerAdmin {
 
   Future cekTombol() async {
     String? kodeAdmin = await getDataLocal('kodeAdmin');
-    print(kodeAdmin);
+
     final datas = {
       "kode_admin": kodeAdmin,
     };

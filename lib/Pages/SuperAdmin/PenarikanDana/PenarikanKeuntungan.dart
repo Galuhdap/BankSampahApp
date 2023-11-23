@@ -14,16 +14,17 @@ import '../../../Data/curentFormat.dart';
 import '../../Nasabah/Controllers/user_controller.dart';
 import '../Controllers/sampahController.dart';
 import 'SuccesDana.dart';
+import 'SuccesKeuntungan.dart';
 
-class PenarikanDanaAdminScreen extends StatefulWidget {
-  const PenarikanDanaAdminScreen({super.key});
+class PenarikanKeuntunganScreen extends StatefulWidget {
+  const PenarikanKeuntunganScreen({super.key});
 
   @override
-  State<PenarikanDanaAdminScreen> createState() =>
-      _PenarikanDanaAdminScreenState();
+  State<PenarikanKeuntunganScreen> createState() =>
+      _PenarikanKeuntunganScreenState();
 }
 
-class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
+class _PenarikanKeuntunganScreenState extends State<PenarikanKeuntunganScreen> {
   CurrencyTextInputFormatter _currencyFormatter =
       CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
   String query = "";
@@ -48,7 +49,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
   void initState() {
     // TODO: implement initState
     _data();
-    _futureData = SampahSuperAdminController().getPenarikanAdmin();
+    _futureData = SampahSuperAdminController().getKeuntunganAdmin();
     super.initState();
   }
 
@@ -79,7 +80,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                 ),
                 child: Stack(
                   children: [
-                    appbar3(context, size, 'Penarikan Dana ', () {
+                    appbar3(context, size, 'Penarikan Keuntungan', () {
                       Navigator.pop(context);
                     }),
                     Padding(
@@ -132,7 +133,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Text(
-                              "Penarikan Dana BS Admin",
+                              "Penarikan Keuntungan BS Admin",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF333333),
@@ -157,7 +158,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                 add(size);
                               },
                               child: Text(
-                                "Tarik Dana",
+                                "Tarik Keuntungan",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -241,24 +242,25 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                         itemCount: filteredData.length,
                         itemBuilder: (BuildContext context, index) {
                           return transactionCard2(
-                              filteredData[index]["nomor_invoice"],
+                              filteredData[index]["nomor_invoice"] ?? '',
                               filteredData[index]["kode_admin"].toString(),
                               DateFormat(' dd MMMM yyyy', 'id_ID').format(
                                   DateTime.parse(filteredData[index]
                                           ["createdAt"]
                                       .toString())),
-                              'Biaya Admin ${CurrencyFormat.convertToIdr(filteredData[index]["BiayaAdmin"]["harga"], 0)}',
+                              '',
                               CurrencyFormat.convertToIdr(
                                   filteredData[index]["jumlah_penarikan"], 0),
                               () async {
                             await SampahSuperAdminController()
-                                .deleteTarikSaldoAdmin(
+                                .deleteKeuntunganAdmin(
                               kode_tariksaldo: filteredData[index]
                                   ["kode_tariksaldo"],
                               jumlah_penarikan: filteredData[index]
                                   ["jumlah_penarikan"],
                               kode_admin: filteredData[index]["kode_admin"],
                             );
+                            Navigator.pop(context);
                           }, size);
                         },
                       ),
@@ -481,7 +483,7 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                           );
                                         });
                                     await UsersSuperAdminController()
-                                        .penarikanSaldoAdmin(
+                                        .penarikanKeuntunganAdmin(
                                       kode_invoice: invoice,
                                       jumlah_penarikan: harga,
                                       kode_admin: kodeAdminController.text,
@@ -491,10 +493,9 @@ class _PenarikanDanaAdminScreenState extends State<PenarikanDanaAdminScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (builde) {
-                                          return SuccesDanaScreen(
+                                          return SuccesKeuntunganScreen(
                                             kode_invoice: invoice,
                                             jumlah_penarikan: harga,
-                                            biaya_admin: data,
                                           );
                                         },
                                       ),

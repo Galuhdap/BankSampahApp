@@ -3,6 +3,7 @@ class DetailSampahSuperAdmin {
     String kodeSuperAdmin;
     double berat;
     int saldo;
+    int saldo_penjualan;
     DateTime createdAt;
     DateTime updatedAt;
 
@@ -11,6 +12,7 @@ class DetailSampahSuperAdmin {
         required this.kodeSuperAdmin,
         required this.berat,
         required this.saldo,
+        required this.saldo_penjualan,
         required this.createdAt,
         required this.updatedAt,
     });
@@ -20,6 +22,7 @@ class DetailSampahSuperAdmin {
         kodeSuperAdmin: json["kode_super_admin"],
         berat: json["berat"],
         saldo: json["saldo"],
+        saldo_penjualan: json["saldo_penjualan"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
     );
@@ -29,6 +32,7 @@ class DetailSampahSuperAdmin {
         "kode_super_admin": kodeSuperAdmin,
         "berat": berat,
         "saldo": saldo,
+        "saldo_penjualan": saldo_penjualan,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
     };

@@ -56,6 +56,16 @@ class PdfLaporanSemuaInduk {
         Divider(),
 
         SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Tarik Keuntungan'),
+        buildTabelTarikKeuntungan(invoice),
+        Divider(),
+
+        SizedBox(height: 2 * PdfPageFormat.cm),
+        buildTitle('Laporan Catatan Pengeluaran'),
+        buildTabelPengeluaran(invoice),
+        Divider(),
+
+        SizedBox(height: 2 * PdfPageFormat.cm),
         SizedBox(height: 2 * PdfPageFormat.cm),
         Divider(),
 
@@ -497,6 +507,78 @@ class PdfLaporanSemuaInduk {
     );
   }
 
+  static Widget buildTabelPengeluaran(LaporanSemua invoice) {
+    final headers = [
+      'Tanggal',
+      'Kode ',
+      'Nama',
+      'Uang Keluar',
+      'Catatan',
+    ];
+    final data = invoice.itemsCatatPengeluaran.map((item) {
+      return [
+        DateFormat(' dd MMMM yyyy', 'id_ID')
+            .format(DateTime.parse(item.createdAt.toString())),
+        item.kodePengeluaran,
+        item.namaPengeluaran,
+        CurrencyFormat.convertToIdr(item.harga, 0),
+         item.catatan,
+        //   item.detailSampahBs![0].saldo,
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildTabelTarikKeuntungan(LaporanSemua invoice) {
+    final headers = [
+      'Tanggal',
+      'Nomer Invoice',
+      'Admin',
+      'Jumlah Penarikan',
+    ];
+    final data = invoice.itemstarikKeuntungan.map((item) {
+      return [
+        DateFormat(' dd MMMM yyyy', 'id_ID')
+            .format(DateTime.parse(item.createdAt.toString())),
+        item.nomorInvoice,
+        item.kodeAdmin,
+        CurrencyFormat.convertToIdr(item.jumlahPenarikan, 0),
+        //   item.detailSampahBs![0].saldo,
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+      },
+    );
+  }
+
 // //ini untuk kaki
 //   static Widget buildFooter(LaporanSemua invoice) => Column(
 //         crossAxisAlignment: CrossAxisAlignment.center,
@@ -537,7 +619,12 @@ class PdfLaporanSemuaInduk {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildText(
-                  title: 'Saldo',
+                  title: 'Saldo Keuntungan',
+                  value: CurrencyFormat.convertToIdr(invoice.all.kas, 0),
+                  unite: true,
+                ),
+                buildText(
+                  title: 'Saldo Penjualan',
                   value: CurrencyFormat.convertToIdr(invoice.all.kas, 0),
                   unite: true,
                 ),

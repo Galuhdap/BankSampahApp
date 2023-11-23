@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../Components/AppBar.dart';
+import 'Beranda.dart';
 
 class ListPenimbangScreen extends StatefulWidget {
   const ListPenimbangScreen({super.key});
@@ -30,7 +31,16 @@ class _ListPenimbangScreenState extends State<ListPenimbangScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          appbar3(context, size, 'List Penimbang',(){Navigator.pop(context);}),
+          appbar3(context, size, 'List Penimbang', () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (builde) {
+                  return BerandaAdmin();
+                },
+              ),
+            );
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(

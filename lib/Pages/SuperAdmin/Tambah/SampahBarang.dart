@@ -23,6 +23,8 @@ class _BarangSampahScreenState extends State<BarangSampahScreen> {
   TextEditingController satuanController = TextEditingController();
   TextEditingController hargaNasabahController = TextEditingController();
   TextEditingController hargaAdminController = TextEditingController();
+  TextEditingController hargaKeuntunganNasabahController = TextEditingController();
+  TextEditingController hargaKeuntunganAdminController = TextEditingController();
 
   int _hargaNasabah = 0;
   int _hargaAdmin = 0;
@@ -214,6 +216,7 @@ class _BarangSampahScreenState extends State<BarangSampahScreen> {
                                 ],
                               ),
                             ),
+                            
                             Padding(
                               padding: const EdgeInsets.only(bottom: 19),
                               child: Column(
@@ -271,6 +274,7 @@ class _BarangSampahScreenState extends State<BarangSampahScreen> {
                                 ],
                               ),
                             ),
+                           
                           ],
                         ),
                       ),
